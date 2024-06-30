@@ -5,7 +5,7 @@ import React from "react";
 import coin from "@/public/coin.svg";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface CardContractType {
   title: string;
@@ -15,16 +15,26 @@ interface CardContractType {
 
 export default function CardContract({ title, price, time }: CardContractType) {
   const router = useRouter();
+  const path = usePathname();
+
   return (
     <motion.button
       whileHover={{ x: 5 }}
       whileTap={{ scale: 0.99 }}
-      onClick={() => router.push(`/escrow/${title}`)}
+      onClick={() => {
+        if (path.slice(1, 16) === "escrow/myescrow") {
+          router.push(`/escrow/myescrow/${title}`);
+        } else {
+          router.push(`/escrow/${title}`);
+        }
+      }}
     >
       <Stack
         flexDirection="row"
         justifyContent="space-between"
-        className="p-5 border border-gray-300 rounded-md shadow-md w-full"
+        className={`p-5 border border-gray-300 rounded-md shadow-md w-full ${
+          path.slice(1, 16) === "escrow/myescrow" && "p-8"
+        }`}
       >
         <div className="text-base sm:text-lg line-clamp-1 font-[500]">
           {title ? title : "No Title"}
@@ -40,7 +50,11 @@ export default function CardContract({ title, price, time }: CardContractType) {
             </div>
           </Stack>
 
-          <div className="text-[11px] text-textColor">
+          <div
+            className={`text-[11px] text-textColor ${
+              path.slice(1, 16) === "escrow/myescrow" && "hidden"
+            }`}
+          >
             <span>{time ? time : "N/A"}</span>
             <span> min ago</span>
           </div>

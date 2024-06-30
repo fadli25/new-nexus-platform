@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
@@ -25,13 +26,18 @@ export default function Navbar() {
       <div className="flex justify-center gap-6 items-center mx-auto max-w-3xl">
         {navigation.map((el, i) => (
           <div
-            key={i}
-            onClick={() => router.push(el.path)}
             className={`${
-              path === el.path && "border-black border-b-[4px] font-semibold"
-            } py-4 flex-1 text-center hover:bg-textColor/10 transition-all duration-200 cursor-pointer`}
+              path === el.path && "!border-black !border-b-4 !font-semibold "
+            } !flex-1 text-center`}
+            key={i}
           >
-            {el.name}
+            <Button
+              variant="text"
+              onClick={() => router.push(el.path)}
+              className={`!py-4  !text-second !normal-case !text-base !w-full`}
+            >
+              {el.name}
+            </Button>
           </div>
         ))}
       </div>

@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import LogImg from "@/public/logImage.jpg";
 import Image from "next/image";
+import Loading from "../Loading";
 
 export default function index({ children }: any) {
   return (
@@ -16,7 +17,7 @@ export default function index({ children }: any) {
       </div>
 
       <div className="flex w-full sm:w-[60%] justify-center items-center flex-1">
-        {children}
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
       </div>
     </div>
   );

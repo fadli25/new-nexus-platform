@@ -3,18 +3,13 @@
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { inputStyle } from "@/components/Onboarding/ThirdForm";
+import { fakeData } from "@/lib/fakedata/Data";
 import { Button, Stack, Switch } from "@mui/material";
 import React from "react";
 
-const fakeData = [
-  { title: "Design Product Dushboard", price: 200, time: 2 },
-  { title: "Design Product Dushboard", price: 200, time: 2 },
-  { title: "Design Product Dushboard", price: 200, time: 2 },
-];
-
 export default function page() {
   return (
-    <>
+    <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center-center w-full py-10 max-w-7xl mx-auto">
         <Card>
           <Stack
@@ -114,6 +109,6 @@ export default function page() {
           </Stack>
         </Card>
       </div>
-    </>
+    </div>
   );
 }

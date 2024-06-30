@@ -1,11 +1,25 @@
+"use client";
+
 import Card from "@/components/Card";
-import { Button, Container, Stack } from "@mui/material";
+import { Button, Container, Modal, Stack } from "@mui/material";
+import XIcon from "@mui/icons-material/X";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
+import { inputStyle } from "@/components/Onboarding/ThirdForm";
 
 export default function page() {
+  const [open, setOpen] = useState(false);
+
+  function handleCloseModal() {
+    setOpen(false);
+  }
+
+  function handleOpenModal() {
+    setOpen(true);
+  }
+
   return (
     <div>
       <div className="max-w-5xl mx-auto">
@@ -53,15 +67,21 @@ export default function page() {
             />
 
             <Stack py={2} spacing={3} px={2}>
-              <Stack flexDirection="row" justifyContent="space-between">
+              <Stack
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <div className="text-xl font-[500] line-clamp-1">
                   Zetsu | The shaman king
                 </div>
+
+                <XIcon className="text-xl" />
               </Stack>
 
               <Button
                 variant="contained"
-                className="!text-sm !px-5 !py-2 !capitalize !bg-second !w-fit"
+                className="!text-sm !px-10 !py-2 !capitalize !bg-second !w-fit"
               >
                 Start Chat
               </Button>
@@ -91,7 +111,8 @@ export default function page() {
             <Stack alignItems="center" mt={4}>
               <Button
                 variant="contained"
-                className="!text-base !bg-main !text-second !w-fit !capitalize !py-3 !px-8"
+                onClick={handleOpenModal}
+                className="!text-base !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
               >
                 Apply to work
               </Button>
@@ -99,6 +120,39 @@ export default function page() {
           </div>
         </div>
       </div>
+
+      <Modal
+        open={open}
+        onClose={handleCloseModal}
+        className="grid place-items-center"
+      >
+        <Card width="xs">
+          <div className="p-5">
+            <div className="text-sm">
+              <span className="text-red-600">Hint: </span>
+              People who fill up their profile properly are likely to get hire
+              Go to{" "}
+              <span className="font-semibold underline cursor-pointer">
+                "My Profile"
+              </span>
+            </div>
+
+            <div className="mt-10 w-full">
+              <label>Telegram Link for communication:</label>
+              <input className={`${inputStyle} w-full`} />
+            </div>
+
+            <Stack mt={5} alignItems="center">
+              <Button
+                variant="contained"
+                className="!text-sm !normal-case !py-2 !text !px-10 !bg-main !text-second !w-fit"
+              >
+                Apply to work
+              </Button>
+            </Stack>
+          </div>
+        </Card>
+      </Modal>
     </div>
   );
 }
