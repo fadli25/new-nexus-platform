@@ -70,7 +70,7 @@ export default function Example() {
                 <div className="flex flex-shrink-0 items-center">
                   <Image className="h-11 w-auto" src={Logo} alt="logo" />
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
+                <div className="hidden sm:block sm:absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-55%] z-30">
                   <div className="flex space-x-4">
                     {navigation.map((item, i) => (
                       <a
@@ -87,7 +87,7 @@ export default function Example() {
                         {item.name !== "Support" ? (
                           <span>{item.name}</span>
                         ) : (
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-1 line-clamp-1">
                             {item.name}
                           </div>
                         )}

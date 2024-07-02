@@ -28,8 +28,6 @@ export default function Home() {
       setSignup(<FirstForm handleGoToStep={handleGoToStep} />);
     } else if (steps === "second") {
       setSignup(<SecondForm handleGoToStep={handleGoToStep} />);
-    } else {
-      setSignup(<ThirdForm handleGoToStep={handleGoToStep} />);
     }
   }, [steps]);
   return (

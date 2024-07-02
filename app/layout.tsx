@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import TopNavbar from "@/components/Navbar/TopNavbar";
+import MuiTheme from "@/components/MuiTheme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TopNavbar />
-        {children}
+        <MuiTheme>
+          <TopNavbar />
+          {children}
+        </MuiTheme>
       </body>
     </html>
   );

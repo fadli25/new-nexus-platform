@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import EscrowImg from "@/public/web3-cryptocurrency-token-escrow-payment-contract 1.svg";
 import PaymentBackImg from "@/public/coins-payments-back-and-forth-between-two-devices 1.svg";
@@ -6,13 +8,16 @@ import BusnessesImg from "@/public/web3-businesses-and-payrolls 1.svg";
 import Image from "next/image";
 import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function SecondForm({ handleGoToStep }: any) {
+  const router = useRouter();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 p-8">
       <motion.button
         whileHover={{ scale: 0.98 }}
-        onClick={() => handleGoToStep("third")}
+        onClick={() => router.push("/escrow")}
       >
         <Stack gap={1}>
           <div className="bg-white p-12 rounded-2xl border-2">
@@ -25,7 +30,7 @@ export default function SecondForm({ handleGoToStep }: any) {
 
       <motion.button
         whileHover={{ scale: 0.98 }}
-        onClick={() => handleGoToStep("third")}
+        onClick={() => router.push("/escrow")}
       >
         <Stack gap={1}>
           <div className="bg-white p-12 rounded-2xl border-2">
@@ -38,7 +43,7 @@ export default function SecondForm({ handleGoToStep }: any) {
 
       <motion.button
         whileHover={{ scale: 0.98 }}
-        onClick={() => handleGoToStep("third")}
+        onClick={() => router.push("/escrow")}
       >
         <Stack gap={1}>
           <div className="bg-white p-12 rounded-2xl border-2">
@@ -51,7 +56,7 @@ export default function SecondForm({ handleGoToStep }: any) {
 
       <motion.button
         whileHover={{ scale: 0.98 }}
-        onClick={() => handleGoToStep("third")}
+        onClick={() => router.push("/escrow")}
       >
         <Stack gap={1}>
           <div className="bg-white p-12 rounded-2xl border-2">
