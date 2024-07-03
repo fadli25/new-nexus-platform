@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import TopNavbar from "@/components/Navbar/TopNavbar";
 import MuiTheme from "@/components/MuiTheme";
+import Form from "@/contexts/FormContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <MuiTheme>
           <TopNavbar />
-          {children}
+          <Form>{children}</Form>
         </MuiTheme>
       </body>
     </html>

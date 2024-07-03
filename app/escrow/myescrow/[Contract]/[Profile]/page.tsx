@@ -3,15 +3,13 @@
 import Card from "@/components/Card";
 import { Button, Stack } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
 import XIcon from "@mui/icons-material/X";
 import { motion } from "framer-motion";
 import { TiMessages } from "react-icons/ti";
 import { FaListUl, FaStar, FaVideo } from "react-icons/fa";
-import { useMemo, useState } from "react";
-import countryList from "react-select-country-list";
 
 interface buttonType {
   title: string;
@@ -28,6 +26,8 @@ const buttons: buttonType[] = [
 ];
 
 export default function page() {
+  const [tap, setTap] = useState(true);
+
   return (
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
@@ -113,63 +113,88 @@ export default function page() {
       <div className="cls-span-1 md:col-span-3">
         <Card className="rounded-b-none px-0 border-b-2 pb-0">
           <Stack flexDirection="row">
-            <div className="border-b-4 border-black">
+            <div
+              className={`${
+                tap &&
+                "border-b-4 border-black transition-all duration-300 ease-in-out"
+              }`}
+            >
               <Button
                 variant="text"
-                className="!text-black !normal-case !text-base sm:!text-xl !px-4"
+                disabled={tap}
+                onClick={() => setTap(!tap)}
+                className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !font-[200] !px-4 ${
+                  tap && "!text-black"
+                }`}
               >
                 Profile Summary
               </Button>
             </div>
-            <Button
-              variant="text"
-              className="!text-black !normal-case !text-base sm:!text-xl !px-4"
+
+            <div
+              className={`${
+                !tap &&
+                "border-b-4 border-black  transition-all duration-200 ease-in-out"
+              }`}
             >
-              Nexus Job History
-            </Button>
+              <Button
+                variant="text"
+                disabled={!tap}
+                onClick={() => setTap(!tap)}
+                className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !font-[200] !px-4 ${
+                  !tap && "!text-black"
+                }`}
+              >
+                Nexus Job History
+              </Button>
+            </div>
           </Stack>
         </Card>
-        <Card className="rounded-t-none pb-2">
-          <Stack
-            className="text-2xl font-[500]"
-            flexDirection="row"
-            gap={6}
-            justifyContent="center"
-            alignContent="center"
-            py={3}
-          >
-            <div>0 Ongoing Jobs</div>
-            <div>0 Jobs Completed</div>
-          </Stack>
+        {tap && (
+          <div className="transition-all duration-100 delay-300 ease-in-out">
+            <Card className="rounded-t-none pb-2">
+              <Stack
+                className="text-2xl font-[500]"
+                flexDirection="row"
+                gap={6}
+                justifyContent="center"
+                alignContent="center"
+                py={3}
+              >
+                <div>0 Ongoing Jobs</div>
+                <div>0 Jobs Completed</div>
+              </Stack>
 
-          <div className="px-1 mt-4 text-xs text-textColor font-[500]">
-            0 Leaderboard Ratings
+              <div className="px-1 mt-4 text-xs text-textColor font-[500]">
+                0 Leaderboard Ratings
+              </div>
+            </Card>
+
+            <Card className="mt-5">
+              <div className="text-xs text-textColor">Profile Overview</div>
+              <div className="text-sm leading-6 line-clamp-5 mt-2">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </div>
+            </Card>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 px-1">
+              <div className={`${cardStyle}`}>Category</div>
+              <div className={`${cardStyle}`}>Country</div>
+              <div className={`${cardStyle}`}>Time Zone</div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
+              <div className={`${cardStyle}`}>View Portfolio</div>
+              <div className={`${cardStyle}`}>View Resume</div>
+            </div>
           </div>
-        </Card>
-
-        <Card className="mt-5">
-          <div className="text-xs text-textColor">Profile Overview</div>
-          <div className="text-sm leading-6 line-clamp-5 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </div>
-        </Card>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 px-1">
-          <div className={`${cardStyle}`}>Category</div>
-          <div className={`${cardStyle}`}>Country</div>
-          <div className={`${cardStyle}`}>Time Zone</div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
-          <div className={`${cardStyle}`}>View Portfolio</div>
-          <div className={`${cardStyle}`}>View Resume</div>
-        </div>
+        )}
       </div>
     </div>
   );

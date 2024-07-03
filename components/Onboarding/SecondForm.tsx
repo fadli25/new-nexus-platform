@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import EscrowImg from "@/public/web3-cryptocurrency-token-escrow-payment-contract 1.svg";
 import PaymentBackImg from "@/public/coins-payments-back-and-forth-between-two-devices 1.svg";
 import ProfessionalImg from "@/public/web3-professional-on-his-laptop 1.svg";
@@ -9,63 +9,40 @@ import Image from "next/image";
 import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { FormContext } from "@/contexts/FormContext";
 
 export default function SecondForm({ handleGoToStep }: any) {
   const router = useRouter();
 
+  const { formData, setFormData } = useContext<any>(FormContext);
+
+  const NexusTypes = [
+    { title: "Nexus Escrow", image: EscrowImg },
+    { title: "Nexus Swap / Payments", image: PaymentBackImg },
+    { title: "Nexus Businesses", image: BusnessesImg },
+    { title: "Nexus Professinals", image: ProfessionalImg },
+  ];
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 p-8">
-      <motion.button
-        whileHover={{ scale: 0.98 }}
-        onClick={() => router.push("/escrow")}
-      >
-        <Stack gap={1}>
-          <div className="bg-white p-12 rounded-2xl border-2">
-            <Image src={EscrowImg} alt="" className="w-[120px]" />
-          </div>
+      {NexusTypes.map((el, index) => (
+        <motion.button
+          key={index}
+          whileHover={{ scale: 0.98 }}
+          onClick={() => {
+            setFormData({ ...formData, NexusType: el.title });
+            router.push("/escrow");
+          }}
+        >
+          <Stack gap={1}>
+            <div className="bg-white p-12 rounded-2xl border-2">
+              <Image src={el.image} alt="" className="w-[120px]" />
+            </div>
 
-          <div className="text-sm text-center">Nexus Escrow</div>
-        </Stack>
-      </motion.button>
-
-      <motion.button
-        whileHover={{ scale: 0.98 }}
-        onClick={() => router.push("/escrow")}
-      >
-        <Stack gap={1}>
-          <div className="bg-white p-12 rounded-2xl border-2">
-            <Image src={PaymentBackImg} alt="" className="w-[120px]" />
-          </div>
-
-          <div className="text-sm text-center">Nexus Swap / Payments</div>
-        </Stack>
-      </motion.button>
-
-      <motion.button
-        whileHover={{ scale: 0.98 }}
-        onClick={() => router.push("/escrow")}
-      >
-        <Stack gap={1}>
-          <div className="bg-white p-12 rounded-2xl border-2">
-            <Image src={BusnessesImg} alt="" className="w-[120px]" />
-          </div>
-
-          <div className="text-sm text-center">Nexus Businesses</div>
-        </Stack>
-      </motion.button>
-
-      <motion.button
-        whileHover={{ scale: 0.98 }}
-        onClick={() => router.push("/escrow")}
-      >
-        <Stack gap={1}>
-          <div className="bg-white p-12 rounded-2xl border-2">
-            <Image src={ProfessionalImg} alt="" className="w-[120px]" />
-          </div>
-
-          <div className="text-sm text-center">Nexus Professinals</div>
-        </Stack>
-      </motion.button>
+            <div className="text-sm text-center">{el.title}</div>
+          </Stack>
+        </motion.button>
+      ))}
     </div>
   );
 }

@@ -1,16 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Button, Stack } from "@mui/material";
-import { FormDataType } from "@/app/page";
+import { FormContext } from "@/contexts/FormContext";
 
 export default function FirstForm({ handleGoToStep }: any) {
-  const [formData, setFormData] = useState<FormDataType>({
-    username: "",
-    EmailAddress: "",
-    twitterProfile: "",
-  });
+  const { formData, setFormData } = useContext<any>(FormContext);
+
   return (
     <Stack alignItems="center" gap={5}>
       <Stack alignItems="center" gap={3} className="flex-col md:flex-row">
@@ -32,9 +29,9 @@ export default function FirstForm({ handleGoToStep }: any) {
                   type="text"
                   name="username"
                   id="username"
-                  value={formData.username}
+                  value={formData.UserName}
                   onChange={(e) =>
-                    setFormData({ ...formData, username: e.target.value })
+                    setFormData({ ...formData, UserName: e.target.value })
                   }
                   autoComplete="username"
                   className="block flex-1 border-0 bg-transparent py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6 min-w-[300px]"
@@ -55,9 +52,9 @@ export default function FirstForm({ handleGoToStep }: any) {
                 <input
                   type="text"
                   name="Twitter Profile"
-                  value={formData.twitterProfile}
+                  value={formData.TwitterProfile}
                   onChange={(e) =>
-                    setFormData({ ...formData, twitterProfile: e.target.value })
+                    setFormData({ ...formData, TwitterProfile: e.target.value })
                   }
                   className="block flex-1 border-0 bg-transparent py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
                   placeholder=""
@@ -95,8 +92,8 @@ export default function FirstForm({ handleGoToStep }: any) {
         variant="contained"
         disabled={
           !formData.EmailAddress ||
-          !formData.twitterProfile ||
-          !formData.username
+          !formData.TwitterProfile ||
+          !formData.UserName
         }
         onClick={() => handleGoToStep("second")}
       >

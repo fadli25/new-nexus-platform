@@ -27,8 +27,17 @@ export default function Navbar() {
         {navigation.map((el, i) => (
           <div
             className={`${
-              path === el.path && "!border-black !border-b-4 !font-semibold "
-            } !flex-1 text-center`}
+              !path.startsWith(navigation[1].path) &&
+              !path.startsWith(navigation[2].path) &&
+              el.name === "Home" &&
+              "!border-black !border-b-4 !font-semibold"
+            } 
+            ${
+              path.startsWith(el.path) &&
+              el.name !== "Home" &&
+              "!border-black !border-b-4 !font-semibold "
+            }
+            !flex-1 text-center`}
             key={i}
           >
             <Button

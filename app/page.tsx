@@ -2,18 +2,12 @@
 
 import Image from "next/image";
 import Index from "@/components/Onboarding";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FirstForm from "@/components/Onboarding/FirstForm";
 import SecondForm from "@/components/Onboarding/SecondForm";
-import ThirdForm from "@/components/Onboarding/ThirdForm";
+import { FormContext } from "@/contexts/FormContext";
 
 type Form = JSX.Element;
-
-export interface FormDataType {
-  username: string;
-  twitterProfile: string;
-  EmailAddress: string;
-}
 
 export default function Home() {
   const [steps, setSteps] = useState("first");
@@ -22,6 +16,10 @@ export default function Home() {
   function handleGoToStep(e: string) {
     setSteps(e);
   }
+
+  const { formData, setFormData } = useContext<any>(FormContext);
+
+  console.log(formData);
 
   useEffect(() => {
     if (steps === "first") {

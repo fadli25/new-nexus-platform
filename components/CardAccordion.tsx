@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card";
 import { Stack } from "@mui/material";
-import CardApp from "@/app/CardApp";
+import CardApp from "@/components/CardApp";
 
 export default function CardAccordion({ children, data, title }: any) {
   return (
