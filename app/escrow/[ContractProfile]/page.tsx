@@ -112,7 +112,7 @@ export default function page() {
               <Button
                 variant="contained"
                 onClick={handleOpenModal}
-                className="!text-base !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
+                className="!text-xs sm:!text-sm !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
               >
                 Apply to work
               </Button>
@@ -145,7 +145,7 @@ export default function page() {
             <Stack mt={5} alignItems="center">
               <Button
                 variant="contained"
-                className="!text-sm !normal-case !py-2 !text !px-10 !bg-main !text-second !w-fit"
+                className="!text-xs sm:!text-sm !normal-case !py-2 !text !px-10 !bg-main !text-second !w-fit"
               >
                 Apply to work
               </Button>

@@ -29,7 +29,7 @@ let navigation: NavigationType[] = [
   { name: "Documents", href: "/documents", current: false },
   {
     name: (
-      <Stack direction="row" gap={1}>
+      <Stack direction="row" gap={0.4} alignItems="center">
         <HelpOutlineIcon className="text-[16px]" />
         <div>Support</div>
       </Stack>
@@ -84,13 +84,9 @@ export default function Example() {
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
-                        {item.name !== "Support" ? (
-                          <span>{item.name}</span>
-                        ) : (
-                          <div className="flex items-center gap-1 line-clamp-1">
-                            {item.name}
-                          </div>
-                        )}
+                        <div className="flex items-center gap-1 line-clamp-1">
+                          {item.name}
+                        </div>
                       </a>
                     ))}
                   </div>

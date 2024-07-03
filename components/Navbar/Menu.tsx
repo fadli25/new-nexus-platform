@@ -37,15 +37,15 @@ export default function Navbar() {
               el.name !== "Home" &&
               "!border-black !border-b-4 !font-semibold "
             }
-            !flex-1 text-center`}
+            !flex-1 text-center `}
             key={i}
           >
             <Button
               variant="text"
               onClick={() => router.push(el.path)}
-              className={`!py-4  !text-second !normal-case !text-base !w-full`}
+              className={`!py-4 !text-second !normal-case !text-sm sm:!text-base !w-full`}
             >
-              {el.name}
+              <div className="line-clamp-1">{el.name}</div>
             </Button>
           </div>
         ))}
