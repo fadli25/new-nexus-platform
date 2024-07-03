@@ -16,26 +16,21 @@ import Logo from "@/public/Logo.png";
 import Profile from "@/public/profile.png";
 import { Button, Stack } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { ReactNode, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 interface NavigationType {
-  name: ReactNode | string;
+  name: string;
   href: string;
-  current: boolean;
+  icon?: React.JSX.Element;
 }
 
 let navigation: NavigationType[] = [
-  { name: "Nexus Explore", href: "/", current: false },
-  { name: "Documents", href: "/documents", current: false },
+  { name: "Nexus Explore", href: "/" },
+  { name: "Documents", href: "/documents" },
   {
-    name: (
-      <Stack direction="row" gap={0.4} alignItems="center">
-        <HelpOutlineIcon className="text-[16px]" />
-        <div>Support</div>
-      </Stack>
-    ),
+    name: "Support",
     href: "/support",
-    current: false,
+    icon: <HelpOutlineIcon className="text-[16px]" />,
   },
 ];
 
@@ -43,11 +38,8 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-// useEffect(() => {
-//   navigation["Domcuments"].current = true;
-// }, []);
-
 export default function Example() {
+  const path = usePathname();
   return (
     <Disclosure as="nav" className="bg-second">
       {({ open }) => (
@@ -77,12 +69,11 @@ export default function Example() {
                         key={i}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          path.startsWith(item.href)
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? "page" : undefined}
                       >
                         <div className="flex items-center gap-1 line-clamp-1">
                           {item.name}
