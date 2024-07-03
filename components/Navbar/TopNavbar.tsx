@@ -22,10 +22,11 @@ interface NavigationType {
   name: string;
   href: string;
   icon?: React.JSX.Element;
+  current?: boolean;
 }
 
 let navigation: NavigationType[] = [
-  { name: "Nexus Explore", href: "/" },
+  { name: "Nexus Explore", href: "/", current: true },
   { name: "Documents", href: "/documents" },
   {
     name: "Support",
