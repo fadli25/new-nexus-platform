@@ -11,9 +11,15 @@ interface CardContractType {
   title: string;
   price: number;
   time: number;
+  type?: string;
 }
 
-export default function CardContract({ title, price, time }: CardContractType) {
+export default function CardContract({
+  title,
+  price,
+  time,
+  type,
+}: CardContractType) {
   const router = useRouter();
   const path = usePathname();
 
@@ -24,6 +30,8 @@ export default function CardContract({ title, price, time }: CardContractType) {
       onClick={() => {
         if (path.slice(1, 16) === "escrow/myescrow") {
           router.push(`/escrow/myescrow/${title}`);
+        } else if (type === "ongoing") {
+          router.push(`/escrow/ongoing/${title}`);
         } else {
           router.push(`/escrow/${title}`);
         }

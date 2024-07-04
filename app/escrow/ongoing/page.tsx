@@ -15,7 +15,7 @@ export default function page() {
 
           <Stack mt={4} spacing={2}>
             {fakeData.map((el, i) => (
-              <CardContract key={i} {...el} />
+              <CardContract key={i} {...el} type="ongoing" />
             ))}
           </Stack>
         </Card>
