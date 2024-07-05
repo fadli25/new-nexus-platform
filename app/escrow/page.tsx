@@ -6,6 +6,8 @@ import { inputStyle } from "@/components/Onboarding/ThirdForm";
 import { fakeData } from "@/lib/fakedata/Data";
 import { Button, Stack, Switch } from "@mui/material";
 import React, { useState } from "react";
+import coin from "@/public/coin.svg";
+import Image from "next/image";
 
 export default function page() {
   const [form, setForm] = useState({
@@ -104,18 +106,22 @@ export default function page() {
               </div>
               <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
                 <div className="col-span-1">
-                  <label className=" line-clamp-1">
-                    Input token and amount
-                  </label>
-                  <input
-                    type="number"
-                    value={form.Amount}
-                    onChange={(e) =>
-                      setForm({ ...form, Amount: Number(e.target.value) })
-                    }
-                    className={`${inputStyle} w-full`}
-                    placeholder=""
-                  />
+                  <label className=" line-clamp-1">Input USDC amount</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      min={0}
+                      value={form.Amount}
+                      onChange={(e) =>
+                        setForm({ ...form, Amount: Number(e.target.value) })
+                      }
+                      className={`${inputStyle} w-full`}
+                      placeholder=""
+                    />
+                    <div className="absolute right-4 top-[50%] translate-y-[-50%]">
+                      <Image src={coin} alt="coin" className="w-5 h-5" />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="col-span-1">

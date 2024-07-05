@@ -5,18 +5,9 @@ export const fakeData = [
 ];
 
 export const fakeData2 = [
-  {
-    title: "Manay",
-    role: "Community Manager",
-  },
-  {
-    title: "Manay",
-    role: "Community Manager",
-  },
-  {
-    title: "Manay",
-    role: "Community Manager",
-  },
+  { title: "Manay", role: "Community Manager" },
+  { title: "Manay", role: "Community Manager" },
+  { title: "Manay", role: "Community Manager" },
 ];
 
 export const fakeData3 = [
