@@ -20,6 +20,9 @@ export default function page() {
     setOpen(false);
   }
 
+  const [showStartProject, setShowStartProject] = useState(false);
+  const [showTerminate, setShowTerminate] = useState(false);
+  const [showRefund, setShowRefund] = useState(false);
   return (
     <div>
       <div className="max-w-5xl mx-auto pt-4">
@@ -77,8 +80,97 @@ export default function page() {
         </Card>
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-          <CardAccordion title="Approved Contractor" data={fakeData2} />
-          <CardAccordion title="Applications" data={fakeData3} />
+          <Stack spacing={2}>
+            <CardAccordion
+              title="Approved Contractor"
+              data={fakeData3}
+              type="Chat"
+            >
+              <Stack flexDirection="row" gap={1}>
+                <div
+                  className={
+                    showStartProject || showTerminate || showRefund
+                      ? "hidden"
+                      : ""
+                  }
+                >
+                  <Button
+                    variant="contained"
+                    onClick={() => setShowStartProject(true)}
+                    className="!text-xs !bg-main !normal-case !text-second !px-4 !py-2"
+                  >
+                    Start Project
+                  </Button>
+                </div>
+
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setShowTerminate(true);
+                    setShowRefund(false);
+                  }}
+                  className="!text-xs !bg-white !normal-case !text-second !px-4 !py-2"
+                >
+                  Terminate
+                </Button>
+              </Stack>
+            </CardAccordion>
+
+            <Card>
+              <div className="text-base text-textColor">Submission</div>
+            </Card>
+
+            {showStartProject && (
+              <Stack flexDirection="row" justifyContent="center" gap={2} mt={1}>
+                <Button
+                  variant="contained"
+                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                >
+                  Approve
+                </Button>
+                <Button
+                  variant="contained"
+                  className="!text-xs !px-5 !py-2 !bg-red-600 !text-white !normal-case"
+                  onClick={() => {
+                    setShowStartProject(false);
+                    setShowTerminate(true);
+                  }}
+                >
+                  Reject
+                </Button>
+              </Stack>
+            )}
+            {showTerminate && (
+              <Stack flexDirection="row" justifyContent="center" gap={2} mt={1}>
+                <Button
+                  variant="contained"
+                  onClick={() => setOpen(true)}
+                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                >
+                  Request new submissin
+                </Button>
+                <Button
+                  variant="contained"
+                  className="!text-xs !px-5 !py-2 !bg-red-600 !text-white !normal-case"
+                  onClick={() => {
+                    setShowTerminate(false);
+                    setShowRefund(true);
+                  }}
+                >
+                  Dispute and Request refund
+                </Button>
+              </Stack>
+            )}
+
+            {showRefund && (
+              <div className="text-xs text-black font-[200]">
+                Your dispute has been resolved, and refund completed, please
+                terminate the project
+              </div>
+            )}
+          </Stack>
+
+          <CardAccordion title="Applications" data={fakeData2} type="Approve" />
         </div>
       </div>
 

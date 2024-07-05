@@ -6,7 +6,7 @@ import React from "react";
 import DragonImg from "@/public/dragon.jpg";
 import { useRouter } from "next/navigation";
 
-export default function CardApp({ title, role }: any) {
+export default function CardApp({ title, role, type }: any) {
   const router = useRouter();
   return (
     <Stack
@@ -22,7 +22,7 @@ export default function CardApp({ title, role }: any) {
         />
         <Stack spacing={0.4}>
           <div
-            className="text-base cursor-pointer font-[500] line-clamp-1"
+            className="text-base cursor-pointer font-[400] line-clamp-1"
             onClick={() => router.push("/escrow/myescrow/name/name")}
           >
             {title ? title : "Manay"}
@@ -35,9 +35,9 @@ export default function CardApp({ title, role }: any) {
 
       <Button
         variant="contained"
-        className="!normal-case !text-white !font-[400] !bg-second !px-10 !py-2 !h-fit"
+        className="!normal-case !text-sm !text-white !bg-second !px-6 !py-2 !h-fit"
       >
-        Chat
+        {type}
       </Button>
     </Stack>
   );
