@@ -130,7 +130,7 @@ export default function page() {
                 </Button>
                 <Button
                   variant="contained"
-                  className="!text-xs !px-5 !py-2 !bg-red-600 !text-white !normal-case"
+                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
                   onClick={() => {
                     setShowStartProject(false);
                     setShowTerminate(true);
@@ -151,7 +151,7 @@ export default function page() {
                 </Button>
                 <Button
                   variant="contained"
-                  className="!text-xs !px-5 !py-2 !bg-red-600 !text-white !normal-case"
+                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
                   onClick={() => {
                     setShowTerminate(false);
                     setShowRefund(true);
