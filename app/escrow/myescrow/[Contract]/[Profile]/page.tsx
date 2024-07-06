@@ -151,7 +151,15 @@ export default function page() {
           </Stack>
         </Card>
         {tap && (
-          <div className="transition-all duration-100 delay-300 ease-in-out">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              type: "spring",
+              stiffness: 200,
+            }}
+          >
             <Card className="rounded-t-none pb-2">
               <Stack
                 className="text-2xl font-[500]"
@@ -193,7 +201,7 @@ export default function page() {
               <div className={`${cardStyle}`}>View Portfolio</div>
               <div className={`${cardStyle}`}>View Resume</div>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>
