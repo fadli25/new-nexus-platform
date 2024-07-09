@@ -35,7 +35,7 @@ export default function CardApp({ title, role, type }: any) {
 
       <Button
         variant="contained"
-        className="!normal-case !text-sm !text-white !bg-second !px-6 !py-2 !h-fit"
+        className="!normal-case !text-xs !text-white !bg-second !px-5 !py-2 !h-fit"
       >
         {type}
       </Button>
