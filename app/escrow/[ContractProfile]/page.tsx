@@ -34,7 +34,7 @@ export default function page() {
               <div className="line-clamp-1">Build a team dashboard</div>
 
               <Stack flexDirection="row" gap={1}>
-                <Image src={coin} alt="coin" className="w-6" />
+                <Image src={coin} alt="coin" className="w-5" />
                 <div>3000</div>
               </Stack>
             </Stack>
@@ -81,7 +81,7 @@ export default function page() {
 
               <Button
                 variant="contained"
-                className="!text-sm !px-10 !py-2 !capitalize !bg-second !w-fit"
+                className="!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
               >
                 Start Chat
               </Button>
@@ -112,7 +112,7 @@ export default function page() {
               <Button
                 variant="contained"
                 onClick={handleOpenModal}
-                className="!text-xs sm:!text-sm !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
+                className="!text-xs sm:!text-sm !font-semibold !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
               >
                 Apply to work
               </Button>
@@ -145,7 +145,7 @@ export default function page() {
             <Stack mt={5} alignItems="center">
               <Button
                 variant="contained"
-                className="!text-xs sm:!text-sm !normal-case !py-2 !text !px-10 !bg-main !text-second !w-fit"
+                className="!text-xs sm:!text-sm !font-semibold !normal-case !py-2 !text !px-10 !bg-main !text-second !w-fit"
               >
                 Apply to work
               </Button>

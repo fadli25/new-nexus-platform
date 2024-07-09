@@ -71,7 +71,7 @@ export default function ThirdForm({ handleGoToStep }: any) {
       </div>
 
       <Button
-        className="!bg-main !text-second !text-base !capitalize !px-12 !mt-8"
+        className="!bg-main !font-semibold !text-second !text-base !capitalize !px-12 !mt-8"
         variant="contained"
         onClick={() => {
           handleGoToStep("first");

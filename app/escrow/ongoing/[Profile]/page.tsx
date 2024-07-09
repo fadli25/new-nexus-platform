@@ -36,7 +36,7 @@ export default function page() {
               <div className="line-clamp-1">Build a team dashboard</div>
 
               <Stack flexDirection="row" gap={1}>
-                <Image src={coin} alt="coin" className="w-6" />
+                <Image src={coin} alt="coin" className="w-5" />
                 <div>3000</div>
               </Stack>
             </Stack>
@@ -88,7 +88,7 @@ export default function page() {
               >
                 <Button
                   variant="contained"
-                  className="!text-sm !px-10 !py-2 !capitalize !bg-second !w-fit"
+                  className="!text-sm !px-10 !py-2 !capitalize !font-semibold !bg-second !w-fit"
                 >
                   Start Chat
                 </Button>
@@ -129,7 +129,7 @@ export default function page() {
                 <div className="text-sm text-textColor">Submission</div>
                 <Button
                   variant="contained"
-                  className="!text-xs !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white"
+                  className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
                   onClick={() => setShowSubmission(true)}
                 >
                   Submission
@@ -163,14 +163,14 @@ export default function page() {
                 >
                   <Button
                     variant="contained"
-                    className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white"
+                    className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
                   >
                     Dispute
                   </Button>
 
                   <Button
                     variant="contained"
-                    className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white"
+                    className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
                     onClick={() => setShowSubmission(false)}
                   >
                     Terminate

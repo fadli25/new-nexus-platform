@@ -156,7 +156,7 @@ export default function page() {
                 variant="contained"
                 type="submit"
                 disabled={isDisabled()}
-                className="!text-base !capitalize !bg-main !text-second !w-fit disabled:!bg-main/50 disabled:!text-second/50"
+                className="!text-base !font-semibold !capitalize !bg-main !text-second !w-fit disabled:!bg-main/50 disabled:!text-second/50"
               >
                 Submit
               </Button>

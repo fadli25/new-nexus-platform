@@ -118,7 +118,7 @@ export default function page() {
                 variant="text"
                 disabled={tap}
                 onClick={() => setTap(!tap)}
-                className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !font-[200] !px-4 ${
+                className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !font-semibold !px-4 ${
                   tap && "!text-black"
                 }`}
               >
@@ -136,7 +136,7 @@ export default function page() {
                 variant="text"
                 disabled={!tap}
                 onClick={() => setTap(!tap)}
-                className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !font-[200] !px-4 ${
+                className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !font-semibold !px-4 ${
                   !tap && "!text-black"
                 }`}
               >

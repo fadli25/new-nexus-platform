@@ -98,7 +98,7 @@ export default function page() {
                   <Button
                     variant="contained"
                     onClick={() => setShowStartProject(true)}
-                    className="!text-xs !bg-main !normal-case !text-second !px-4 !py-2"
+                    className="!text-xs !bg-main !font-semibold !normal-case !text-second !px-4 !py-2"
                   >
                     Start Project
                   </Button>
@@ -111,7 +111,7 @@ export default function page() {
                     setShowRefund(false);
                     setShowStartProject(false);
                   }}
-                  className="!text-xs !bg-white !normal-case !text-second !px-4 !py-2"
+                  className="!text-xs !bg-white !font-semibold !normal-case !text-second !px-4 !py-2"
                 >
                   Terminate
                 </Button>
@@ -132,13 +132,13 @@ export default function page() {
                 >
                   <Button
                     variant="contained"
-                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                    className="!text-xs !px-5 !font-semibold !py-2 !bg-main !text-second !normal-case"
                   >
                     Approve
                   </Button>
                   <Button
                     variant="contained"
-                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                    className="!text-xs !px-5 !font-semibold !py-2 !bg-main !text-second !normal-case"
                     onClick={() => {
                       setShowStartProject(false);
                       setShowTerminate(true);
@@ -160,13 +160,13 @@ export default function page() {
                   <Button
                     variant="contained"
                     onClick={() => setOpen(true)}
-                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                    className="!text-xs !px-5 !font-semibold !py-2 !bg-main !text-second !normal-case"
                   >
                     Request new submissin
                   </Button>
                   <Button
                     variant="contained"
-                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                    className="!text-xs !px-5 !font-semibold !py-2 !bg-main !text-second !normal-case"
                     onClick={() => {
                       setShowTerminate(false);
                       setShowRefund(true);

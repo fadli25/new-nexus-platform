@@ -88,7 +88,7 @@ export default function FirstForm({ handleGoToStep }: any) {
       </Stack>
 
       <Button
-        className="!bg-main !text-second !text-base !capitalize !px-8 !py-2 disabled:!bg-main/30 disabled:!text-black/40"
+        className="!bg-main !text-second !font-semibold !text-base !capitalize !px-8 !py-2 disabled:!bg-main/30 disabled:!text-black/40"
         variant="contained"
         disabled={
           !formData.EmailAddress ||
