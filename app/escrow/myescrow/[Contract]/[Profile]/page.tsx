@@ -10,13 +10,8 @@ import XIcon from "@mui/icons-material/X";
 import { motion } from "framer-motion";
 import { TiMessages } from "react-icons/ti";
 import { FaListUl, FaStar, FaVideo } from "react-icons/fa";
-
-interface buttonType {
-  title: string;
-  icon: React.JSX.Element;
-}
-
-const cardStyle = "px-5 py-3 rounded-md text-textColor bg-white text-sm";
+import { buttonType } from "@/lib/types/types";
+import { cardStyle } from "@/lib/styles/styles";
 
 const buttons: buttonType[] = [
   { title: "Message", icon: <TiMessages /> },

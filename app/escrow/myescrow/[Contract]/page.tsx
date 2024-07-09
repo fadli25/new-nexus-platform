@@ -9,6 +9,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { inputStyle } from "@/components/Onboarding/ThirdForm";
 import CardAccordion from "@/components/CardAccordion";
 import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
+import CardAnimation from "@/components/CardAnimation";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -108,6 +109,7 @@ export default function page() {
                   onClick={() => {
                     setShowTerminate(true);
                     setShowRefund(false);
+                    setShowStartProject(false);
                   }}
                   className="!text-xs !bg-white !normal-case !text-second !px-4 !py-2"
                 >
@@ -121,52 +123,68 @@ export default function page() {
             </Card>
 
             {showStartProject && (
-              <Stack flexDirection="row" justifyContent="center" gap={2} mt={1}>
-                <Button
-                  variant="contained"
-                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+              <CardAnimation>
+                <Stack
+                  flexDirection="row"
+                  justifyContent="center"
+                  gap={2}
+                  mt={1}
                 >
-                  Approve
-                </Button>
-                <Button
-                  variant="contained"
-                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
-                  onClick={() => {
-                    setShowStartProject(false);
-                    setShowTerminate(true);
-                  }}
-                >
-                  Reject
-                </Button>
-              </Stack>
+                  <Button
+                    variant="contained"
+                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                    onClick={() => {
+                      setShowStartProject(false);
+                      setShowTerminate(true);
+                    }}
+                  >
+                    Reject
+                  </Button>
+                </Stack>
+              </CardAnimation>
             )}
             {showTerminate && (
-              <Stack flexDirection="row" justifyContent="center" gap={2} mt={1}>
-                <Button
-                  variant="contained"
-                  onClick={() => setOpen(true)}
-                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+              <CardAnimation>
+                <Stack
+                  flexDirection="row"
+                  justifyContent="center"
+                  gap={2}
+                  mt={1}
                 >
-                  Request new submissin
-                </Button>
-                <Button
-                  variant="contained"
-                  className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
-                  onClick={() => {
-                    setShowTerminate(false);
-                    setShowRefund(true);
-                  }}
-                >
-                  Dispute and Request refund
-                </Button>
-              </Stack>
+                  <Button
+                    variant="contained"
+                    onClick={() => setOpen(true)}
+                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                  >
+                    Request new submissin
+                  </Button>
+                  <Button
+                    variant="contained"
+                    className="!text-xs !px-5 !py-2 !bg-main !text-second !normal-case"
+                    onClick={() => {
+                      setShowTerminate(false);
+                      setShowRefund(true);
+                    }}
+                  >
+                    Dispute and Request refund
+                  </Button>
+                </Stack>
+              </CardAnimation>
             )}
 
             {showRefund && (
-              <div className="text-xs text-black font-[200]">
-                Your dispute has been resolved, and refund completed, please
-                terminate the project
-              </div>
+              <CardAnimation>
+                <div className="text-xs text-black font-[200]">
+                  Your dispute has been resolved, and refund completed, please
+                  terminate the project
+                </div>
+              </CardAnimation>
             )}
           </Stack>
 
