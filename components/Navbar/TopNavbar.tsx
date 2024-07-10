@@ -138,7 +138,7 @@ export default function Example() {
                               "block px-4 py-2 text-sm text-gray-700 mt-2"
                             )}
                           >
-                            Your Profile
+                            My Profile
                           </a>
                         )}
                       </MenuItem>

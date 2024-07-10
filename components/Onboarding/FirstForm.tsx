@@ -7,12 +7,21 @@ import { FormContext } from "@/contexts/FormContext";
 
 export default function FirstForm({ handleGoToStep }: any) {
   const { formData, setFormData } = useContext<any>(FormContext);
+  const [imageInput, setImageInput] = useState("");
+
+  console.log(imageInput);
 
   return (
     <Stack alignItems="center" gap={5}>
       <Stack alignItems="center" gap={3} className="flex-col md:flex-row">
-        <div className="p-5 rounded-2xl bg-white md:-mb-6 ">
+        <div className="p-5 rounded-2xl bg-white md:-mb-6 relative">
           <AccountCircleOutlinedIcon className="text-[#F3F3F3] text-9xl sm:text-[200px]" />
+          <input
+            type="file"
+            value={imageInput}
+            onChange={(e) => setImageInput(e.target.value)}
+            className="absolute top-0 left-0 w-full h-full opacity-0 z-10"
+          />
         </div>
 
         <div className="grid gap-4">
@@ -34,7 +43,7 @@ export default function FirstForm({ handleGoToStep }: any) {
                     setFormData({ ...formData, UserName: e.target.value })
                   }
                   autoComplete="username"
-                  className="block flex-1 border-0 bg-transparent py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6 min-w-[300px]"
+                  className="block bg-white rounded-md flex-1 border-0 py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6 min-w-[300px]"
                   placeholder=""
                 />
               </div>
@@ -56,7 +65,7 @@ export default function FirstForm({ handleGoToStep }: any) {
                   onChange={(e) =>
                     setFormData({ ...formData, TwitterProfile: e.target.value })
                   }
-                  className="block flex-1 border-0 bg-transparent py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
+                  className="block bg-white rounded-md flex-1 border-0 py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                 />
               </div>
@@ -78,7 +87,7 @@ export default function FirstForm({ handleGoToStep }: any) {
                   onChange={(e) =>
                     setFormData({ ...formData, EmailAddress: e.target.value })
                   }
-                  className="block flex-1 border-0 bg-transparent py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
+                  className="block bg-white rounded-md flex-1 border-0 py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
                   placeholder=""
                 />
               </div>

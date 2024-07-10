@@ -35,7 +35,7 @@ export default function page() {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center-center w-full py-10 max-w-7xl mx-auto">
         <form onSubmit={(e) => e.preventDefault()}>
-          <Card>
+          <Card className="pb-7">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
@@ -156,7 +156,7 @@ export default function page() {
                 variant="contained"
                 type="submit"
                 disabled={isDisabled()}
-                className="!text-base !font-semibold !capitalize !bg-main !text-second !w-fit disabled:!bg-main/50 disabled:!text-second/50"
+                className="!text-sm sm:!text-base !font-semibold !capitalize !bg-main !text-second !w-fit disabled:!bg-main/50 disabled:!text-second/50"
               >
                 Submit
               </Button>
@@ -169,7 +169,7 @@ export default function page() {
             Open Public Contracts
           </div>
 
-          <Stack mt={5} spacing={2}>
+          <Stack mt={5} spacing={2.6}>
             {fakeData.map((el, i) => (
               <CardContract key={i} {...el} />
             ))}

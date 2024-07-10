@@ -1,9 +1,10 @@
 "use client";
 
+import { CardType } from "@/lib/types/types";
 import { Container } from "@mui/material";
 import React from "react";
 
-export default function Card({ children, className, width = "sm" }: any) {
+export default function Card({ children, className, width = "sm" }: CardType) {
   return (
     <Container
       maxWidth={width}

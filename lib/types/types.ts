@@ -15,7 +15,8 @@ export interface CardAnimationType {
   children: any;
 }
 
-export class AnimationType {
-  initial() {}
-  animate() {}
+export interface CardType {
+  children?: any;
+  className?: string;
+  width?: any;
 }

@@ -9,9 +9,10 @@
 
 body {
   color: black;
-  background-color: #efeeec;
+
   font-family: mynamar;
   letter-spacing: 0.8px;
+  @apply bg-gradient-to-t from-[#dcdcdc] to-[#F7F5F2] bg-no-repeat min-h-svh;
 }
 
 .onboarding {

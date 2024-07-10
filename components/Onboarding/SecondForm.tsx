@@ -24,7 +24,7 @@ export default function SecondForm({ handleGoToStep }: any) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 p-8">
+    <div className="grid grid-cols-2 gap-10 p-8">
       {NexusTypes.map((el, index) => (
         <motion.button
           key={index}

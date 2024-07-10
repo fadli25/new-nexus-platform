@@ -9,7 +9,7 @@ import CardContract from "@/components/CardContract";
 export default function page() {
   return (
     <div>
-      <Card width="md">
+      <Card width="md" className="pb-10">
         <Stack
           flexDirection="row"
           justifyContent="space-between"
@@ -20,7 +20,7 @@ export default function page() {
           <div>View past contracts</div>
         </Stack>
 
-        <Stack spacing={2} mt={3}>
+        <Stack spacing={2.8} mt={3}>
           {fakeData.map((el, i) => (
             <CardContract key={i} {...el} />
           ))}
