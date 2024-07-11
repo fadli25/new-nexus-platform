@@ -3,7 +3,7 @@ import Menu from "@/components/Navbar/Menu";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nexus Platform",
+  title: "Escrow | Home",
   description: "this the description for nexus platform",
 };
 

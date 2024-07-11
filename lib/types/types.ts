@@ -20,3 +20,10 @@ export interface CardType {
   className?: string;
   width?: any;
 }
+
+export interface NavigationType {
+  name: string;
+  href: string;
+  icon?: React.JSX.Element;
+  current?: boolean;
+}

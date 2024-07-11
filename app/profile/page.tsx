@@ -1,7 +1,7 @@
 "use client";
 
 import Card from "@/components/Card";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Switch } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 import coin from "@/public/coin.svg";
@@ -21,14 +21,15 @@ const buttons: buttonType[] = [
 ];
 
 export default function page() {
-  const menu = ["Profile Summary", "Nexus Jobs"];
+  const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
 
   const [tap, setTap] = useState(menu[0]);
+  const address = "HxVh4haF3Uu2QibqQqinEDXGxx5ThtARA24vaMfhSCaW";
 
   return (
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
-        <Card className="!p-0 overflow-hidden ">
+        <Card className="p-0">
           <Image
             src={dragon}
             alt="dragon"
@@ -44,43 +45,33 @@ export default function page() {
               <div className="text-lg font-[500] line-clamp-1">
                 Zetsu | The shaman king
               </div>
-
-              <Stack
-                flexDirection="row"
-                gap={0.4}
-                alignItems="center"
-                className="text-sm font-[500]"
-              >
-                <Image src={coin} alt="coin" className="w-4 h-4" />
-                <div>
-                  <span> 50</span>
-                  <span> / Week</span>
-                </div>
-              </Stack>
             </Stack>
           </Stack>
 
           <Stack
-            py={2}
+            py={1}
             px={2.5}
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center"
           >
+            <div className="text-lg text-black/80">Content Writer</div>
+
             <Stack
               flexDirection="row"
-              gap={2}
+              gap={0.5}
               alignItems="center"
+              justifyContent="space-between"
               className="text-xs"
             >
-              <div className="text-textColor">Content Writer</div>
-              <div className="px-4 py-2 bg-[#1DA1F2] text-black font-[500] rounded">
-                Expert
-              </div>
+              <div className="text-textColor">Open to work</div>
+              <Switch color="success" />
             </Stack>
-
-            <XIcon className="text-2xl" />
           </Stack>
+
+          <div className="p-4 text-xs line-clamp-1">
+            {address !== null ? address : "No address"}
+          </div>
         </Card>
 
         <div className="grid grid-cols-2 gap-4 mt-4 ">

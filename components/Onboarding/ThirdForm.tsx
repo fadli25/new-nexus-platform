@@ -6,9 +6,7 @@ import TimezoneSelect, { type ITimezone } from "react-timezone-select";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import { useRouter } from "next/navigation";
-
-export const inputStyle =
-  "block flex-1 border-0 bg-transparent py-3 px-4 text-gray-900 placeholder:text-gray-400 outline-none text-xs sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600";
+import { inputStyle } from "@/lib/styles/styles";
 
 export default function ThirdForm({ handleGoToStep }: any) {
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(

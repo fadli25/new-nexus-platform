@@ -2,12 +2,12 @@
 
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
-import { inputStyle } from "@/components/Onboarding/ThirdForm";
 import { fakeData } from "@/lib/fakedata/Data";
 import { Button, Stack, Switch } from "@mui/material";
 import React, { useState } from "react";
 import coin from "@/public/coin.svg";
 import Image from "next/image";
+import { inputStyle } from "@/lib/styles/styles";
 
 export default function page() {
   const [form, setForm] = useState({

@@ -7,7 +7,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
-import { inputStyle } from "@/components/Onboarding/ThirdForm";
+import { useRouter } from "next/navigation";
+import { inputStyle } from "@/lib/styles/styles";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,8 @@ export default function page() {
   function handleOpenModal() {
     setOpen(true);
   }
+
+  const router = useRouter();
 
   return (
     <div>
@@ -131,8 +134,12 @@ export default function page() {
             <div className="text-sm">
               <span className="text-red-600">Hint: </span>
               People who fill up their profile properly are likely to get hire
+              <br />
               Go to{" "}
-              <span className="font-semibold underline cursor-pointer">
+              <span
+                className="font-semibold underline cursor-pointer"
+                onClick={() => router.push("/profile")}
+              >
                 "My Profile"
               </span>
             </div>

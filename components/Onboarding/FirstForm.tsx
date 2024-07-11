@@ -33,7 +33,7 @@ export default function FirstForm({ handleGoToStep }: any) {
               Username
             </label>
             <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <div className="flex rounded-md shadow-sm  sm:max-w-md">
                 <input
                   type="text"
                   name="username"
@@ -57,7 +57,7 @@ export default function FirstForm({ handleGoToStep }: any) {
               Twitter Profile
             </label>
             <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <div className="flex rounded-md shadow-sm  sm:max-w-md">
                 <input
                   type="text"
                   name="Twitter Profile"
@@ -79,7 +79,7 @@ export default function FirstForm({ handleGoToStep }: any) {
               Email Address
             </label>
             <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <div className="flex rounded-md shadow-sm  sm:max-w-md">
                 <input
                   type="email"
                   name="Email Address"

@@ -10,20 +10,14 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Logo from "@/public/Logo.png";
 import Profile from "@/public/profile.png";
-import { Button, Stack } from "@mui/material";
+import { Button } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { usePathname } from "next/navigation";
-
-interface NavigationType {
-  name: string;
-  href: string;
-  icon?: React.JSX.Element;
-  current?: boolean;
-}
+import { NavigationType } from "@/lib/types/types";
 
 let navigation: NavigationType[] = [
   { name: "Nexus Explore", href: "/", current: true },
@@ -132,7 +126,7 @@ export default function Example() {
                       <MenuItem>
                         {({ focus }) => (
                           <a
-                            href="#"
+                            href="/profile"
                             className={classNames(
                               focus ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700 mt-2"

@@ -6,10 +6,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Coin from "@/public/coin.svg";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { inputStyle } from "@/components/Onboarding/ThirdForm";
 import CardAccordion from "@/components/CardAccordion";
 import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
 import CardAnimation from "@/components/CardAnimation";
+import { inputStyle } from "@/lib/styles/styles";
 
 export default function page() {
   const [open, setOpen] = useState(false);

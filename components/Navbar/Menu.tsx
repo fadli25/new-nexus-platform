@@ -30,12 +30,12 @@ export default function Navbar() {
               !path.startsWith(navigation[1].path) &&
               !path.startsWith(navigation[2].path) &&
               el.name === "Home" &&
-              "!border-black !border-b-4 !font-semibold"
+              "!border-black !border-b-4"
             } 
             ${
               path.startsWith(el.path) &&
               el.name !== "Home" &&
-              "!border-black !border-b-4 !font-semibold "
+              "!border-black !border-b-4"
             }
             !flex-1 text-center `}
             key={i}
@@ -43,7 +43,7 @@ export default function Navbar() {
             <Button
               variant="text"
               onClick={() => router.push(el.path)}
-              className={`!py-4 !text-second !normal-case !font-semibold !tracking-[0.8px] !text-sm sm:!text-base !w-full`}
+              className={`!py-4 !text-second !normal-case !tracking-[0.8px] !text-sm sm:!text-base !font-[600] !w-full`}
             >
               <div className="line-clamp-1">{el.name}</div>
             </Button>

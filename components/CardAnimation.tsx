@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { AnimationType, CardAnimationType } from "@/lib/types/types";
+import { CardAnimationType } from "@/lib/types/types";
 
 export default function CardAnimation({
   children,

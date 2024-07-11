@@ -7,6 +7,11 @@ const theme = createTheme({
   typography: {
     fontFamily: "mynamar",
   },
+  palette: {
+    success: {
+      main: "#45FF79",
+    },
+  },
 });
 
 export default function MuiTheme({ children }: any) {
