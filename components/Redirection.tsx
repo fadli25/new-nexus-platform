@@ -9,7 +9,7 @@ export default function Redirection({ children }: any) {
   const { publicKey } = useWallet();
   const [load, setLoad] = useState(true);
   useEffect(() => {
-    if (publicKey) {
+    if (!publicKey) {
       setTimeout(() => {
         setLoad(false);
       }, 1000);
