@@ -18,6 +18,8 @@ import { Button } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { usePathname } from "next/navigation";
 import { NavigationType } from "@/lib/types/types";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 let navigation: NavigationType[] = [
   { name: "Nexus Explore", href: "/", current: true },
@@ -35,6 +37,7 @@ function classNames(...classes: any) {
 
 export default function Example() {
   const path = usePathname();
+  const { publicKey } = useWallet();
   return (
     <Disclosure as="nav" className="bg-second">
       {({ open }) => (
@@ -79,12 +82,9 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Button
-                  className="!text-second !bg-main !capitalize !font-[600] !hidden sm:!block"
-                  variant="contained"
-                >
-                  Connect Wallet
-                </Button>
+                <div className="hidden sm:block">
+                  <WalletMultiButton />
+                </div>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
@@ -188,12 +188,9 @@ export default function Example() {
                 </DisclosureButton>
               ))}
 
-              <Button
-                className="!text-second !bg-main !capitalize !font-[600] "
-                variant="contained"
-              >
-                Connect Wallet
-              </Button>
+              <div>
+                <WalletMultiButton />
+              </div>
             </div>
           </DisclosurePanel>
         </>

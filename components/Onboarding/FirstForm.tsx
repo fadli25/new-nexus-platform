@@ -13,9 +13,9 @@ export default function FirstForm({ handleGoToStep }: any) {
 
   return (
     <Stack alignItems="center" gap={5}>
-      <Stack alignItems="center" gap={3} className="flex-col md:flex-row">
+      <Stack alignItems="center" gap={3} className="flex-col md:!flex-row">
         <div className="p-5 rounded-2xl bg-white md:-mb-6 relative">
-          <AccountCircleOutlinedIcon className="text-[#F3F3F3] text-9xl sm:text-[200px]" />
+          <AccountCircleOutlinedIcon className="text-[#F3F3F3] !text-9xl sm:!text-[200px]" />
           <input
             type="file"
             value={imageInput}

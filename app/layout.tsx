@@ -4,6 +4,8 @@ import "./globals.css";
 import TopNavbar from "@/components/Navbar/TopNavbar";
 import MuiTheme from "@/components/MuiTheme";
 import Form from "@/contexts/FormContext";
+import AppWalletProvider from "@/components/AppWalletProvider";
+import Redirection from "@/components/Redirection";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MuiTheme>
-          <TopNavbar />
-          <Form>{children}</Form>
-        </MuiTheme>
+        <AppWalletProvider>
+          <MuiTheme>
+            <TopNavbar />
+            <Redirection>
+              <Form>{children}</Form>
+            </Redirection>
+          </MuiTheme>
+        </AppWalletProvider>
       </body>
     </html>
   );
