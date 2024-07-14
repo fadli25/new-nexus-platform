@@ -13,15 +13,10 @@ import { FaListUl, FaStar, FaVideo } from "react-icons/fa";
 import { buttonType } from "@/lib/types/types";
 import { cardStyle } from "@/lib/styles/styles";
 
-const buttons: buttonType[] = [
-  { title: "Message", icon: <TiMessages /> },
-  { title: "Shedule Interview", icon: <FaVideo /> },
-  { title: "Review", icon: <FaStar /> },
-  { title: "Add to watchlist", icon: <FaListUl /> },
-];
-
 export default function page() {
   const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
+
+  const menu1 = ["Level of expertise", "Payment rate"];
 
   const [tap, setTap] = useState(menu[0]);
   const address = "HxVh4haF3Uu2QibqQqinEDXGxx5ThtARA24vaMfhSCaW";
@@ -75,25 +70,10 @@ export default function page() {
         </Card>
 
         <div className="grid grid-cols-2 gap-4 mt-4 ">
-          {buttons.map((bt, index) => (
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              key={index}
-              className="text-sm"
-            >
-              <Card>
-                <Stack
-                  flexDirection="row"
-                  gap={1}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <div className="text-lg">{bt.icon}</div>
-
-                  <div className="line-clamp-1">{bt.title}</div>
-                </Stack>
-              </Card>
-            </motion.button>
+          {menu1.map((el, i) => (
+            <div key={i} className={`${cardStyle} !py-4`}>
+              {el}
+            </div>
           ))}
         </div>
       </div>
