@@ -36,6 +36,7 @@ export default function FirstForm({ handleGoToStep }: any) {
 
           <input
             type="file"
+            accept="image/*"
             onChange={(e) =>
               setImageInput(() => {
                 if (e.target.files) {
