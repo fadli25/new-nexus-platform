@@ -1,25 +1,48 @@
 "use client";
 
-import React, { useContext, useState } from "react";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import React, { useContext, useEffect, useState } from "react";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Button, Stack } from "@mui/material";
 import { FormContext } from "@/contexts/FormContext";
 
 export default function FirstForm({ handleGoToStep }: any) {
   const { formData, setFormData } = useContext<any>(FormContext);
-  const [imageInput, setImageInput] = useState("");
+  const [imageInput, setImageInput] = useState<any>();
+  const [selectedImage, setSelectedImage] = useState("");
 
-  console.log(imageInput);
+  console.log("image input:", imageInput);
+  console.log("selected:", selectedImage || null);
+
+  useEffect(() => {
+    if (imageInput) {
+      const obj = URL.createObjectURL(imageInput);
+      setSelectedImage(obj);
+    }
+  }, [imageInput]);
 
   return (
     <Stack alignItems="center" gap={5}>
       <Stack alignItems="center" gap={3} className="flex-col md:!flex-row">
         <div className="p-5 rounded-2xl bg-white md:-mb-6 relative">
-          <AccountCircleOutlinedIcon className="text-[#F3F3F3] !text-9xl sm:!text-[200px]" />
+          {!selectedImage ? (
+            <AddPhotoAlternateIcon className="text-[#F3F3F3] !text-9xl sm:!text-[200px]" />
+          ) : (
+            <img
+              src={selectedImage}
+              alt="profile image"
+              className="w-[200px] h-[200px] object-cover object-center"
+            />
+          )}
+
           <input
             type="file"
-            value={imageInput}
-            onChange={(e) => setImageInput(e.target.value)}
+            onChange={(e) =>
+              setImageInput(() => {
+                if (e.target.files) {
+                  return e.target.files[0];
+                }
+              })
+            }
             className="absolute top-0 left-0 w-full h-full opacity-0 z-10"
           />
         </div>
@@ -102,7 +125,8 @@ export default function FirstForm({ handleGoToStep }: any) {
         disabled={
           !formData.EmailAddress ||
           !formData.TwitterProfile ||
-          !formData.UserName
+          !formData.UserName ||
+          !selectedImage
         }
         onClick={() => handleGoToStep("second")}
       >

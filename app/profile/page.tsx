@@ -24,48 +24,49 @@ export default function page() {
   return (
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
-        <Card className="p-0">
+        <Card className="!p-0">
           <Image
             src={dragon}
             alt="dragon"
             className="w-full rounded-xl object-cover object-center"
           />
 
-          <Stack py={2} spacing={3} px={2}>
+          <div className="px-4 pb-4">
+            <Stack pt={2} spacing={3}>
+              <Stack
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <div className="text-lg font-[500] line-clamp-1">
+                  Zetsu | The shaman king
+                </div>
+              </Stack>
+            </Stack>
+
             <Stack
+              py={1.6}
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
             >
-              <div className="text-lg font-[500] line-clamp-1">
-                Zetsu | The shaman king
-              </div>
+              <div className="text-base text-black/80">Content Writer</div>
+
+              <Stack
+                flexDirection="row"
+                gap={0.5}
+                alignItems="center"
+                justifyContent="space-between"
+                className="text-xs"
+              >
+                <div className="text-textColor">Open to work</div>
+                <Switch color="success" />
+              </Stack>
             </Stack>
-          </Stack>
 
-          <Stack
-            py={1}
-            px={2.5}
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <div className="text-lg text-black/80">Content Writer</div>
-
-            <Stack
-              flexDirection="row"
-              gap={0.5}
-              alignItems="center"
-              justifyContent="space-between"
-              className="text-xs"
-            >
-              <div className="text-textColor">Open to work</div>
-              <Switch color="success" />
-            </Stack>
-          </Stack>
-
-          <div className="p-4 text-xs line-clamp-1">
-            {address !== null ? address : "No address"}
+            <div className=" text-xs line-clamp-1">
+              {address !== null ? address : "No address"}
+            </div>
           </div>
         </Card>
 
@@ -93,7 +94,7 @@ export default function page() {
                   variant="text"
                   disabled={tap === el}
                   onClick={() => setTap(el)}
-                  className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !px-4 ${
+                  className={`!text-black/70 !normal-case !text-sm sm:!text-base !py-2 !px-4 ${
                     tap === el && "!text-black !font-semibold"
                   }`}
                 >

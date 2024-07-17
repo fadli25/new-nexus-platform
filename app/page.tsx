@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Index from "@/components/Onboarding";
 import { useContext, useEffect, useState } from "react";
 import FirstForm from "@/components/Onboarding/FirstForm";

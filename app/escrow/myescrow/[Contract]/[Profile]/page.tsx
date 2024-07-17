@@ -122,7 +122,7 @@ export default function page() {
                   variant="text"
                   disabled={tap === el}
                   onClick={() => setTap(el)}
-                  className={`!text-black/70 !normal-case !text-base sm:!text-lg !py-2 !px-4 ${
+                  className={`!text-black/70 !normal-case !text-sm sm:!text-base !py-2 !px-4 ${
                     tap === el && "!text-black !font-semibold"
                   }`}
                 >
