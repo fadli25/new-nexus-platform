@@ -9,6 +9,7 @@ import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
 import { useRouter } from "next/navigation";
 import { inputStyle } from "@/lib/styles/styles";
+import { IoMdClose } from "react-icons/io";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,8 @@ export default function page() {
   }
 
   const router = useRouter();
+
+  const [showDescription, setShowDescription] = useState(false);
 
   return (
     <div>
@@ -91,7 +94,10 @@ export default function page() {
             </Stack>
           </Card>
 
-          <div className="sm:col-span-3">
+          <div
+            className="sm:col-span-3 cursor-pointer"
+            onClick={() => setShowDescription(true)}
+          >
             <Card width="lg" className=" h-fit">
               <div className="text-sm text-textColor">Description</div>
 
@@ -158,6 +164,49 @@ export default function page() {
               </Button>
             </Stack>
           </div>
+        </Card>
+      </Modal>
+
+      <Modal
+        open={showDescription}
+        onClose={() => setShowDescription(false)}
+        className="grid place-items-center"
+      >
+        <Card width="md" className=" max-h-screen overflow-y-hidden relative">
+          <div
+            className="absolute top-5 right-5 cursor-pointer"
+            onClick={() => setShowDescription(false)}
+          >
+            <IoMdClose className="text-2xl" />
+          </div>
+
+          <div className="text-base font-[500]">Description</div>
+
+          <p className="mt-5 p-2 text-sm leading-7">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum. <br />
+            <br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum. <br />
+            <br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
         </Card>
       </Modal>
     </div>
