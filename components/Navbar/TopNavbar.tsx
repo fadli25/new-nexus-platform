@@ -25,12 +25,12 @@ import { FaDiscord, FaXTwitter } from "react-icons/fa6";
 
 let navigation: NavigationType[] = [
   { name: "Nexus Explore", link: "/", current: true },
-  { name: "Documents", link: "/documents" },
-  {
-    name: "Support",
-    link: "/support",
-    icon: <HelpOutlineIcon className="text-[16px]" />,
-  },
+  // { name: "Documents", link: "/documents" },
+  // {
+  //   name: "Support",
+  //   link: "/support",
+  //   icon: <HelpOutlineIcon className="text-[16px]" />,
+  // },
 ];
 
 const nexusExploreMenu = [
@@ -38,28 +38,32 @@ const nexusExploreMenu = [
     name: "Nexus Escrow",
     description: "Setup Secure Escrowed Freelance Contracts with contractors",
     isComingSoon: false,
+    link: "/",
   },
   {
     name: "Nexus Payments",
     description: "Send and Receive Recurring Payments with your Nexus ID",
     isComingSoon: true,
+    link: "#",
   },
   {
     name: "Nexus Professionals",
     description:
       "Showcase your skills, connect with opportunities and receive payments in real-time",
     isComingSoon: true,
+    link: "#",
   },
   {
     name: "Nexus Businesses",
     description:
       "Streamline your team management, recruitment, compliance, and payrolls.",
     isComingSoon: true,
+    link: "#",
   },
 ];
 
 const nexusExploreMenuSecondary = [
-  { name: "Landing Page", link: "#" },
+  { name: "Landing Page", link: "/" },
   { name: "Developer Docs", link: "#" },
   { name: "Support", link: "#" },
 ];
@@ -100,12 +104,7 @@ export default function Example() {
                       <div
                         key={i}
                         onClick={() => setShowMenu(!showMenu)}
-                        className={classNames(
-                          path.startsWith(item.link)
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-1 text-sm font-medium cursor-pointer"
-                        )}
+                        className="text-xl text-main cursor-pointer tracking-wider"
                       >
                         <div className="flex items-center gap-1 line-clamp-1">
                           {item.name}
@@ -117,10 +116,11 @@ export default function Example() {
                       <motion.div
                         initial={{ y: -20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
                         transition={{
-                          duration: 0.7,
+                          duration: 0.9,
                           type: "spring",
-                          stiffness: 120,
+                          stiffness: 200,
                         }}
                         className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second"
                       >
@@ -133,6 +133,10 @@ export default function Example() {
                               {nexusExploreMenu.map((el, index) => (
                                 <button
                                   key={index}
+                                  onClick={() => {
+                                    setShowMenu(false);
+                                    router.push(el.link);
+                                  }}
                                   className="text-white disabled:text-white/30 text-start"
                                   disabled={el.isComingSoon}
                                 >
@@ -160,7 +164,10 @@ export default function Example() {
                                   el.name === "Landing Page" &&
                                   "border-b border-white"
                                 }`}
-                                onClick={() => router.push(el.link)}
+                                onClick={() => {
+                                  setShowMenu(false);
+                                  router.push(el.link);
+                                }}
                               >
                                 {el.name}
                               </motion.button>
@@ -356,12 +363,12 @@ export default function Example() {
             </div>
           </DisclosurePanel>
 
-          {/* {showMenu && (
+          {showMenu && (
             <div
-              className="fixed top-0 left-0 z-[88888]"
+              className="fixed z-10 top-0 left-0 w-screen h-screen"
               onClick={() => setShowMenu(false)}
             ></div>
-          )} */}
+          )}
         </>
       )}
     </Disclosure>
