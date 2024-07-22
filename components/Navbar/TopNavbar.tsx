@@ -282,7 +282,7 @@ export default function Example() {
                 <div
                   key={i}
                   onClick={() => setShowMenu(!showMenu)}
-                  className="text-lg text-main tracking-wider font-[500]"
+                  className="text-base px-3 py-2 text-main tracking-wider font-[500]"
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
