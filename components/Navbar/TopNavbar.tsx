@@ -104,7 +104,7 @@ export default function Example() {
                       <div
                         key={i}
                         onClick={() => setShowMenu(!showMenu)}
-                        className="text-xl text-main cursor-pointer tracking-wider"
+                        className="text-xl text-main cursor-pointer tracking-wider font-[500]"
                       >
                         <div className="flex items-center gap-1 line-clamp-1">
                           {item.name}
@@ -282,12 +282,7 @@ export default function Example() {
                 <div
                   key={i}
                   onClick={() => setShowMenu(!showMenu)}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium"
-                  )}
+                  className="text-lg text-main tracking-wider font-[500]"
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
