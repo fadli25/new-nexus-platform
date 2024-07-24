@@ -26,7 +26,7 @@ export default function page() {
   const [tap, setTap] = useState(menu[0]);
 
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
+    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5 mb-40">
       <div className="col-span-1 md:col-span-2">
         <Card className="!p-0 overflow-hidden ">
           <Image
@@ -90,12 +90,13 @@ export default function page() {
               key={index}
               className="text-sm"
             >
-              <Card>
+              <Card className="h-16 pt-9">
                 <Stack
                   flexDirection="row"
                   gap={1}
                   justifyContent="center"
                   alignItems="center"
+                  height="0"
                 >
                   <div className="text-lg">{bt.icon}</div>
 
@@ -108,7 +109,7 @@ export default function page() {
       </div>
 
       <div className="cls-span-1 md:col-span-3">
-        <Card className="rounded-b-none px-0 border-b-2 pb-0">
+        <Card className="rounded-b-none px-0 border-b-2 pb-0 h-16">
           <Stack flexDirection="row">
             {menu.map((el, i) => (
               <div
@@ -160,7 +161,7 @@ export default function page() {
               </div>
             </Card>
 
-            <Card className="mt-5">
+            <Card className="mt-5 h-56 px-4">
               <div className="text-xs text-textColor">Profile Overview</div>
               <div className="text-sm leading-6 line-clamp-5 mt-2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -174,14 +175,14 @@ export default function page() {
             </Card>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 px-1">
-              <div className={`${cardStyle}`}>Category</div>
-              <div className={`${cardStyle}`}>Country</div>
-              <div className={`${cardStyle}`}>Time Zone</div>
+              <div className={`${cardStyle} h-16 !pt-6`}>Category</div>
+              <div className={`${cardStyle} !pt-6`}>Country</div>
+              <div className={`${cardStyle} !pt-6`}>Time Zone</div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
-              <div className={`${cardStyle}`}>View Portfolio</div>
-              <div className={`${cardStyle}`}>View Resume</div>
+              <div className={`${cardStyle} h-16 !pt-6`}>View Portfolio</div>
+              <div className={`${cardStyle} !pt-6`}>View Resume</div>
             </div>
           </motion.div>
         )}
