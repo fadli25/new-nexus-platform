@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 interface CardContractType {
   title: string;
   price: number;
-  time: number;
+  time: string;
   type?: string;
 }
 

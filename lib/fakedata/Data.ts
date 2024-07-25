@@ -1,7 +1,7 @@
 export const fakeData = [
-  { title: "Design Product Dushboard", price: 200, time: 2 },
-  { title: "Design Product Dushboard", price: 200, time: 2 },
-  { title: "Design Product Dushboard", price: 200, time: 2 },
+  { title: "Design Product Dushboard", price: 200, time: "2" },
+  { title: "Design Product Dushboard", price: 200, time: "2" },
+  { title: "Design Product Dushboard", price: 200, time: "2" },
 ];
 
 export const fakeData2 = [
