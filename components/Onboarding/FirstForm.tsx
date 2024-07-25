@@ -67,6 +67,7 @@ export default function FirstForm({ handleGoToStep }: any) {
             )}
             <input
               type="file"
+              accept="image/*"
               {...register("profileImage")}
               onChange={handleImageChange}
               className="absolute top-0 left-0 w-full h-full opacity-0 z-10"

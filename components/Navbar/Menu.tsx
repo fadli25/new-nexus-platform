@@ -12,7 +12,7 @@ interface NavigationType {
 const navigation: NavigationType[] = [
   { name: "Home", path: "/escrow" },
   { name: "My Escrows", path: "/escrow/myescrow" },
-  { name: "Ongoing Escrows", path: "/escrow/ongoing" },
+  { name: "Freelance Contracts", path: "/escrow/ongoing" },
 ];
 
 export default function Navbar() {

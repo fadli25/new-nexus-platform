@@ -53,7 +53,7 @@ export default function page() {
               alignItems="center"
             >
               <div className="text-sm sm:text-base text-textColor line-clamp-1">
-                Create new escrow contact
+                Create new escrow contract
               </div>
               <Stack
                 flexDirection="row"
@@ -76,7 +76,7 @@ export default function page() {
 
             <Stack spacing={2} width={"100%"} mt={5} className="text-sm">
               <div>
-                <label>Contact Name</label>
+                <label>Contranct Name</label>
                 <input
                   {...register("contactName")}
                   className={`${inputStyle} w-full`}

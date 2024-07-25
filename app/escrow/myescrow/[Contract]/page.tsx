@@ -10,6 +10,7 @@ import CardAccordion from "@/components/CardAccordion";
 import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
 import CardAnimation from "@/components/CardAnimation";
 import { inputStyle } from "@/lib/styles/styles";
+import ShareIcon from "@mui/icons-material/Share";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -33,52 +34,55 @@ export default function page() {
             alignItems="center"
             justifyContent="space-between"
           >
-            <div className="text-lg line-clamp-1 sm:text-3xl font-semibold">
-              Build a team dashboard
-            </div>
+            <Stack flexDirection="row" alignItems="center" gap={1}>
+              <div className="text-lg line-clamp-1 sm:text-3xl font-semibold">
+                Build a team dashboard
+              </div>
+
+              <ShareIcon />
+            </Stack>
             <Stack flexDirection="row" alignItems="center" gap={1}>
               <Image src={Coin} alt="coin" className="w-5" />
               <div className="text-xl font-semibold">3000</div>
             </Stack>
           </Stack>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-            <Card className="col-span-1 md:col-span-3" width="lg">
-              <div className="text-sm text-textColor">Description</div>
-              <div className="text-sm mt-3 leading-7 min-h-24 px-5 py-2">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Mollitia possimus fugiat velit nemo, nostrum optio reiciendis,
-                sint veritatis laudantium accusamus dolores enim, excepturi
-                eius. Harum id doloremque totam obcaecati. Saepe?
-              </div>
-            </Card>
-
-            <Card className="col-span-1">
-              <Stack
-                flexDirection="row"
-                gap={1}
-                className="text-sm"
-                alignItems="center"
-              >
-                <div>Public</div>
-                <Switch />
-                <div>Public</div>
-              </Stack>
-
-              <Stack mt={4} spacing={2}>
-                <div className="text-xs text-textColor">Deadline</div>
-                <Stack flexDirection="row" gap={2} alignItems="center">
-                  <div className="text-lg font-[500] line-clamp-1">
-                    2d 24hrs 30 min
-                  </div>
-                  <IconButton onClick={handleOpenModal}>
-                    <EditOutlinedIcon className="text-textColor text-base" />
-                  </IconButton>
-                </Stack>
-              </Stack>
-            </Card>
-          </div>
         </Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+          <Card className="col-span-1 md:col-span-3" width="lg">
+            <div className="text-sm text-textColor">Description</div>
+            <div className="text-sm mt-3 leading-7 min-h-24 px-5 py-2">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia
+              possimus fugiat velit nemo, nostrum optio reiciendis, sint
+              veritatis laudantium accusamus dolores enim, excepturi eius. Harum
+              id doloremque totam obcaecati. Saepe?
+            </div>
+          </Card>
+
+          <Card className="col-span-1">
+            <Stack
+              flexDirection="row"
+              gap={1}
+              className="text-sm"
+              alignItems="center"
+            >
+              <div>Public</div>
+              <Switch />
+              <div>Public</div>
+            </Stack>
+
+            <Stack mt={4} spacing={2}>
+              <div className="text-xs text-textColor">Deadline</div>
+              <Stack flexDirection="row" gap={2} alignItems="center">
+                <div className="text-lg font-[500] line-clamp-1">
+                  2d 24hrs 30 min
+                </div>
+                <IconButton onClick={handleOpenModal}>
+                  <EditOutlinedIcon className="text-textColor text-base" />
+                </IconButton>
+              </Stack>
+            </Stack>
+          </Card>
+        </div>
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           <Stack spacing={2}>

@@ -17,10 +17,10 @@ export default function SecondForm({ handleGoToStep }: any) {
   const { formData, setFormData } = useContext<any>(FormContext);
 
   const NexusTypes = [
-    { title: "Nexus Escrow", image: EscrowImg },
-    { title: "Nexus Swap / Payments", image: PaymentBackImg },
-    { title: "Nexus Businesses", image: BusnessesImg },
-    { title: "Nexus Professinals", image: ProfessionalImg },
+    { title: "Nexus Escrow", image: EscrowImg, disabled: false },
+    { title: "Nexus Swap / Payments", image: PaymentBackImg, disabled: true },
+    { title: "Nexus Businesses", image: BusnessesImg, disabled: true },
+    { title: "Nexus Professinals", image: ProfessionalImg, disabled: true },
   ];
 
   return (
@@ -28,7 +28,9 @@ export default function SecondForm({ handleGoToStep }: any) {
       {NexusTypes.map((el, index) => (
         <motion.button
           key={index}
-          whileHover={{ scale: 0.98 }}
+          whileHover={el.disabled ? {} : { scale: 0.98 }}
+          className={`disabled:opacity-30`}
+          disabled={el.disabled}
           onClick={() => {
             setFormData({ ...formData, NexusType: el.title });
             router.push("/escrow");
