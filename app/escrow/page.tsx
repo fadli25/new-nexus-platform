@@ -3,7 +3,7 @@
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { fakeData } from "@/lib/fakedata/Data";
-import { Button, Stack, Switch } from "@mui/material";
+import { Box, Button, Stack, Switch } from "@mui/material";
 import React, { useState } from "react";
 import coin from "@/public/coin.svg";
 import Image from "next/image";
@@ -33,7 +33,7 @@ export default function page() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center-center w-full py-10 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center-center w-full py-10 max-w-7xl mx-auto mb-40">
         <form onSubmit={(e) => e.preventDefault()}>
           <Card className="pb-7">
             <Stack
@@ -41,14 +41,14 @@ export default function page() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <div className="text-sm sm:text-base text-textColor line-clamp-1">
+              <div className="text-base sm:text-base text-textColor line-clamp-1 !font-myanmar">
                 Create new escrow contract
               </div>
               <Stack
                 flexDirection="row"
                 alignItems="center"
                 gap={0.3}
-                className="text-xs sm:text-sm"
+                className="text-base sm:text-sm"
               >
                 <div>Public</div>
                 <div>
@@ -64,9 +64,9 @@ export default function page() {
               </Stack>
             </Stack>
 
-            <Stack spacing={2} width={"100%"} mt={5} className="text-sm">
+            <Stack spacing={2} width={"100%"} mt={5} className="text-base">
               <div>
-                <label>Contranct Name</label>
+                <label className="!font-myanmar">Contract Name</label>
                 <input
                   value={form.ContractName}
                   onChange={(e) =>
@@ -79,7 +79,7 @@ export default function page() {
 
               <div className="grid gap-6 grid-cols-4">
                 <div className="col-span-3">
-                  <label>Telegram Link</label>
+                  <label className="!font-myanmar">Telegram Link</label>
                   <input
                     type="text"
                     value={form.TelegramLink}
@@ -92,7 +92,7 @@ export default function page() {
                 </div>
 
                 <div className="col-span-1">
-                  <label>Deadline</label>
+                  <label className="!font-myanmar">Deadline</label>
                   <input
                     type="date"
                     value={form.DeadLine}
@@ -106,7 +106,9 @@ export default function page() {
               </div>
               <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
                 <div className="col-span-1">
-                  <label className=" line-clamp-1">Input USDC amount</label>
+                  <label className=" line-clamp-1 !font-myanmar">
+                    Input USDC amount
+                  </label>
                   <div className="relative">
                     <input
                       type="number"
@@ -125,7 +127,7 @@ export default function page() {
                 </div>
 
                 <div className="col-span-1">
-                  <label className=" line-clamp-1">
+                  <label className=" line-clamp-1 !font-myanmar">
                     Link to materials needed
                   </label>
                   <input
@@ -139,7 +141,9 @@ export default function page() {
               </div>
 
               <div>
-                <label htmlFor="">Description</label>
+                <label htmlFor="" className="!font-myanmar">
+                  Description
+                </label>
                 <textarea
                   value={form.Description}
                   onChange={(e) =>

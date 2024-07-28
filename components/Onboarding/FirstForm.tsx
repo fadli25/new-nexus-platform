@@ -23,7 +23,10 @@ export default function FirstForm({ handleGoToStep }: any) {
   return (
     <Stack alignItems="center" gap={5}>
       <Stack alignItems="center" gap={3} className="flex-col md:!flex-row">
-        <div className="p-5 rounded-2xl bg-white md:-mb-6 relative">
+        <div
+          className="p-5 rounded-2xl bg-white md:-mb-6 relative"
+          style={{ boxShadow: "0px 4px 10px 0px #00000012" }}
+        >
           {!selectedImage ? (
             <AddPhotoAlternateIcon className="text-[#F3F3F3] !text-9xl sm:!text-[200px]" />
           ) : (
@@ -48,11 +51,11 @@ export default function FirstForm({ handleGoToStep }: any) {
           />
         </div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-4 pt-5">
           <div className="sm:col-span-1">
             <label
               htmlFor="username"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900 font-myanmar"
             >
               Username
             </label>
@@ -69,6 +72,10 @@ export default function FirstForm({ handleGoToStep }: any) {
                   autoComplete="username"
                   className="block bg-white rounded-md flex-1 border-0 py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6 min-w-[300px]"
                   placeholder=""
+                  style={{
+                    boxShadow: "0px 4px 10px 0px #00000012",
+                    height: "2.688rem",
+                  }}
                 />
               </div>
             </div>
@@ -76,7 +83,7 @@ export default function FirstForm({ handleGoToStep }: any) {
           <div className="sm:col-span-1">
             <label
               htmlFor="Twitter Profile"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900 font-myanmar"
             >
               Twitter Profile
             </label>
@@ -91,6 +98,10 @@ export default function FirstForm({ handleGoToStep }: any) {
                   }
                   className="block bg-white rounded-md flex-1 border-0 py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
                   placeholder=""
+                  style={{
+                    boxShadow: "0px 4px 10px 0px #00000012",
+                    height: "2.688rem",
+                  }}
                 />
               </div>
             </div>
@@ -98,7 +109,7 @@ export default function FirstForm({ handleGoToStep }: any) {
           <div className="sm:col-span-1">
             <label
               htmlFor="Email Address"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900 font-myanmar"
             >
               Email Address
             </label>
@@ -113,6 +124,10 @@ export default function FirstForm({ handleGoToStep }: any) {
                   }
                   className="block bg-white rounded-md flex-1 border-0 py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 outline-none sm:text-sm sm:leading-6"
                   placeholder=""
+                  style={{
+                    boxShadow: "0px 4px 10px 0px #00000012",
+                    height: "2.688rem",
+                  }}
                 />
               </div>
             </div>
@@ -121,7 +136,7 @@ export default function FirstForm({ handleGoToStep }: any) {
       </Stack>
 
       <Button
-        className="!bg-main !text-second !font-semibold !text-base !capitalize !px-8 !py-2 disabled:!bg-main/30 disabled:!text-black/40"
+        className="!bg-main !text-second !font-semibold !text-xl !capitalize !px-8 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish w-48 !rounded-xl"
         variant="contained"
         disabled={
           !formData.EmailAddress ||
@@ -130,6 +145,7 @@ export default function FirstForm({ handleGoToStep }: any) {
           !selectedImage
         }
         onClick={() => handleGoToStep("second")}
+        style={{ boxShadow: "0px 4px 10px 0px #00000012" }}
       >
         Next
       </Button>

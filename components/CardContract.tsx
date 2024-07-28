@@ -40,9 +40,10 @@ export default function CardContract({
       <Stack
         flexDirection="row"
         justifyContent="space-between"
-        className={`p-5 border border-gray-300 rounded-md shadow-md w-full ${
+        className={`p-5 border border-gray-300 rounded-md w-full ${
           path.slice(1, 16) === "escrow/myescrow" && "p-8"
         }`}
+        style={{ boxShadow: "0px 4px 12px 0px #0000000D" }}
       >
         <div className="text-base sm:text-lg line-clamp-1 font-[500]">
           {title ? title : "No Title"}
