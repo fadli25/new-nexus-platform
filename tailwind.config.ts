@@ -19,6 +19,10 @@ const config: Config = {
         third: "#F3F3F3",
         textColor: "#8B8B8B",
       },
+
+      fontFamily: {
+        mynamarButton: "mynamarButton",
+      },
     },
   },
   plugins: [],

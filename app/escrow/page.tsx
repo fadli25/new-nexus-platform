@@ -19,7 +19,7 @@ export default function page() {
   const [escrows, setEscrows] = useState<any[]>();
 
   const [form, setForm] = useState({
-    ContactName: "",
+    ContractName: "",
     TelegramLink: "",
     DeadLine: 0,
     Amount: 0,
@@ -35,7 +35,7 @@ export default function page() {
   function isDisabled() {
     return (
       !form.TelegramLink ||
-      !form.ContactName ||
+      !form.ContractName ||
       !form.Amount ||
       !form.DeadLine ||
       !form.Description ||
@@ -101,7 +101,7 @@ export default function page() {
               alignItems="center"
             >
               <div className="text-sm sm:text-base text-textColor line-clamp-1">
-                Create new escrow contact
+                Create new escrow contract
               </div>
               <Stack
                 flexDirection="row"
@@ -125,11 +125,11 @@ export default function page() {
 
             <Stack spacing={2} width={"100%"} mt={5} className="text-sm">
               <div>
-                <label>Contact Name</label>
+                <label>Contranct Name</label>
                 <input
-                  value={form.ContactName}
+                  value={form.ContractName}
                   onChange={(e) =>
-                    setForm({ ...form, ContactName: e.target.value })
+                    setForm({ ...form, ContractName: e.target.value })
                   }
                   className={`${inputStyle} w-full`}
                   placeholder=""

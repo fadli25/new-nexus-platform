@@ -29,7 +29,7 @@ export default function SecondForm({ handleGoToStep }: any) {
         <motion.button
           key={index}
           whileHover={el.disabled ? {} : { scale: 0.98 }}
-          className={`disabled:opacity-60`}
+          className={`disabled:opacity-30`}
           disabled={el.disabled}
           onClick={() => {
             setFormData({ ...formData, NexusType: el.title });

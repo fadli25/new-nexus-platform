@@ -23,7 +23,7 @@ export interface CardType {
 
 export interface NavigationType {
   name: string;
-  href: string;
+  link: string;
   icon?: React.JSX.Element;
   current?: boolean;
 }

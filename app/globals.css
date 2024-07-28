@@ -7,6 +7,11 @@
   src: url(../public/fonts/MyanmarKhyay.ttf);
 }
 
+@font-face {
+  font-family: mynamarButton;
+  src: url(../public/fonts//Myanmar.ttf);
+}
+
 body {
   color: black;
 

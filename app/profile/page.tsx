@@ -4,13 +4,8 @@ import Card from "@/components/Card";
 import { Button, Stack, Switch } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
-import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
-import XIcon from "@mui/icons-material/X";
 import { motion } from "framer-motion";
-import { TiMessages } from "react-icons/ti";
-import { FaListUl, FaStar, FaVideo } from "react-icons/fa";
-import { buttonType } from "@/lib/types/types";
 import { cardStyle } from "@/lib/styles/styles";
 
 export default function page() {
@@ -22,14 +17,24 @@ export default function page() {
   const address = "HxVh4haF3Uu2QibqQqinEDXGxx5ThtARA24vaMfhSCaW";
 
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
+    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
         <Card className="!p-0">
-          <Image
-            src={dragon}
-            alt="dragon"
-            className="w-full rounded-xl object-cover object-center"
-          />
+          <div className="relative">
+            <div className="absolute bottom-4 right-4">
+              <Button
+                variant="contained"
+                className="!text-xs !text-black !bg-white !normal-case !font-semibold !font-mynamarButton"
+              >
+                Change PFP
+              </Button>
+            </div>
+            <Image
+              src={dragon}
+              alt="dragon"
+              className="w-full rounded-xl object-cover object-center"
+            />
+          </div>
 
           <div className="px-4 pb-4">
             <Stack pt={2} spacing={3}>
@@ -80,7 +85,7 @@ export default function page() {
       </div>
 
       <div className="cls-span-1 md:col-span-3">
-        <Card className="rounded-b-none px-0 border-b-2 pb-0">
+        <Card className="rounded-b-none !px-0 border-b-2 pb-0" width="lg">
           <Stack flexDirection="row">
             {menu.map((el, i) => (
               <div
@@ -114,14 +119,14 @@ export default function page() {
               stiffness: 200,
             }}
           >
-            <Card className="rounded-t-none pb-2">
+            <Card className="rounded-t-none pb-2" width="lg">
               <Stack
-                className="text-lg sm:text-2xl font-[500]"
+                className="text-lg sm:text-xl font-[500]"
                 flexDirection="row"
                 gap={6}
                 justifyContent="center"
                 alignContent="center"
-                py={3}
+                py={4}
               >
                 <div>0 Ongoing Jobs</div>
                 <div>0 Jobs Completed</div>
@@ -132,9 +137,16 @@ export default function page() {
               </div>
             </Card>
 
-            <Card className="mt-5">
+            <Card className="mt-6" width="lg">
               <div className="text-xs text-textColor">Profile Overview</div>
-              <div className="text-sm leading-6 line-clamp-5 mt-2">
+              <div className="text-sm leading-6 line-clamp-[6] mt-2">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -145,7 +157,7 @@ export default function page() {
               </div>
             </Card>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 px-1">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-[18px] px-1">
               <div className={`${cardStyle}`}>Category</div>
               <div className={`${cardStyle}`}>Country</div>
               <div className={`${cardStyle}`}>Time Zone</div>
@@ -157,6 +169,27 @@ export default function page() {
             </div>
           </motion.div>
         )}
+
+        <Stack
+          mt={4}
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
+          flexDirection="row"
+        >
+          <Button
+            variant="contained"
+            className="!text-sm !text-black !bg-main !normal-case !font-mynamarButton"
+          >
+            Edit Profile
+          </Button>
+          <Button
+            variant="contained"
+            className="!text-sm !text-black !bg-main !normal-case !font-mynamarButton"
+          >
+            Save
+          </Button>
+        </Stack>
       </div>
     </div>
   );
