@@ -9,6 +9,7 @@ export default function Card({ children, className, width = "sm" }: CardType) {
     <Container
       maxWidth={width}
       className={`p-5 bg-white rounded-lg shadow-md text-black ${className}`}
+      style={{ boxShadow: "0px 4px 20px 0px #0000001A" }}
     >
       {children}
     </Container>

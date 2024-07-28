@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap");
+
 @font-face {
-  font-family: mynamar;
-  src: url(../public/fonts/MyanmarKhyay.ttf);
+  font-family: "Myanmar Text";
+  src: url("../public/fonts/Myanmar.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
