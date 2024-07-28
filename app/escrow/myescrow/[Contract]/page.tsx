@@ -1,25 +1,88 @@
 "use client";
 
 import Card from "@/components/Card";
-import { Button, IconButton, Modal, Stack, Switch } from "@mui/material";
-import Image from "next/image";
-import React, { useState } from "react";
+import CardAccordion from "@/components/CardAccordion";
+import CardAccordionAccept from "@/components/CardAccordionAccept";
+import CardAnimation from "@/components/CardAnimation";
+import { getApplyEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getApplyEscrow";
+import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
+import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
+import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
+import { inputStyle } from "@/lib/styles/styles";
 import Coin from "@/public/coin.svg";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import CardAccordion from "@/components/CardAccordion";
-import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
-import CardAnimation from "@/components/CardAnimation";
-import { inputStyle } from "@/lib/styles/styles";
 import ShareIcon from "@mui/icons-material/Share";
+import { Button, IconButton, Modal, Stack, Switch } from "@mui/material";
+import { web3 } from "@project-serum/anchor";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [open, setOpen] = useState(false);
+  const [escrowInfo, setEscrowInfo] = useState<any>();
+  const [applys, setApplys] = useState<any[]>();
+  const anchorWallet = useAnchorWallet();
+  // const wallet = useWallet();
+  const { connection } = useConnection();
+  // const router = useRouter()
+  const pathname = usePathname();
+  // const searchParams = useSearchParams()
+
   function handleOpenModal() {
     setOpen(true);
   }
 
   function handleCloseModal() {
     setOpen(false);
+  }
+
+  const getEscrowInfosss = async () => {
+    try {
+      // const address = searchParams.get("escrow");
+      const address = pathname.replace("/escrow/myescrow/", "");
+      const escrow = new web3.PublicKey(address);
+      const info = await getEscrowInfo(anchorWallet, connection, escrow);
+      info!.escrow = escrow;
+      console.log("info");
+      console.log(info);
+
+      const freelancerInfo = await get_userr_info(anchorWallet, connection, info!.reciever);
+      console.log(freelancerInfo);
+      info!.freelancerInfo = freelancerInfo;
+      // console.log(info);
+      setEscrowInfo(info);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const getApplys = async () => {
+    try {
+      // const address = searchParams.get("escrow");
+      const address = pathname.replace("/escrow/myescrow/", "");
+      const escrow = new web3.PublicKey(address);
+      const info = await getApplyEscrow(connection, escrow, "confirmed");
+      console.log("apply");
+      console.log(info);
+      setApplys(info);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    getEscrowInfosss();
+    getApplys();
+  }, [anchorWallet])
+
+  const filter = () => {
+    console.log(applys![0].pubkey.toBase58());
+    console.log(escrowInfo.reciever.toBase58());
+    const wddd = applys?.filter((ap: any) => ap.pubkey.toBase58() == escrowInfo.reciever.toBase58());
+    console.log(wddd);
   }
 
   const [showStartProject, setShowStartProject] = useState(false);
@@ -43,7 +106,7 @@ export default function page() {
             </Stack>
             <Stack flexDirection="row" alignItems="center" gap={1}>
               <Image src={Coin} alt="coin" className="w-5" />
-              <div className="text-xl font-semibold">3000</div>
+              <div className="text-xl font-semibold">{escrowInfo ? Number(escrowInfo.amount) : "--"}</div>
             </Stack>
           </Stack>
         </Card>
@@ -51,10 +114,7 @@ export default function page() {
           <Card className="col-span-1 md:col-span-3" width="lg">
             <div className="text-sm text-textColor">Description</div>
             <div className="text-sm mt-3 leading-7 min-h-24 px-5 py-2">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia
-              possimus fugiat velit nemo, nostrum optio reiciendis, sint
-              veritatis laudantium accusamus dolores enim, excepturi eius. Harum
-              id doloremque totam obcaecati. Saepe?
+              {escrowInfo ? escrowInfo.description : "--"}
             </div>
           </Card>
 
@@ -73,7 +133,9 @@ export default function page() {
             <Stack mt={4} spacing={2}>
               <div className="text-xs text-textColor">Deadline</div>
               <Stack flexDirection="row" gap={2} alignItems="center">
-                <div className="text-lg font-[500] line-clamp-1">
+                <div
+                  onClick={() => filter()}
+                  className="text-lg font-[500] line-clamp-1">
                   2d 24hrs 30 min
                 </div>
                 <IconButton onClick={handleOpenModal}>
@@ -86,41 +148,45 @@ export default function page() {
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           <Stack spacing={2}>
-            <CardAccordion
-              title="Approved Contractor"
-              data={fakeData3}
-              type="Chat"
-            >
-              <Stack flexDirection="row" gap={1}>
-                <div
-                  className={
-                    showStartProject || showTerminate || showRefund
-                      ? "hidden"
-                      : ""
-                  }
-                >
+            {escrowInfo && applys &&
+              <CardAccordionAccept
+                data={
+                  escrowInfo.reciever ? applys?.filter((ap: any) => ap.user.toBase58() == escrowInfo.reciever.toBase58()) : []
+                }
+                title="Approved Contractor"
+                type="Chat"
+                escrowInfo={escrowInfo}
+              >
+                <Stack flexDirection="row" gap={1}>
+                  <div
+                    className={
+                      showStartProject || showTerminate || showRefund
+                        ? "hidden"
+                        : ""
+                    }
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => setShowStartProject(true)}
+                      className="!text-xs !bg-main !font-semibold !normal-case !text-second !px-4 !py-2"
+                    >
+                      Start Project
+                    </Button>
+                  </div>
+
                   <Button
                     variant="contained"
-                    onClick={() => setShowStartProject(true)}
-                    className="!text-xs !bg-main !font-semibold !normal-case !text-second !px-4 !py-2"
+                    onClick={() => {
+                      setShowTerminate(true);
+                      setShowRefund(false);
+                      setShowStartProject(false);
+                    }}
+                    className="!text-xs !bg-white !font-semibold !normal-case !text-second !px-4 !py-2"
                   >
-                    Start Project
+                    Terminate
                   </Button>
-                </div>
-
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    setShowTerminate(true);
-                    setShowRefund(false);
-                    setShowStartProject(false);
-                  }}
-                  className="!text-xs !bg-white !font-semibold !normal-case !text-second !px-4 !py-2"
-                >
-                  Terminate
-                </Button>
-              </Stack>
-            </CardAccordion>
+                </Stack>
+              </CardAccordionAccept>}
 
             <Card>
               <div className="text-base text-textColor">Submission</div>
@@ -192,7 +258,13 @@ export default function page() {
             )}
           </Stack>
 
-          <CardAccordion title="Applications" data={fakeData2} type="Approve" />
+          {applys && escrowInfo && <CardAccordion
+            title="Applications"
+            data={escrowInfo.reciever ? applys?.filter((ap: any) => ap.user.toBase58() !== escrowInfo.reciever.toBase58()) : applys}
+            type="Approve"
+            page={"approve"}
+            link={"approve"}
+          />}
         </div>
       </div>
 

@@ -1,25 +1,20 @@
 "use client";
 
-import { Stack } from "@mui/material";
-import React from "react";
 import coin from "@/public/coin.svg";
-import Image from "next/image";
+import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 
-interface CardContractType {
-  title: string;
-  price: number;
-  time: number;
-  type?: string;
-}
+// interface CardContractType {
+//   contractName: string;
+//   amount: number;
+//   deadline: number;
+//   type?: string;
+// }
 
-export default function CardContract({
-  title,
-  price,
-  time,
-  type,
-}: CardContractType) {
+export default function CardContract({ contractName, amount, deadline, escrow, type }: any) {
   const router = useRouter();
   const path = usePathname();
 
@@ -28,25 +23,24 @@ export default function CardContract({
       whileHover={{ x: 5 }}
       whileTap={{ scale: 0.99 }}
       onClick={() => {
-        if (path.slice(1, 16) === "escrow/myescrow") {
-          router.push(`/escrow/myescrow/${title}`);
-        } else if (type === "ongoing") {
-          router.push(`/escrow/ongoing/${title}`);
+        if (type === 1) {
+          router.push(`/escrow/myescrow/${escrow}`);
+        }
+        else if (type === 2) {
+          router.push(`/escrow/${escrow}`);
         } else {
-          router.push(`/escrow/${title}`);
+          router.push(`/escrow/ongoing/${escrow}`);
         }
       }}
     >
       <Stack
         flexDirection="row"
         justifyContent="space-between"
-        className={`p-5 border border-gray-300 rounded-md w-full ${
-          path.slice(1, 16) === "escrow/myescrow" && "p-8"
-        }`}
-        style={{ boxShadow: "0px 4px 12px 0px #0000000D" }}
+        className={`p-5 border border-gray-300 rounded-md shadow-md w-full ${path.slice(1, 16) === "escrow/myescrow" && "p-8"
+          }`}
       >
         <div className="text-base sm:text-lg line-clamp-1 font-[500]">
-          {title ? title : "No Title"}
+          {contractName ? contractName : "No Title"}
         </div>
 
         <Stack spacing={2}>
@@ -55,16 +49,17 @@ export default function CardContract({
               <Image src={coin} alt="coin" className="w-4" />
             </div>
             <div className="font-[600] text-base sm:text-lg">
-              {price ? price : "N/A"}
+              {amount ? amount : "N/A"}
             </div>
           </Stack>
 
           <div
-            className={`text-[11px] text-textColor ${
-              path.slice(1, 16) === "escrow/myescrow" && "hidden"
-            }`}
+            className={`text-[11px] text-textColor ${path.slice(1, 16) === "escrow/myescrow" && "hidden"
+              }`}
           >
-            <span>{time ? time : "N/A"}</span>
+            <span>{
+              deadline ?
+                deadline : "N/A"}</span>
             <span> min ago</span>
           </div>
         </Stack>

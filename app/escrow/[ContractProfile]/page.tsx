@@ -1,18 +1,25 @@
 "use client";
 
 import Card from "@/components/Card";
-import { Button, Container, Modal, Stack } from "@mui/material";
-import XIcon from "@mui/icons-material/X";
-import Image from "next/image";
-import React, { useState } from "react";
+import { USER_PREFIX } from "@/lib/NexusProgram/constants/constants";
+import { FreelacerApply } from "@/lib/NexusProgram/escrow/freelacerApply";
+import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
+import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
+import { inputStyle } from "@/lib/styles/styles";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
-import { useRouter } from "next/navigation";
-import { inputStyle } from "@/lib/styles/styles";
+import XIcon from "@mui/icons-material/X";
+import { Button, Container, Modal, Stack } from "@mui/material";
+import { web3 } from "@project-serum/anchor";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 export default function page() {
   const [open, setOpen] = useState(false);
+  const [telegram, setTelegram] = useState<string>("")
 
   function handleCloseModal() {
     setOpen(false);
@@ -22,8 +29,68 @@ export default function page() {
     setOpen(true);
   }
 
+  const [escrowInfo, setEscrowInfo] = useState<any>();
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
+  const pathname = usePathname();
+
+  const getEscrowInfos = async () => {
+    try {
+      // const address = searchParams.get("escrow");
+      console.log(pathname)
+      const address = pathname.replace("/escrow/", "");
+      const escrow = new web3.PublicKey(address);
+      const info = await getEscrowInfo(anchorWallet, connection, escrow);
+
+      const founder_info = await get_userr_info(anchorWallet, connection, info!.founder);
+      info!.escrow = escrow;
+
+      const PROGRAM_ID = new web3.PublicKey("3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD");
+
+      const [freelancer] = web3.PublicKey.findProgramAddressSync(
+        [
+          anchorWallet!.publicKey.toBuffer(),
+          Buffer.from(USER_PREFIX),
+        ],
+        PROGRAM_ID
+      );
+
+      const freelancer_info = await get_userr_info(anchorWallet, connection, freelancer);
+
+      info!.founderInfo = founder_info;
+      info!.freelancer = freelancer_info;
+      console.log(info);
+      setEscrowInfo(info);
+      setTelegram(freelancer_info!.telegramId)
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const apply = async () => {
+    try {
+      if (telegram.length == 0) {
+        return console.log("need telegram first");
+      }
+
+      const tx = await FreelacerApply(anchorWallet, connection, wallet, escrowInfo.escrow, telegram);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    getEscrowInfos()
+  }, [anchorWallet])
+
   const router = useRouter();
 
+  const links = (link: string) => {
+    window.open(link, "_blank");
+  };
   const [showDescription, setShowDescription] = useState(false);
 
   return (
@@ -41,7 +108,7 @@ export default function page() {
 
               <Stack flexDirection="row" gap={1}>
                 <Image src={coin} alt="coin" className="w-5" />
-                <div>3000</div>
+                <div>{escrowInfo ? Number(escrowInfo.amount) : "--"}</div>
               </Stack>
             </Stack>
           </Card>
@@ -79,13 +146,17 @@ export default function page() {
                 alignItems="center"
               >
                 <div className="text-xl font-[500] line-clamp-1">
-                  Zetsu | The shaman king
+                  {escrowInfo ? escrowInfo.founderInfo.name : "--"}
                 </div>
-
-                <XIcon className="text-xl" />
+                <span
+                  onClick={() => links(escrowInfo.founderInfo.twitter)}
+                >
+                  <XIcon className="text-xl" />
+                </span>
               </Stack>
 
               <Button
+                onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
                 variant="contained"
                 className="!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
               >
@@ -103,19 +174,17 @@ export default function page() {
 
               <div className="p-3 mt-3">
                 <div className="line-clamp-5 text-5 text-[13px] leading-7">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                  {escrowInfo ? escrowInfo.description : "--"}
                 </div>
               </div>
             </Card>
-
-            <Card className="mt-4 text-base">Link to materials</Card>
+            <span
+              onClick={
+                () => links(escrowInfo.founderInfo.twitter)
+              }
+            >
+              <Card className="mt-4 text-base">Link to materials</Card>
+            </span>
 
             <Stack alignItems="center" mt={4}>
               <Button
@@ -152,11 +221,16 @@ export default function page() {
 
             <div className="mt-10 w-full">
               <label>Telegram Link for communication:</label>
-              <input className={`${inputStyle} w-full`} />
+              <input
+                value={telegram}
+                className={`${inputStyle} w-full`}
+                onChange={(e) => setTelegram(e.target.value)}
+              />
             </div>
 
             <Stack mt={5} alignItems="center">
               <Button
+                onClick={() => apply()}
                 variant="contained"
                 className="!text-xs sm:!text-sm !font-semibold !normal-case !py-2 !text !px-10 !bg-main !text-second !w-fit"
               >
