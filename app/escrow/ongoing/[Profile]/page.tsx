@@ -1,16 +1,25 @@
 "use client";
 
 import Card from "@/components/Card";
-import { Button, Container, Modal, Stack } from "@mui/material";
-import XIcon from "@mui/icons-material/X";
-import Image from "next/image";
-import React, { useState } from "react";
+import { fTarminat } from "@/lib/NexusProgram/escrow/Fterminat";
+import { submit } from "@/lib/NexusProgram/escrow/submit";
+import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
+import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
+import XIcon from "@mui/icons-material/X";
+import { Button, Container, Modal, Stack } from "@mui/material";
+import { web3 } from "@project-serum/anchor";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
+  const [escrow_info, setEscrowInfo] = useState<any>();
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   function handleCloseModal() {
     setOpen(false);
@@ -21,6 +30,63 @@ export default function page() {
   }
 
   const [showSubmission, setShowSubmission] = useState(false);
+
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
+
+  const submission = async () => {
+    try {
+      const address = pathname.replace("/escrow/ongoing/", "");
+      const escrow = new web3.PublicKey(address);
+
+      const tx = await submit(anchorWallet, connection, wallet, escrow);
+      // setShowSubmission(true);
+      console.log(tx);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const Tarminat = async () => {
+    try {
+      const address = pathname.replace("/escrow/ongoing/", "");
+      const escrow = new web3.PublicKey(address);
+
+      const tx = await fTarminat(anchorWallet, connection, wallet, escrow);
+      // setShowSubmission(true);
+      console.log(tx);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const getEscrowInfos = async () => {
+    try {
+      // const address = searchParams.get("escrow");
+      console.log(pathname)
+      const address = pathname.replace("/escrow/ongoing/", "");
+      const escrow = new web3.PublicKey(address);
+      const info = await getEscrowInfo(anchorWallet, connection, escrow);
+
+      const founder_info = await get_userr_info(anchorWallet, connection, info!.founder);
+
+      info!.founderInfo = founder_info;
+
+      setEscrowInfo(info);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    getEscrowInfos();
+  }, [anchorWallet])
+
+  const links = (link: string) => {
+    window.open(link, "_blank");
+  };
 
   return (
     <div>
@@ -37,7 +103,7 @@ export default function page() {
 
               <Stack flexDirection="row" gap={1}>
                 <Image src={coin} alt="coin" className="w-5" />
-                <div>3000</div>
+                <div>{escrow_info ? Number(escrow_info.amount) : "--"}</div>
               </Stack>
             </Stack>
           </Card>
@@ -75,10 +141,13 @@ export default function page() {
                 alignItems="center"
               >
                 <div className="text-xl font-[500] line-clamp-1">
-                  Zetsu | The shaman king
+                  {escrow_info ? escrow_info.founderInfo.name : "--"}
                 </div>
-
-                <XIcon className="text-xl" />
+                {escrow_info && escrow_info.founderInfo.twitter.length > 0 && <span
+                  onClick={() => links(escrow_info.founderInfo.twitter.length)}
+                >
+                  <XIcon className="text-xl" />
+                </span>}
               </Stack>
 
               <Stack
@@ -86,12 +155,13 @@ export default function page() {
                 justifyContent="space-between"
                 alignItems="end"
               >
-                <Button
+                {escrow_info && escrow_info.founderInfo.telegramId.length > 0 && <Button
+                  onClick={() => links(escrow_info.founderInfo.telegramId)}
                   variant="contained"
                   className="!text-sm !px-10 !py-2 !capitalize !font-semibold !bg-second !w-fit"
                 >
                   Start Chat
-                </Button>
+                </Button>}
 
                 <div className="text-[11px] font-[300] line-clamp-1 py-1">
                   0 Leaderboard rating
@@ -117,27 +187,33 @@ export default function page() {
                 </div>
               </div>
             </Card>
+            {escrow_info && <span
+              onClick={() => links(escrow_info.materials)}
+            >
+              <Card className="mt-4 text-sm py-4">Link to materials</Card>
+            </span>}
+            {escrow_info && escrow_info.status == 2 &&
 
-            <Card className="mt-4 text-sm py-4">Link to materials</Card>
-
-            <Card className="mt-4 !py-3">
-              <Stack
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <div className="text-sm text-textColor">Submission</div>
-                <Button
-                  variant="contained"
-                  className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
-                  onClick={() => setShowSubmission(true)}
+              <Card className="mt-4 !py-3">
+                <Stack
+                  flexDirection="row"
+                  alignItems="center"
+                  justifyContent="space-between"
                 >
-                  Submission
-                </Button>
-              </Stack>
-            </Card>
+                  <div className="text-sm text-textColor">Submission</div>
+                  <Button
 
-            {showSubmission && (
+                    variant="contained"
+                    className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
+                    onClick={() => submission()}
+                  >
+                    Submission
+                  </Button>
+                </Stack>
+              </Card>
+            }
+
+            {(
               <motion.div
                 initial={{ y: -10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -150,8 +226,7 @@ export default function page() {
                 className="px-4 mt-4"
               >
                 <div className="text-xs text-black font-[200]">
-                  Your submission was rejected, you can either dispute or make a
-                  new submission
+                  Your submission was rejected, you can either dispute or Terminate
                 </div>
 
                 <Stack
@@ -171,7 +246,7 @@ export default function page() {
                   <Button
                     variant="contained"
                     className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
-                    onClick={() => setShowSubmission(false)}
+                    onClick={() => Tarminat()}
                   >
                     Terminate
                   </Button>

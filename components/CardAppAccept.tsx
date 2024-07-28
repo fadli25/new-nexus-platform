@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { escape } from "querystring";
 import React from "react";
 
-export default function CardApp({ title, role, type, approve, escrow, apply, link }: any) {
+export default function CardApp({ title, role, type, approve, reject, escrow, apply, escrowInfo }: any) {
 
   const links = (_link: string) => {
     window.open(_link, "_blank");
@@ -40,18 +40,28 @@ export default function CardApp({ title, role, type, approve, escrow, apply, lin
       </Stack>
 
       <Button
-        onClick={() => {
-          if (title == "Chat") {
-            links(link)
-          } else {
-            approve(escrow, apply)
-          }
-        }}
+        onClick={() => links(escrowInfo.link)}
         variant="contained"
         className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
       >
         {type}
       </Button>
-    </Stack>
+      {escrowInfo && escrowInfo.status == 9 && <>
+        <Button
+          onClick={() => approve()}
+          variant="contained"
+          className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
+        >
+          Approve
+        </Button>
+        <Button
+          onClick={() => reject()}
+          variant="contained"
+          className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
+        >
+          Reject
+        </Button>
+      </>}
+    </Stack >
   );
 }

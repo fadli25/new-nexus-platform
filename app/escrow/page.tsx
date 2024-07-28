@@ -2,23 +2,35 @@
 
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
+import { initEscrow } from "@/lib/NexusProgram/escrow/init_escrow";
+import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
+import { getFounderEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFounderEscrow";
 import { fakeData } from "@/lib/fakedata/Data";
-import { Button, Stack, Switch } from "@mui/material";
-import React, { useState } from "react";
-import coin from "@/public/coin.svg";
-import Image from "next/image";
 import { inputStyle } from "@/lib/styles/styles";
+import coin from "@/public/coin.svg";
+import { Button, Stack, Switch } from "@mui/material";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
+
+  const [time_value, setTimeValue] = useState();
+  const [escrows, setEscrows] = useState<any[]>();
+
   const [form, setForm] = useState({
     ContactName: "",
     TelegramLink: "",
-    DeadLine: "",
+    DeadLine: 0,
     Amount: 0,
     Link: "",
     Description: "",
     private: true,
   });
+
+  const anchorWallet = useAnchorWallet()
+  const wallet = useWallet()
+  const { connection } = useConnection()
 
   function isDisabled() {
     return (
@@ -29,6 +41,53 @@ export default function page() {
       !form.Description ||
       !form.Link
     );
+  }
+
+  const getEscrow = async () => {
+    try {
+      console.log("wow")
+      const escrow = await getAllEscrow(connection, "confirmed");
+      setEscrows(escrow)
+      console.log(escrow);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    if (!anchorWallet) return
+    getEscrow()
+  }, [anchorWallet])
+
+  const onChangeTime = (e: any) => {
+    setTimeValue(e);
+    var date = new Date(e); // some mock date
+    var milliseconds = date.getTime();
+    console.log()
+    setForm({ ...form, DeadLine: milliseconds / 1000 })
+    // setTime(milliseconds / 1000);
+  };
+
+  const init_esc = async () => {
+    try {
+      console.log(form)
+      console.log(form.DeadLine);
+
+      initEscrow(
+        anchorWallet!,
+        connection,
+        form.ContactName,
+        form.TelegramLink,
+        form.Link,
+        form.Description,
+        form.Amount,
+        form.DeadLine,
+        wallet
+      )
+
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -95,9 +154,9 @@ export default function page() {
                   <label>Deadline</label>
                   <input
                     type="date"
-                    value={form.DeadLine}
+                    value={time_value}
                     onChange={(e) =>
-                      setForm({ ...form, DeadLine: e.target.value })
+                      onChangeTime(e.target.value)
                     }
                     className={`${inputStyle} w-full`}
                     placeholder=""
@@ -153,6 +212,7 @@ export default function page() {
 
             <Stack mt={5} alignItems="center">
               <Button
+                onClick={() => init_esc()}
                 variant="contained"
                 type="submit"
                 disabled={isDisabled()}
@@ -170,8 +230,8 @@ export default function page() {
           </div>
 
           <Stack mt={5} spacing={2.6}>
-            {fakeData.map((el, i) => (
-              <CardContract key={i} {...el} />
+            {escrows && escrows.map((el, i) => (
+              <CardContract key={i} contractName={el.contractName} amount={Number(el.amount)} deadline={Number(el.deadline)} escrow={el.pubkey.toBase58()} type={2} />
             ))}
           </Stack>
         </Card>
