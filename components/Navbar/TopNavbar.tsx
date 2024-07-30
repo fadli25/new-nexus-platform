@@ -38,7 +38,7 @@ const nexusExploreMenu = [
     name: "Nexus Escrow",
     description: "Setup Secure Escrowed Freelance Contracts with contractors",
     isComingSoon: false,
-    link: "/",
+    link: "/escrow",
   },
   {
     name: "Nexus Payments",
