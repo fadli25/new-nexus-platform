@@ -11,7 +11,11 @@ import dragon from "@/public/dragon.svg";
 import XIcon from "@mui/icons-material/X";
 import { Button, Container, Modal, Stack } from "@mui/material";
 import { web3 } from "@project-serum/anchor";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -19,7 +23,7 @@ import { IoMdClose } from "react-icons/io";
 
 export default function page() {
   const [open, setOpen] = useState(false);
-  const [telegram, setTelegram] = useState<string>("")
+  const [telegram, setTelegram] = useState<string>("");
 
   function handleCloseModal() {
     setOpen(false);
@@ -38,35 +42,42 @@ export default function page() {
   const getEscrowInfos = async () => {
     try {
       // const address = searchParams.get("escrow");
-      console.log(pathname)
+      console.log(pathname);
       const address = pathname.replace("/escrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getEscrowInfo(anchorWallet, connection, escrow);
 
-      const founder_info = await get_userr_info(anchorWallet, connection, info!.founder);
+      const founder_info = await get_userr_info(
+        anchorWallet,
+        connection,
+        info!.founder
+      );
       info!.escrow = escrow;
 
-      const PROGRAM_ID = new web3.PublicKey("3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD");
+      const PROGRAM_ID = new web3.PublicKey(
+        "3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD"
+      );
 
       const [freelancer] = web3.PublicKey.findProgramAddressSync(
-        [
-          anchorWallet!.publicKey.toBuffer(),
-          Buffer.from(USER_PREFIX),
-        ],
+        [anchorWallet!.publicKey.toBuffer(), Buffer.from(USER_PREFIX)],
         PROGRAM_ID
       );
 
-      const freelancer_info = await get_userr_info(anchorWallet, connection, freelancer);
+      const freelancer_info = await get_userr_info(
+        anchorWallet,
+        connection,
+        freelancer
+      );
 
       info!.founderInfo = founder_info;
       info!.freelancer = freelancer_info;
       console.log(info);
       setEscrowInfo(info);
-      setTelegram(freelancer_info!.telegramId)
+      setTelegram(freelancer_info!.telegramId);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const apply = async () => {
     try {
@@ -74,17 +85,22 @@ export default function page() {
         return console.log("need telegram first");
       }
 
-      const tx = await FreelacerApply(anchorWallet, connection, wallet, escrowInfo.escrow, telegram);
+      const tx = await FreelacerApply(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        telegram
+      );
     } catch (e) {
       console.log(e);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (!anchorWallet) return;
-    getEscrowInfos()
-  }, [anchorWallet])
+    getEscrowInfos();
+  }, [anchorWallet]);
 
   const router = useRouter();
 
@@ -102,9 +118,9 @@ export default function page() {
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
-              className="text-xl font-[500] h-12"
+              className="text-base sm:text-xl font-[500] h-12"
             >
-              <div className="line-clamp-1">Build a team dashboard</div>
+              <div className="flex-1">Build a team dashboard</div>
 
               <Stack flexDirection="row" gap={1}>
                 <Image src={coin} alt="coin" className="w-5" />
@@ -133,36 +149,48 @@ export default function page() {
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
           <Card className="!p-0 sm:col-span-2 overflow-hidden ">
-            <Image
-              src={dragon}
-              alt="dragon"
-              className="w-full rounded-xl object-cover object-center"
-            />
+            <div className="flex sm:flex-col p-2">
+              <Image
+                src={dragon}
+                alt="dragon"
+                className="w-[100px] p-1 sm:p-0 sm:w-full rounded-xl object-cover object-center"
+              />
 
-            <Stack py={2} spacing={3} px={2}>
-              <Stack
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <div className="text-xl font-[500] line-clamp-1">
-                  {escrowInfo ? escrowInfo.founderInfo.name : "--"}
-                </div>
-                <span
-                  onClick={() => links(escrowInfo.founderInfo.twitter)}
+              <Stack py={2} spacing={3} px={2}>
+                <Stack
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignItems="center"
                 >
-                  <XIcon className="text-xl" />
-                </span>
-              </Stack>
+                  <div className="text-base sm:text-xl font-[500] line-clamp-1">
+                    {escrowInfo ? escrowInfo.founderInfo.name : "--"}
+                  </div>
+                  <span
+                    onClick={() => links(escrowInfo.founderInfo.twitter)}
+                    className="hidden sm:block"
+                  >
+                    <XIcon className="text-xl" />
+                  </span>
+                </Stack>
 
-              <Button
-                onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
-                variant="contained"
-                className="!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
-              >
-                Start Chat
-              </Button>
-            </Stack>
+                <div className="flex gap-4 items-center">
+                  <Button
+                    onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
+                    variant="contained"
+                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
+                  >
+                    Start Chat
+                  </Button>
+
+                  <span
+                    onClick={() => links(escrowInfo.founderInfo.twitter)}
+                    className="sm:hidden"
+                  >
+                    <XIcon className="text-sm" />
+                  </span>
+                </div>
+              </Stack>
+            </div>
           </Card>
 
           <div
@@ -178,11 +206,7 @@ export default function page() {
                 </div>
               </div>
             </Card>
-            <span
-              onClick={
-                () => links(escrowInfo.founderInfo.twitter)
-              }
-            >
+            <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
               <Card className="mt-4 text-base">Link to materials</Card>
             </span>
 

@@ -128,7 +128,7 @@ export default function Example() {
                           className="sm:!flex-row  border-b border-white"
                           justifyContent="space-between"
                         >
-                          <div className="flex-1 border-r border-white sm:w-[700px] p-5">
+                          <div className="flex-1 border-r border-white sm:w-[600px] p-5">
                             <Stack spacing={4}>
                               {nexusExploreMenu.map((el, index) => (
                                 <button
