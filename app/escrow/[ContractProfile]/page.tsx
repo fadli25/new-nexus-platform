@@ -149,7 +149,7 @@ export default function page() {
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
           <Card className="!p-0 sm:col-span-2 overflow-hidden ">
-            <div className="flex sm:flex-col p-2">
+            <div className="flex sm:flex-col p-2 sm:p-0">
               <Image
                 src={dragon}
                 alt="dragon"

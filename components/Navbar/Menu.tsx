@@ -43,9 +43,9 @@ export default function Navbar() {
             <Button
               variant="text"
               onClick={() => router.push(el.path)}
-              className={`!py-4 !text-second !normal-case !tracking-[0.8px] !text-sm sm:!text-base !font-[600] !w-full`}
+              className={`!py-4 !text-second !normal-case !tracking-[0.8px] !text-xs sm:!text-base !font-[600] !w-full !h-full`}
             >
-              <div className="line-clamp-1">{el.name}</div>
+              <div className="">{el.name}</div>
             </Button>
           </div>
         ))}

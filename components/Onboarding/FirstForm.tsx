@@ -22,18 +22,18 @@ export default function FirstForm({ handleGoToStep }: any) {
 
   return (
     <Stack alignItems="center" gap={5}>
-      <Stack alignItems="center" gap={3} className="flex-col md:!flex-row">
+      <Stack gap={3} className="flex-col md:!flex-row items-end pt-5">
         <div
-          className="p-5 rounded-2xl bg-white md:-mb-6 relative"
+          className="rounded-2xl bg-white relative h-fit"
           style={{ boxShadow: "0px 4px 10px 0px #00000012" }}
         >
           {!selectedImage ? (
-            <AddPhotoAlternateIcon className="text-[#F3F3F3] !text-9xl sm:!text-[200px]" />
+            <AddPhotoAlternateIcon className="text-[#F3F3F3] !text-9xl sm:!text-[230px]" />
           ) : (
             <img
               src={selectedImage}
               alt="profile image"
-              className="w-[200px] h-[200px] object-cover object-center"
+              className="w-[230px] h-[230px] object-cover object-center rounded-2xl border border-white"
             />
           )}
 
@@ -51,7 +51,7 @@ export default function FirstForm({ handleGoToStep }: any) {
           />
         </div>
 
-        <div className="grid gap-4 pt-5">
+        <div className="grid gap-4 ">
           <div className="sm:col-span-1">
             <label
               htmlFor="username"
@@ -136,7 +136,7 @@ export default function FirstForm({ handleGoToStep }: any) {
       </Stack>
 
       <Button
-        className="!bg-main !text-second !font-semibold !text-xl !capitalize !px-8 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish w-48 !rounded-xl"
+        className="!bg-main !text-second !font-semibold !text-base !capitalize !px-12 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish !rounded-xl"
         variant="contained"
         disabled={
           !formData.EmailAddress ||
