@@ -53,7 +53,7 @@ export default function page() {
               py={1.6}
               justifyContent="space-between"
               alignItems="start"
-              className="flex-col sm:flex-row"
+              className="!flex-col sm:!flex-row"
             >
               <div className="text-sm sm:text-base text-black/80">
                 Content Writer
