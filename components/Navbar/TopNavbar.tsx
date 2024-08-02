@@ -110,7 +110,7 @@ export default function Example() {
                         <div
                           key={i}
                           onClick={() => setShowMenu(!showMenu)}
-                          className="text-xl text-main cursor-pointer tracking-wider font-[500]"
+                          className="text-lg text-main cursor-pointer tracking-wider font-[500] font-mynamarButton"
                         >
                           <div className="flex items-center gap-1 line-clamp-1">
                             {item.name}
@@ -128,7 +128,7 @@ export default function Example() {
                           type: "spring",
                           stiffness: 200,
                         }}
-                        className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second"
+                        className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second font-myanmar"
                       >
                         <Stack
                           className="sm:!flex-row  border-b border-white"
@@ -289,7 +289,7 @@ export default function Example() {
                   <div
                     key={i}
                     onClick={() => setShowMenu(!showMenu)}
-                    className="text-base px-3 py-2 text-main tracking-wider font-[500]"
+                    className="text-base px-3 py-2 text-main tracking-wider font-[500] font-mynamarButton"
                     aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
@@ -305,7 +305,7 @@ export default function Example() {
                     type: "spring",
                     stiffness: 120,
                   }}
-                  className="rounded min-h-32 absolute left-[0] sm:left-[-6%] top-[95%] sm:top-[130%] bg-second z-50 w-full"
+                  className="rounded min-h-32 absolute left-[0] sm:left-[-6%] top-[95%] sm:top-[130%] bg-second z-50 w-full font-myanmar"
                 >
                   <Stack
                     className="sm:!flex-row  border-b border-white"
