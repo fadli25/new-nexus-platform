@@ -9,12 +9,15 @@ import { fakeData } from "@/lib/fakedata/Data";
 import { inputStyle } from "@/lib/styles/styles";
 import coin from "@/public/coin.svg";
 import { Button, Stack, Switch } from "@mui/material";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
-
   const [time_value, setTimeValue] = useState();
   const [escrows, setEscrows] = useState<any[]>();
 
@@ -28,9 +31,9 @@ export default function page() {
     private: true,
   });
 
-  const anchorWallet = useAnchorWallet()
-  const wallet = useWallet()
-  const { connection } = useConnection()
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
   function isDisabled() {
     return (
@@ -45,32 +48,32 @@ export default function page() {
 
   const getEscrow = async () => {
     try {
-      console.log("wow")
+      console.log("wow");
       const escrow = await getAllEscrow(connection, "confirmed");
-      setEscrows(escrow)
+      setEscrows(escrow);
       console.log(escrow);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
-    if (!anchorWallet) return
-    getEscrow()
-  }, [anchorWallet])
+    if (!anchorWallet) return;
+    getEscrow();
+  }, [anchorWallet]);
 
   const onChangeTime = (e: any) => {
     setTimeValue(e);
     var date = new Date(e); // some mock date
     var milliseconds = date.getTime();
-    console.log()
-    setForm({ ...form, DeadLine: milliseconds / 1000 })
+    console.log();
+    setForm({ ...form, DeadLine: milliseconds / 1000 });
     // setTime(milliseconds / 1000);
   };
 
   const init_esc = async () => {
     try {
-      console.log(form)
+      console.log(form);
       console.log(form.DeadLine);
 
       initEscrow(
@@ -83,12 +86,11 @@ export default function page() {
         form.Amount,
         form.DeadLine,
         wallet
-      )
-
+      );
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <div>
@@ -132,7 +134,7 @@ export default function page() {
                     setForm({ ...form, ContractName: e.target.value })
                   }
                   className={`${inputStyle} w-full`}
-                  placeholder=""
+                  placeholder="Eg. Build a landing page"
                 />
               </div>
 
@@ -146,7 +148,7 @@ export default function page() {
                       setForm({ ...form, TelegramLink: e.target.value })
                     }
                     className={`${inputStyle} w-full`}
-                    placeholder=""
+                    placeholder="Eg. https://example.tme.com"
                   />
                 </div>
 
@@ -155,11 +157,9 @@ export default function page() {
                   <input
                     type="date"
                     value={time_value}
-                    onChange={(e) =>
-                      onChangeTime(e.target.value)
-                    }
+                    onChange={(e) => onChangeTime(e.target.value)}
                     className={`${inputStyle} w-full`}
-                    placeholder=""
+                    placeholder="Eg. 2024-08-15"
                   />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function page() {
                         setForm({ ...form, Amount: Number(e.target.value) })
                       }
                       className={`${inputStyle} w-full`}
-                      placeholder=""
+                      placeholder="200"
                     />
                     <div className="absolute right-4 top-[50%] translate-y-[-50%]">
                       <Image src={coin} alt="coin" className="w-5 h-5" />
@@ -194,7 +194,7 @@ export default function page() {
                     value={form.Link}
                     onChange={(e) => setForm({ ...form, Link: e.target.value })}
                     className={`${inputStyle} w-full`}
-                    placeholder=""
+                    placeholder="Eg. https://example.figma.com"
                   />
                 </div>
               </div>
@@ -210,6 +210,7 @@ export default function page() {
                   }
                   className={`${inputStyle} w-full`}
                   rows={3}
+                  placeholder="Eg. A brief description of what the project entails"
                 ></textarea>
               </div>
             </Stack>
@@ -234,9 +235,17 @@ export default function page() {
           </div>
 
           <Stack mt={5} spacing={2.6}>
-            {escrows && escrows.map((el, i) => (
-              <CardContract key={i} contractName={el.contractName} amount={Number(el.amount)} deadline={Number(el.deadline)} escrow={el.pubkey.toBase58()} type={2} />
-            ))}
+            {escrows &&
+              escrows.map((el, i) => (
+                <CardContract
+                  key={i}
+                  contractName={el.contractName}
+                  amount={Number(el.amount)}
+                  deadline={Number(el.deadline)}
+                  escrow={el.pubkey.toBase58()}
+                  type={2}
+                />
+              ))}
           </Stack>
         </Card>
       </div>

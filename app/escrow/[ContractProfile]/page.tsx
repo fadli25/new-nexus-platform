@@ -11,7 +11,11 @@ import dragon from "@/public/dragon.svg";
 import XIcon from "@mui/icons-material/X";
 import { Button, Container, Modal, Stack } from "@mui/material";
 import { web3 } from "@project-serum/anchor";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -19,7 +23,7 @@ import { IoMdClose } from "react-icons/io";
 
 export default function page() {
   const [open, setOpen] = useState(false);
-  const [telegram, setTelegram] = useState<string>("")
+  const [telegram, setTelegram] = useState<string>("");
 
   function handleCloseModal() {
     setOpen(false);
@@ -38,35 +42,42 @@ export default function page() {
   const getEscrowInfos = async () => {
     try {
       // const address = searchParams.get("escrow");
-      console.log(pathname)
+      console.log(pathname);
       const address = pathname.replace("/escrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getEscrowInfo(anchorWallet, connection, escrow);
 
-      const founder_info = await get_userr_info(anchorWallet, connection, info!.founder);
+      const founder_info = await get_userr_info(
+        anchorWallet,
+        connection,
+        info!.founder
+      );
       info!.escrow = escrow;
 
-      const PROGRAM_ID = new web3.PublicKey("3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD");
+      const PROGRAM_ID = new web3.PublicKey(
+        "3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD"
+      );
 
       const [freelancer] = web3.PublicKey.findProgramAddressSync(
-        [
-          anchorWallet!.publicKey.toBuffer(),
-          Buffer.from(USER_PREFIX),
-        ],
+        [anchorWallet!.publicKey.toBuffer(), Buffer.from(USER_PREFIX)],
         PROGRAM_ID
       );
 
-      const freelancer_info = await get_userr_info(anchorWallet, connection, freelancer);
+      const freelancer_info = await get_userr_info(
+        anchorWallet,
+        connection,
+        freelancer
+      );
 
       info!.founderInfo = founder_info;
       info!.freelancer = freelancer_info;
       console.log(info);
       setEscrowInfo(info);
-      setTelegram(freelancer_info!.telegramId)
+      setTelegram(freelancer_info!.telegramId);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const apply = async () => {
     try {
@@ -74,17 +85,22 @@ export default function page() {
         return console.log("need telegram first");
       }
 
-      const tx = await FreelacerApply(anchorWallet, connection, wallet, escrowInfo.escrow, telegram);
+      const tx = await FreelacerApply(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        telegram
+      );
     } catch (e) {
       console.log(e);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (!anchorWallet) return;
-    getEscrowInfos()
-  }, [anchorWallet])
+    getEscrowInfos();
+  }, [anchorWallet]);
 
   const router = useRouter();
 
@@ -148,9 +164,7 @@ export default function page() {
                 <div className="text-xl font-[500] line-clamp-1">
                   {escrowInfo ? escrowInfo.founderInfo.name : "--"}
                 </div>
-                <span
-                  onClick={() => links(escrowInfo.founderInfo.twitter)}
-                >
+                <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
                   <XIcon className="text-xl" />
                 </span>
               </Stack>
@@ -165,24 +179,22 @@ export default function page() {
             </Stack>
           </Card>
 
-          <div
-            className="sm:col-span-3 cursor-pointer"
-            onClick={() => setShowDescription(true)}
-          >
+          <div className="sm:col-span-3">
             <Card width="lg" className=" h-fit">
               <div className="text-sm text-textColor">Description</div>
 
-              <div className="p-3 mt-3">
-                <div className="line-clamp-5 text-5 text-[13px] leading-7">
-                  {escrowInfo ? escrowInfo.description : "--"}
+              <div className="p-1 mt-3">
+                <div
+                  className="line-clamp-5 text-5 text-[13px] leading-7 cursor-pointer h-14"
+                  onClick={() => setShowDescription(true)}
+                >
+                  {escrowInfo && escrowInfo.description !== ""
+                    ? escrowInfo.description
+                    : "--"}
                 </div>
               </div>
             </Card>
-            <span
-              onClick={
-                () => links(escrowInfo.founderInfo.twitter)
-              }
-            >
+            <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
               <Card className="mt-4 text-base">Link to materials</Card>
             </span>
 
