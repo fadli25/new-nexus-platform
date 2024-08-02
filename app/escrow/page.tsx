@@ -103,7 +103,7 @@ export default function page() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <div className="text-sm sm:text-base text-textColor  !font-mynamarButton">
+              <div className="text-sm sm:text-base text-textColor  !font-myanmar">
                 Create new escrow contract
               </div>
               <Stack
@@ -133,7 +133,7 @@ export default function page() {
               className="text-xs sm:text-sm"
             >
               <div>
-                <label className="!font-myanmar">Contract Name</label>
+                <label className="font-myanmar">Contract Name</label>
                 <input
                   value={form.ContractName}
                   onChange={(e) =>
