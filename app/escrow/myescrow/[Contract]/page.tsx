@@ -108,7 +108,7 @@ export default function page() {
             justifyContent="space-between"
           >
             <Stack flexDirection="row" alignItems="center" gap={1}>
-              <div className="text-lg line-clamp-1 sm:text-3xl font-semibold font-mynamarButton">
+              <div className="text-lg line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
                 Build a team dashboard
               </div>
 
