@@ -48,7 +48,7 @@ export default function page() {
           alignItems="center"
           className="text-textColor text-xs"
         >
-          <div className="text-base font-myanmar">My Open contracts</div>
+          <div className="text-base">My Open contracts</div>
           <div>View past contracts</div>
         </Stack>
 

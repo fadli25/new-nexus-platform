@@ -236,7 +236,7 @@ export default function page() {
         </form>
 
         <Card>
-          <div className="text-sm sm:text-base text-textColor">
+          <div className="text-sm sm:text-base text-textColor font-myanmar">
             Open Public Contracts
           </div>
 
