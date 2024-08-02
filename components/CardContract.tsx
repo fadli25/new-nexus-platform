@@ -41,7 +41,7 @@ export default function CardContract({
       <Stack
         flexDirection="row"
         justifyContent="space-between"
-        className={`p-5 border border-gray-300 rounded-md shadow-md w-full font-semibold font-myanmar ${
+        className={`p-5 border border-gray-300 rounded-md shadow-md w-full font-myanmar ${
           path.slice(1, 16) === "escrow/myescrow" && "p-8"
         }`}
       >
