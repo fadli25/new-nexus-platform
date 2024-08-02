@@ -105,17 +105,18 @@ export default function Example() {
                 </div>
                 <div className="hidden sm:block sm:absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-55%] z-30">
                   <div className="flex space-x-4 relative">
-                    {navigation.map((item, i) => (
-                      <div
-                        key={i}
-                        onClick={() => setShowMenu(!showMenu)}
-                        className="text-xl text-main cursor-pointer tracking-wider font-[500]"
-                      >
-                        <div className="flex items-center gap-1 line-clamp-1">
-                          {item.name}
+                    {path.length > 1 &&
+                      navigation.map((item, i) => (
+                        <div
+                          key={i}
+                          onClick={() => setShowMenu(!showMenu)}
+                          className="text-xl text-main cursor-pointer tracking-wider font-[500]"
+                        >
+                          <div className="flex items-center gap-1 line-clamp-1">
+                            {item.name}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
 
                     {showMenu && (
                       <motion.div
@@ -283,16 +284,17 @@ export default function Example() {
 
           <DisclosurePanel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2 relative">
-              {navigation.map((item, i) => (
-                <div
-                  key={i}
-                  onClick={() => setShowMenu(!showMenu)}
-                  className="text-base px-3 py-2 text-main tracking-wider font-[500]"
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </div>
-              ))}
+              {path.length > 1 &&
+                navigation.map((item, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setShowMenu(!showMenu)}
+                    className="text-base px-3 py-2 text-main tracking-wider font-[500]"
+                    aria-current={item.current ? "page" : undefined}
+                  >
+                    {item.name}
+                  </div>
+                ))}
 
               {showMenu && (
                 <motion.div

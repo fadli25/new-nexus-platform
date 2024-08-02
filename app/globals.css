@@ -40,3 +40,11 @@ body {
 .wallet-adapter-button {
   @apply !bg-main !text-black !px-4 !py-1 !rounded-full;
 }
+
+.escrow::-webkit-scrollbar {
+  width: 6px;
+}
+
+.escrow::-webkit-scrollbar-thumb {
+  @apply bg-second rounded-full;
+}

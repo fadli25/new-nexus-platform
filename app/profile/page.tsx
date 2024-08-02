@@ -19,60 +19,67 @@ export default function page() {
   return (
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
-        <Card className="!p-0 !flex sm:!flex-col">
-          <div className="relative w-[50%] sm:w-full">
-            <div className="absolute bottom-4 right-[17%] sm:right-4">
-              <Button
-                variant="contained"
-                className="!text-[9px] sm:!text-xs !text-black !bg-white !normal-case !font-semibold !font-mynamarButton"
-              >
-                Change PFP
-              </Button>
+        <Card className="!p-0">
+          <div className=" !flex sm:!flex-col">
+            {" "}
+            <div className="relative w-[50%] sm:w-full">
+              <div className="absolute bottom-4 right-[17%] sm:right-4">
+                <Button
+                  variant="contained"
+                  className="!text-[9px] sm:!text-xs !text-black !bg-white !normal-case !font-semibold !font-mynamarButton"
+                >
+                  Change PFP
+                </Button>
+              </div>
+              <Image
+                src={dragon}
+                alt="dragon"
+                className="w-full rounded-xl object-cover object-center"
+              />
             </div>
-            <Image
-              src={dragon}
-              alt="dragon"
-              className="w-full rounded-xl object-cover object-center"
-            />
+            <div className="px-4 pb-4">
+              <Stack pt={2} spacing={3}>
+                <Stack
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <div className="text-base sm:text-lg font-[500] line-clamp-1 font-mynamarButton">
+                    Zetsu | The shaman king
+                  </div>
+                </Stack>
+              </Stack>
+
+              <Stack
+                py={1.6}
+                justifyContent="space-between"
+                className="!flex-col sm:!flex-row !items-start sm:!items-center"
+              >
+                <div className="text-sm sm:text-base text-black/80">
+                  Content Writer
+                </div>
+
+                <Stack
+                  gap={0.5}
+                  alignItems="center"
+                  justifyContent="space-between"
+                  className="text-[10px] pt-4 sm:pt-0 !flex-row"
+                >
+                  <div className="text-textColor">Open to work</div>
+                  <Switch color="success" />
+                </Stack>
+              </Stack>
+
+              <div className=" text-xs line-clamp-1 hidden sm:block">
+                {address !== null ? address : "No address"}
+              </div>
+            </div>
           </div>
 
-          <div className="px-4 pb-4">
-            <Stack pt={2} spacing={3}>
-              <Stack
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <div className="text-base sm:text-lg font-[500] line-clamp-1 font-mynamarButton">
-                  Zetsu | The shaman king
-                </div>
-              </Stack>
-            </Stack>
-
-            <Stack
-              py={1.6}
-              justifyContent="space-between"
-              alignItems="start"
-              className="!flex-col sm:!flex-row"
-            >
-              <div className="text-sm sm:text-base text-black/80">
-                Content Writer
-              </div>
-
-              <Stack
-                gap={0.5}
-                alignItems="center"
-                justifyContent="space-between"
-                className="text-[10px] pt-4 sm:pt-0 !flex-row"
-              >
-                <div className="text-textColor">Open to work</div>
-                <Switch color="success" />
-              </Stack>
-            </Stack>
-
-            <div className=" text-xs line-clamp-1 hidden sm:block">
-              {address !== null ? address : "No address"}
-            </div>
+          <div className=" text-xs line-clamp-1 p-4 sm:hidden">
+            {address !== null
+              ? address.slice(0, 8) + "..." + address.slice(-8)
+              : "No address"}
           </div>
         </Card>
 
@@ -100,7 +107,7 @@ export default function page() {
                   variant="text"
                   disabled={tap === el}
                   onClick={() => setTap(el)}
-                  className={`!text-black/70 !normal-case !text-sm sm:!text-base !py-2 !px-4 ${
+                  className={`!text-black/70 !normal-case !text-xs sm:!text-sm !py-2 !px-4 ${
                     tap === el && "!text-black !font-semibold"
                   }`}
                 >
@@ -133,7 +140,7 @@ export default function page() {
                 <div>0 Jobs Completed</div>
               </Stack>
 
-              <div className="px-1 mt-4 text-xs text-textColor font-[500]">
+              <div className="px-1 mt-4 text-[10px] text-textColor font-[500]">
                 0 Leaderboard Ratings
               </div>
             </Card>

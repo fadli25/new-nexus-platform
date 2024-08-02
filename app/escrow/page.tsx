@@ -103,7 +103,7 @@ export default function page() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <div className="text-sm sm:text-base text-textColor  !font-myanmar">
+              <div className="text-sm sm:text-base text-textColor  !font-mynamarButton">
                 Create new escrow contract
               </div>
               <Stack
@@ -130,7 +130,7 @@ export default function page() {
               spacing={2}
               width={"100%"}
               mt={5}
-              className="text-xs sm:text-base"
+              className="text-xs sm:text-sm"
             >
               <div>
                 <label className="!font-myanmar">Contract Name</label>
@@ -242,7 +242,7 @@ export default function page() {
           <Stack
             mt={5}
             spacing={2.6}
-            className="h-[600px] sm:max-h-[489px] overflow-y-scroll overflow-x-hidden"
+            className="h-[600px] sm:max-h-[489px] overflow-y-scroll overflow-x-hidden escrow pr-2"
           >
             {escrows &&
               escrows.map((el, i) => (

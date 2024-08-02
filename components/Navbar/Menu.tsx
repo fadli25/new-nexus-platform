@@ -19,8 +19,6 @@ export default function Navbar() {
   const path = usePathname();
   const router = useRouter();
 
-  console.log(path.slice(0, 7));
-
   return (
     <div className="relative px-4 bg-white text-black text-sm sm:text-lg font-[500]">
       <div className="flex justify-center gap-6 items-center mx-auto max-w-3xl">

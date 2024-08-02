@@ -73,7 +73,7 @@ export default function page() {
               alignItems="center"
               className="text-xs"
             >
-              <div className="text-textColor">Content Writer</div>
+              <div className="text-textColor">riter</div>
               <div className="px-4 py-2 bg-[#1DA1F2] text-black font-[500] rounded">
                 Expert
               </div>
