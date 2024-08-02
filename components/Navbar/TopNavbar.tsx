@@ -38,7 +38,7 @@ const nexusExploreMenu = [
     name: "Nexus Escrow",
     description: "Setup Secure Escrowed Freelance Contracts with contractors",
     isComingSoon: false,
-    link: "/",
+    link: "/escrow",
   },
   {
     name: "Nexus Payments",
@@ -81,7 +81,7 @@ export default function Example() {
       {({ open }) => (
         <>
           <div className="mx-auto max-w-screen-2xl px-2 sm:px-6 lg:px-8 ">
-            <div className="relative flex h-16 items-center justify-between">
+            <div className="relative flex h-[58px] items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <DisclosureButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -96,7 +96,12 @@ export default function Example() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-center sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Image className="h-11 w-auto" src={Logo} alt="logo" />
+                  <Image
+                    className="h-11 w-auto cursor-pointer"
+                    src={Logo}
+                    alt="logo"
+                    onClick={() => router.push("/")}
+                  />
                 </div>
                 <div className="hidden sm:block sm:absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-55%] z-30">
                   <div className="flex space-x-4 relative">
@@ -128,7 +133,7 @@ export default function Example() {
                           className="sm:!flex-row  border-b border-white"
                           justifyContent="space-between"
                         >
-                          <div className="flex-1 border-r border-white sm:w-[700px] p-5">
+                          <div className="flex-1 border-r border-white sm:w-[600px] p-5">
                             <Stack spacing={4}>
                               {nexusExploreMenu.map((el, index) => (
                                 <button

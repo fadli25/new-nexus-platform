@@ -5,7 +5,7 @@ import React from "react";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "mynamar",
+    fontFamily: "mynamarButton",
   },
   palette: {
     success: {

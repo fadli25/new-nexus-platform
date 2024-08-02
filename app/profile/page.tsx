@@ -19,12 +19,12 @@ export default function page() {
   return (
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
-        <Card className="!p-0">
-          <div className="relative">
-            <div className="absolute bottom-4 right-4">
+        <Card className="!p-0 !flex sm:!flex-col">
+          <div className="relative w-[50%] sm:w-full">
+            <div className="absolute bottom-4 right-[17%] sm:right-4">
               <Button
                 variant="contained"
-                className="!text-xs !text-black !bg-white !normal-case !font-semibold !font-mynamarButton"
+                className="!text-[9px] sm:!text-xs !text-black !bg-white !normal-case !font-semibold !font-mynamarButton"
               >
                 Change PFP
               </Button>
@@ -43,7 +43,7 @@ export default function page() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <div className="text-lg font-[500] line-clamp-1">
+                <div className="text-base sm:text-lg font-[500] line-clamp-1 font-mynamarButton">
                   Zetsu | The shaman king
                 </div>
               </Stack>
@@ -51,25 +51,26 @@ export default function page() {
 
             <Stack
               py={1.6}
-              flexDirection="row"
               justifyContent="space-between"
-              alignItems="center"
+              alignItems="start"
+              className="!flex-col sm:!flex-row"
             >
-              <div className="text-base text-black/80">Content Writer</div>
+              <div className="text-sm sm:text-base text-black/80">
+                Content Writer
+              </div>
 
               <Stack
-                flexDirection="row"
                 gap={0.5}
                 alignItems="center"
                 justifyContent="space-between"
-                className="text-xs"
+                className="text-[10px] pt-4 sm:pt-0 !flex-row"
               >
                 <div className="text-textColor">Open to work</div>
                 <Switch color="success" />
               </Stack>
             </Stack>
 
-            <div className=" text-xs line-clamp-1">
+            <div className=" text-xs line-clamp-1 hidden sm:block">
               {address !== null ? address : "No address"}
             </div>
           </div>
@@ -167,29 +168,29 @@ export default function page() {
               <div className={`${cardStyle}`}>View Portfolio</div>
               <div className={`${cardStyle}`}>View Resume</div>
             </div>
+
+            <Stack
+              mt={4}
+              justifyContent="center"
+              alignItems="center"
+              gap={2}
+              flexDirection="row"
+            >
+              <Button
+                variant="contained"
+                className="!text-xs !px-5 !py-2 !text-black !bg-main !normal-case !font-mynamarButton"
+              >
+                Edit Profile
+              </Button>
+              <Button
+                variant="contained"
+                className="!text-xs !px-5 !py-2 !text-black !bg-main !normal-case !font-mynamarButton"
+              >
+                Save
+              </Button>
+            </Stack>
           </motion.div>
         )}
-
-        <Stack
-          mt={4}
-          justifyContent="center"
-          alignItems="center"
-          gap={2}
-          flexDirection="row"
-        >
-          <Button
-            variant="contained"
-            className="!text-sm !text-black !bg-main !normal-case !font-mynamarButton"
-          >
-            Edit Profile
-          </Button>
-          <Button
-            variant="contained"
-            className="!text-sm !text-black !bg-main !normal-case !font-mynamarButton"
-          >
-            Save
-          </Button>
-        </Stack>
       </div>
     </div>
   );

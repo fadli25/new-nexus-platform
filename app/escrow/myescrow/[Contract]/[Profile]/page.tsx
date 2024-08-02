@@ -28,7 +28,7 @@ export default function page() {
   return (
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
-        <Card className="!p-0 overflow-hidden ">
+        <Card className="!p-0 overflow-hidden">
           <Image
             src={dragon}
             alt="dragon"
@@ -41,7 +41,7 @@ export default function page() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <div className="text-lg font-[500] line-clamp-1">
+              <div className="text-lg font-[500] line-clamp-1 font-mynamarButton">
                 Zetsu | The shaman king
               </div>
 

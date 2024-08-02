@@ -73,7 +73,7 @@ export default function FirstForm({ handleGoToStep }: any) {
               <img
                 src={imagePreview}
                 alt="Selected"
-                className="w-full h-full object-cover rounded-2xl"
+                className="w-[230px] h-[230px] object-cover object-center rounded-2xl border border-white"
               />
             ) : (
               <AddPhotoAlternateIcon className="text-[#F3F3F3] !text-9xl sm:!text-[230px]" />
@@ -161,7 +161,7 @@ export default function FirstForm({ handleGoToStep }: any) {
         </Stack>
 
         <Button
-          className="!bg-main !text-second !font-semibold !text-base !capitalize !px-10 !pt-4 disabled:!bg-main/30 disabled:!text-black/40"
+          className="!bg-main !text-second !font-semibold !text-base !capitalize !px-12 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish !rounded-xl"
           variant="contained"
           disabled={!isValid}
           type="submit"

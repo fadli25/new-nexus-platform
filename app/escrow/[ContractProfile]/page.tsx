@@ -118,9 +118,9 @@ export default function page() {
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
-              className="text-xl font-[500] h-12"
+              className="text-base sm:text-xl font-[500] h-12"
             >
-              <div className="line-clamp-1">Build a team dashboard</div>
+              <div className="flex-1">Build a team dashboard</div>
 
               <Stack flexDirection="row" gap={1}>
                 <Image src={coin} alt="coin" className="w-5" />
@@ -149,34 +149,48 @@ export default function page() {
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
           <Card className="!p-0 sm:col-span-2 overflow-hidden ">
-            <Image
-              src={dragon}
-              alt="dragon"
-              className="w-full rounded-xl object-cover object-center"
-            />
+            <div className="flex sm:flex-col p-2 sm:p-0">
+              <Image
+                src={dragon}
+                alt="dragon"
+                className="w-[100px] p-1 sm:p-0 sm:w-full rounded-xl object-cover object-center"
+              />
 
-            <Stack py={2} spacing={3} px={2}>
-              <Stack
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <div className="text-xl font-[500] line-clamp-1">
-                  {escrowInfo ? escrowInfo.founderInfo.name : "--"}
+              <Stack py={2} spacing={3} px={2}>
+                <Stack
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <div className="text-base sm:text-xl font-[500] line-clamp-1">
+                    {escrowInfo ? escrowInfo.founderInfo.name : "--"}
+                  </div>
+                  <span
+                    onClick={() => links(escrowInfo.founderInfo.twitter)}
+                    className="hidden sm:block"
+                  >
+                    <XIcon className="text-xl" />
+                  </span>
+                </Stack>
+
+                <div className="flex gap-4 items-center">
+                  <Button
+                    onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
+                    variant="contained"
+                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
+                  >
+                    Start Chat
+                  </Button>
+
+                  <span
+                    onClick={() => links(escrowInfo.founderInfo.twitter)}
+                    className="sm:hidden"
+                  >
+                    <XIcon className="text-sm" />
+                  </span>
                 </div>
-                <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
-                  <XIcon className="text-xl" />
-                </span>
               </Stack>
-
-              <Button
-                onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
-                variant="contained"
-                className="!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
-              >
-                Start Chat
-              </Button>
-            </Stack>
+            </div>
           </Card>
 
           <div className="sm:col-span-3">

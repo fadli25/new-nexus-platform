@@ -14,7 +14,13 @@ import React from "react";
 //   type?: string;
 // }
 
-export default function CardContract({ contractName, amount, deadline, escrow, type }: any) {
+export default function CardContract({
+  contractName,
+  amount,
+  deadline,
+  escrow,
+  type,
+}: any) {
   const router = useRouter();
   const path = usePathname();
 
@@ -25,8 +31,7 @@ export default function CardContract({ contractName, amount, deadline, escrow, t
       onClick={() => {
         if (type === 1) {
           router.push(`/escrow/myescrow/${escrow}`);
-        }
-        else if (type === 2) {
+        } else if (type === 2) {
           router.push(`/escrow/${escrow}`);
         } else {
           router.push(`/escrow/ongoing/${escrow}`);
@@ -36,10 +41,11 @@ export default function CardContract({ contractName, amount, deadline, escrow, t
       <Stack
         flexDirection="row"
         justifyContent="space-between"
-        className={`p-5 border border-gray-300 rounded-md shadow-md w-full ${path.slice(1, 16) === "escrow/myescrow" && "p-8"
-          }`}
+        className={`p-5 border border-gray-300 rounded-md shadow-md w-full ${
+          path.slice(1, 16) === "escrow/myescrow" && "p-8"
+        }`}
       >
-        <div className="text-base sm:text-lg line-clamp-1 font-[500]">
+        <div className="text-base sm:text-lg text-start line-clamp-1 font-[500]">
           {contractName ? contractName : "No Title"}
         </div>
 
@@ -54,12 +60,11 @@ export default function CardContract({ contractName, amount, deadline, escrow, t
           </Stack>
 
           <div
-            className={`text-[11px] text-textColor ${path.slice(1, 16) === "escrow/myescrow" && "hidden"
-              }`}
+            className={`text-[10px] text-textColor ${
+              path.slice(1, 16) === "escrow/myescrow" && "hidden"
+            }`}
           >
-            <span>{
-              deadline ?
-                deadline : "N/A"}</span>
+            <span>{deadline ? deadline : "N/A"}</span>
             <span> min ago</span>
           </div>
         </Stack>
