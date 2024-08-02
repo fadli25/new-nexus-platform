@@ -193,14 +193,14 @@ export default function page() {
             </div>
           </Card>
 
-          <div
-            className="sm:col-span-3 cursor-pointer"
-            onClick={() => setShowDescription(true)}
-          >
+          <div className="sm:col-span-3">
             <Card width="lg" className=" h-fit">
               <div className="text-sm text-textColor">Description</div>
 
-              <div className="p-3 mt-3">
+              <div
+                className="p-3 mt-3 cursor-pointer"
+                onClick={() => setShowDescription(true)}
+              >
                 <div className="line-clamp-5 text-5 text-[13px] leading-7">
                   {escrowInfo ? escrowInfo.description : "--"}
                 </div>
