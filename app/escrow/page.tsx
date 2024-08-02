@@ -140,7 +140,7 @@ export default function page() {
                     setForm({ ...form, ContractName: e.target.value })
                   }
                   className={`${inputStyle} w-full`}
-                  placeholder=""
+                  placeholder="Eg. Build a landing page"
                 />
               </div>
 
@@ -154,7 +154,7 @@ export default function page() {
                       setForm({ ...form, TelegramLink: e.target.value })
                     }
                     className={`${inputStyle} w-full`}
-                    placeholder=""
+                    placeholder="Eg. https://example.tme.com"
                   />
                 </div>
 
@@ -165,7 +165,7 @@ export default function page() {
                     value={time_value}
                     onChange={(e) => onChangeTime(e.target.value)}
                     className={`${inputStyle} w-full`}
-                    placeholder=""
+                    placeholder="Eg. 2024-08-15"
                   />
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default function page() {
                         setForm({ ...form, Amount: Number(e.target.value) })
                       }
                       className={`${inputStyle} w-full`}
-                      placeholder=""
+                      placeholder="200"
                     />
                     <div className="absolute right-4 top-[50%] translate-y-[-50%]">
                       <Image src={coin} alt="coin" className="w-5 h-5" />
@@ -200,7 +200,7 @@ export default function page() {
                     value={form.Link}
                     onChange={(e) => setForm({ ...form, Link: e.target.value })}
                     className={`${inputStyle} w-full`}
-                    placeholder=""
+                    placeholder="Eg. https://example.figma.com"
                   />
                 </div>
               </div>
@@ -216,6 +216,7 @@ export default function page() {
                   }
                   className={`${inputStyle} w-full`}
                   rows={3}
+                  placeholder="Eg. A brief description of what the project entails"
                 ></textarea>
               </div>
             </Stack>
