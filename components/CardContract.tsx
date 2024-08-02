@@ -41,20 +41,20 @@ export default function CardContract({
       <Stack
         flexDirection="row"
         justifyContent="space-between"
-        className={`p-5 border border-gray-300 rounded-md shadow-md w-full ${
+        className={`p-5 border border-gray-300 rounded-md shadow-md w-full font-semibold font-myanmar ${
           path.slice(1, 16) === "escrow/myescrow" && "p-8"
         }`}
       >
-        <div className="text-base sm:text-lg text-start line-clamp-1 font-[500]">
+        <div className="text-base sm:text-lg text-start line-clamp-1">
           {contractName ? contractName : "No Title"}
         </div>
 
         <Stack spacing={2}>
-          <Stack flexDirection="row" alignItems="center" gap={0.5}>
+          <Stack flexDirection="row" alignItems="start" gap={0.5}>
             <div>
-              <Image src={coin} alt="coin" className="w-4" />
+              <Image src={coin} alt="coin" className="w-4 mt-1" />
             </div>
-            <div className="font-[600] text-base sm:text-lg">
+            <div className="text-base sm:text-lg h-fit">
               {amount ? amount : "N/A"}
             </div>
           </Stack>
