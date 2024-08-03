@@ -3,7 +3,7 @@
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getFounderEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFounderEscrow";
-import { fakeData } from "@/lib/fakedata/Data";
+import { motion } from "framer-motion";
 import { Stack } from "@mui/material";
 import {
   useAnchorWallet,
@@ -39,17 +39,38 @@ export default function page() {
     getEscrow();
   }, [anchorWallet]);
 
+  const [openContracts, setOpenContracts] = useState(true);
+
   return (
     <div>
       <Card width="md" className="pb-10">
         <Stack
           flexDirection="row"
           justifyContent="space-between"
-          alignItems="center"
+          alignItems="start"
           className="text-textColor text-xs"
         >
-          <div className="text-base">My Open contracts</div>
-          <div>View past contracts</div>
+          <Stack
+            gap={1.8}
+            className="text-sm sm:text-base text-textColor sm:!flex-row !items-start"
+          >
+            <motion.button
+              className="disabled:text-black"
+              onClick={() => setOpenContracts(true)}
+              disabled={openContracts}
+            >
+              My Open contracts
+            </motion.button>
+
+            <motion.button
+              className="disabled:text-black"
+              onClick={() => setOpenContracts(false)}
+              disabled={!openContracts}
+            >
+              Disputes
+            </motion.button>
+          </Stack>
+          <div className="pt-[3px]">View past contracts</div>
         </Stack>
 
         <Stack spacing={2.8} mt={3}>

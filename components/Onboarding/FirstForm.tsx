@@ -161,7 +161,7 @@ export default function FirstForm({ handleGoToStep }: any) {
         </Stack>
 
         <Button
-          className="!bg-main !text-second !font-semibold !text-base !capitalize !px-12 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish !rounded-xl"
+          className="!bg-main !text-second !font-semibold !text-sm !capitalize !px-12 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish"
           variant="contained"
           disabled={!isValid}
           type="submit"
