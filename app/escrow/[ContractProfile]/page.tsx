@@ -1,10 +1,10 @@
 "use client";
 
 import Card from "@/components/Card";
-import { USER_PREFIX } from "@/lib/NexusProgram/constants/constants";
 import { FreelacerApply } from "@/lib/NexusProgram/escrow/freelacerApply";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
+import { USER_PREFIX } from "@/lib/constants/constants";
 import { inputStyle } from "@/lib/styles/styles";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";

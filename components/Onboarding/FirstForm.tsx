@@ -1,14 +1,20 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import { FormContext } from "@/contexts/FormContext";
+import { init_user } from "@/lib/user/init_user";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Button, Stack } from "@mui/material";
-import { FormContext } from "@/contexts/FormContext";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import React, { useContext, useEffect, useState } from "react";
 
 export default function FirstForm({ handleGoToStep }: any) {
   const { formData, setFormData } = useContext<any>(FormContext);
   const [imageInput, setImageInput] = useState<any>();
   const [selectedImage, setSelectedImage] = useState("");
+
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
   console.log("image input:", imageInput);
   console.log("selected:", selectedImage || null);
@@ -19,6 +25,47 @@ export default function FirstForm({ handleGoToStep }: any) {
       setSelectedImage(obj);
     }
   }, [imageInput]);
+
+
+  // async function initialize_user() {
+  //   try {
+  //     // if (profile_overview.length > 120) {
+  //     //   return notify_warning(
+  //     //     "Profile Overview need to be at least 120 characters!"
+  //     //   );
+  //     // }
+
+  //     // notify_laoding("Creating Profile...");
+  //     // setLoading(true);
+  //     await init_user(
+  //       anchorWallet,
+  //       connection,
+  //       formData.UserName,
+  //       "",
+  //       "category",
+  //       roles,
+  //       level,
+  //       others,
+  //       profile_overview,
+  //       payment_rate_per_hour,
+  //       nogotion,
+  //       portfolio,
+  //       resume,
+  //       tosp,
+  //       timezone,
+  //       country,
+  //       wallet
+  //     );
+  //     // notify_delete();
+  //     // notify_success("Profile Created!");
+  //     // setLoading(false);
+  //   } catch (e) {
+  //     // setLoading(false);
+  //     // notify_delete();
+  //     // notify_error("Transaction Failed");
+  //     console.log(e);
+  //   }
+  // }
 
   return (
     <Stack alignItems="center" gap={5}>

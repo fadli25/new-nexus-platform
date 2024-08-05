@@ -3,7 +3,7 @@ import {
     BN,
     Program, web3
 } from '@project-serum/anchor';
-import { NEXUSESCROW_V1 } from "../constants/constants";
+import { NEXUSESCROW_V1 } from "../../constants/constants";
 const idl = require("../../../data/nexus.json")
 
 

@@ -3,7 +3,8 @@ import {
     BN,
     Program, web3
 } from '@project-serum/anchor';
-import { NEXUSESCROW_V1, USER_PREFIX } from "../constants/constants";
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { MINT, NEXUSESCROW_V1, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, USER_PREFIX } from "../../constants/constants";
 const idl = require("../../../data/nexus.json")
 
 /**
@@ -57,17 +58,39 @@ export async function initEscrow(
         PROGRAM_ID
     );
 
-    console.log(escrow.toBase58())
+    console.log(nexusEscrow.toBase58())
+
+    const [userMintTokenAccount] = web3.PublicKey.findProgramAddressSync(
+        [
+            anchorWallet.publicKey.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            MINT.toBuffer(),
+        ],
+        SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+    );
+
+    const [NexusEscrowTokenAccount] = web3.PublicKey.findProgramAddressSync(
+        [
+            nexusEscrow.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            MINT.toBuffer(),
+        ],
+        SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+    );
+
 
     const tx = await program.methods.initEscrow({
         contractName: contact_name,
         deadline: new BN(deadline),
-        amount: new BN(amount),
+        amount: new BN(amount * 1_000_000_000),
         telegramLink: telegram_link,
         materials: materials,
         description: description,
     }).accounts({
         escrow: escrow,
+        from: userMintTokenAccount,
+        to: NexusEscrowTokenAccount,
+        mint: MINT,
         founder: founder,
         authority: anchorWallet.publicKey,
         nexusEscrow: nexusEscrow,

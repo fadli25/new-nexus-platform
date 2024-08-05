@@ -2,6 +2,9 @@ import { web3 } from '@project-serum/anchor';
 export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: web3.PublicKey = new web3.PublicKey(
   'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
 );
+export const MINT: web3.PublicKey = new web3.PublicKey(
+  'GFSAcx6vsBzNsmE1ff7jhwZU3SDekkF3cYb7feBvdrXW',
+);
 
 export const TOKEN_METADATA_PROGRAM_ID = new web3.PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',

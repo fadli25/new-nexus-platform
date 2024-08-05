@@ -3,7 +3,8 @@ import {
     BN,
     Program, web3
 } from '@project-serum/anchor';
-import { NEXUSESCROW_V1, USER_PREFIX } from "../constants/constants";
+import { TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction } from '@solana/spl-token';
+import { MINT, NEXUSESCROW_V1, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, USER_PREFIX } from "../../constants/constants";
 import { get_userr_info } from './utils.ts/get_userr_info';
 const idl = require("../../../data/nexus.json")
 
@@ -37,12 +38,59 @@ export async function approvePayment(
         ],
         PROGRAM_ID
     );
+    console.log("reciever")
+    console.log(reciever.toBase58())
+    const [userMintTokenAccount] = web3.PublicKey.findProgramAddressSync(
+        [
+            reciever.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            MINT.toBuffer(),
+        ],
+        SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+    );
+
+    let initilized = false;
+    try {
+        const banal = await connection.getBalance(userMintTokenAccount);
+        if (banal > 0) {
+            initilized = true;
+        }
+    } catch (e) {
+    }
+
+    if (!initilized) {
+        // need a function that make the user create a an associated token account 
+        // Create token account to hold your wrapped SOL
+        const ataTransaction = new web3.Transaction().add(
+            createAssociatedTokenAccountInstruction(
+                // createAssociatedTokenAccountInstruction(
+                anchorWallet.publicKey,
+                userMintTokenAccount,
+                reciever,
+                MINT!
+            )
+        );
+        const signature = await wallet.sendTransaction(ataTransaction, connection)
+        await connection.confirmTransaction(signature, "finalized");
+    }
+
+    const [NexusEscrowTokenAccount] = web3.PublicKey.findProgramAddressSync(
+        [
+            nexusEscrow.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            MINT.toBuffer(),
+        ],
+        SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+    );
 
 
     console.log(escrow.toBase58())
 
     const tx = await program.methods.approvePayment().accounts({
         escrow: escrow,
+        from: NexusEscrowTokenAccount,
+        to: userMintTokenAccount,
+        mint: MINT,
         reciever: _reciever,
         recieverAddress: reciever,
         authority: anchorWallet.publicKey,
