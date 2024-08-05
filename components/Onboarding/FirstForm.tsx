@@ -18,8 +18,8 @@ export default function FirstForm({ handleGoToStep }: any) {
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  console.log("image input:", imageInput);
-  console.log("selected:", selectedImage || null);
+  // console.log("image input:", imageInput);
+  // console.log("selected:", selectedImage || null);
   const {
     register,
     handleSubmit,
