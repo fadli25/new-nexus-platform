@@ -19,8 +19,6 @@ export default function Navbar() {
   const path = usePathname();
   const router = useRouter();
 
-  console.log(path.slice(0, 7));
-
   return (
     <div className="relative px-4 bg-white text-black text-sm sm:text-lg font-[500]">
       <div className="flex justify-center gap-6 items-center mx-auto max-w-3xl">
@@ -43,9 +41,9 @@ export default function Navbar() {
             <Button
               variant="text"
               onClick={() => router.push(el.path)}
-              className={`!py-4 !text-second !normal-case !tracking-[0.8px] !text-sm sm:!text-base !font-[600] !w-full`}
+              className={`!py-4 !text-second !normal-case !tracking-[0.8px] !text-xs sm:!text-base !font-[600] !w-full !h-full`}
             >
-              <div className="line-clamp-1">{el.name}</div>
+              <div className="">{el.name}</div>
             </Button>
           </div>
         ))}

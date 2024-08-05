@@ -14,7 +14,11 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import { Button, IconButton, Modal, Stack, Switch } from "@mui/material";
 import { web3 } from "@project-serum/anchor";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -48,7 +52,11 @@ export default function page() {
       console.log("info");
       console.log(info);
 
-      const freelancerInfo = await get_userr_info(anchorWallet, connection, info!.reciever);
+      const freelancerInfo = await get_userr_info(
+        anchorWallet,
+        connection,
+        info!.reciever
+      );
       console.log(freelancerInfo);
       info!.freelancerInfo = freelancerInfo;
       // console.log(info);
@@ -56,7 +64,7 @@ export default function page() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const getApplys = async () => {
     try {
@@ -70,20 +78,22 @@ export default function page() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     if (!anchorWallet) return;
     getEscrowInfosss();
     getApplys();
-  }, [anchorWallet])
+  }, [anchorWallet]);
 
   const filter = () => {
     console.log(applys![0].pubkey.toBase58());
     console.log(escrowInfo.reciever.toBase58());
-    const wddd = applys?.filter((ap: any) => ap.pubkey.toBase58() == escrowInfo.reciever.toBase58());
+    const wddd = applys?.filter(
+      (ap: any) => ap.pubkey.toBase58() == escrowInfo.reciever.toBase58()
+    );
     console.log(wddd);
-  }
+  };
 
   const [showStartProject, setShowStartProject] = useState(false);
   const [showTerminate, setShowTerminate] = useState(false);
@@ -98,7 +108,7 @@ export default function page() {
             justifyContent="space-between"
           >
             <Stack flexDirection="row" alignItems="center" gap={1}>
-              <div className="text-lg line-clamp-1 sm:text-3xl font-semibold">
+              <div className="text-lg line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
                 Build a team dashboard
               </div>
 
@@ -106,7 +116,9 @@ export default function page() {
             </Stack>
             <Stack flexDirection="row" alignItems="center" gap={1}>
               <Image src={Coin} alt="coin" className="w-5" />
-              <div className="text-xl font-semibold">{escrowInfo ? Number(escrowInfo.amount) : "--"}</div>
+              <div className="text-xl font-semibold">
+                {escrowInfo ? Number(escrowInfo.amount) : "--"}
+              </div>
             </Stack>
           </Stack>
         </Card>
@@ -135,7 +147,8 @@ export default function page() {
               <Stack flexDirection="row" gap={2} alignItems="center">
                 <div
                   onClick={() => filter()}
-                  className="text-lg font-[500] line-clamp-1">
+                  className="text-lg font-[500] line-clamp-1"
+                >
                   2d 24hrs 30 min
                 </div>
                 <IconButton onClick={handleOpenModal}>
@@ -148,10 +161,15 @@ export default function page() {
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           <Stack spacing={2}>
-            {escrowInfo && applys &&
+            {escrowInfo && applys && (
               <CardAccordionAccept
                 data={
-                  escrowInfo.reciever ? applys?.filter((ap: any) => ap.user.toBase58() == escrowInfo.reciever.toBase58()) : []
+                  escrowInfo.reciever
+                    ? applys?.filter(
+                        (ap: any) =>
+                          ap.user.toBase58() == escrowInfo.reciever.toBase58()
+                      )
+                    : []
                 }
                 title="Approved Contractor"
                 type="Chat"
@@ -186,7 +204,8 @@ export default function page() {
                     Terminate
                   </Button>
                 </Stack>
-              </CardAccordionAccept>}
+              </CardAccordionAccept>
+            )}
 
             <Card>
               <div className="text-base text-textColor">Submission</div>
@@ -258,13 +277,22 @@ export default function page() {
             )}
           </Stack>
 
-          {applys && escrowInfo && <CardAccordion
-            title="Applications"
-            data={escrowInfo.reciever ? applys?.filter((ap: any) => ap.user.toBase58() !== escrowInfo.reciever.toBase58()) : applys}
-            type="Approve"
-            page={"approve"}
-            link={"approve"}
-          />}
+          {applys && escrowInfo && (
+            <CardAccordion
+              title="Applications"
+              data={
+                escrowInfo.reciever
+                  ? applys?.filter(
+                      (ap: any) =>
+                        ap.user.toBase58() !== escrowInfo.reciever.toBase58()
+                    )
+                  : applys
+              }
+              type="Approve"
+              page={"approve"}
+              link={"approve"}
+            />
+          )}
         </div>
       </div>
 

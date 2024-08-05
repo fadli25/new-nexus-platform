@@ -112,8 +112,8 @@ export default function page() {
   return (
     <div>
       <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center flex-col sm:flex-row gap-4 pt-8">
-          <Card className="!py-4" width="lg">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-8">
+          <Card className="!py-4 !col-span-1 sm:!col-span-3" width="lg">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
@@ -129,17 +129,17 @@ export default function page() {
             </Stack>
           </Card>
 
-          <Card className="!py-4 col-span-1 sm:max-w-72">
+          <Card className="!py-4 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
-              gap={1}
+              gap={2}
             >
-              <div className="text-lg">Private</div>
-              <div>
-                <div className="text-sm text-textColor">Deadline</div>
-                <div className="text-lg font-semibold line-clamp-1">
+              <div className="text-sm font-[500]">Private</div>
+              <div className="flex flex-col space-y-2">
+                <div className="text-xs text-textColor">Deadline</div>
+                <div className="text-base font-semibold line-clamp-1">
                   2d 24hrs 30min
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function page() {
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
           <Card className="!p-0 sm:col-span-2 overflow-hidden ">
-            <div className="flex sm:flex-col p-2">
+            <div className="flex sm:flex-col p-2 sm:p-0">
               <Image
                 src={dragon}
                 alt="dragon"
@@ -193,16 +193,18 @@ export default function page() {
             </div>
           </Card>
 
-          <div
-            className="sm:col-span-3 cursor-pointer"
-            onClick={() => setShowDescription(true)}
-          >
+          <div className="sm:col-span-3">
             <Card width="lg" className=" h-fit">
               <div className="text-sm text-textColor">Description</div>
 
-              <div className="p-3 mt-3">
-                <div className="line-clamp-5 text-5 text-[13px] leading-7">
-                  {escrowInfo ? escrowInfo.description : "--"}
+              <div className="p-1 mt-3">
+                <div
+                  className="line-clamp-5 text-5 text-[13px] leading-7 cursor-pointer h-14"
+                  onClick={() => setShowDescription(true)}
+                >
+                  {escrowInfo && escrowInfo.description !== ""
+                    ? escrowInfo.description
+                    : "--"}
                 </div>
               </div>
             </Card>

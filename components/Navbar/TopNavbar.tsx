@@ -81,7 +81,7 @@ export default function Example() {
       {({ open }) => (
         <>
           <div className="mx-auto max-w-screen-2xl px-2 sm:px-6 lg:px-8 ">
-            <div className="relative flex h-16 items-center justify-between">
+            <div className="relative flex h-[58px] items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <DisclosureButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -96,21 +96,27 @@ export default function Example() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-center sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Image className="h-11 w-auto" src={Logo} alt="logo" />
+                  <Image
+                    className="h-11 w-auto cursor-pointer"
+                    src={Logo}
+                    alt="logo"
+                    onClick={() => router.push("/")}
+                  />
                 </div>
                 <div className="hidden sm:block sm:absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-55%] z-30">
                   <div className="flex space-x-4 relative">
-                    {navigation.map((item, i) => (
-                      <div
-                        key={i}
-                        onClick={() => setShowMenu(!showMenu)}
-                        className="text-xl text-main cursor-pointer tracking-wider font-[500]"
-                      >
-                        <div className="flex items-center gap-1 line-clamp-1">
-                          {item.name}
+                    {path.length > 1 &&
+                      navigation.map((item, i) => (
+                        <div
+                          key={i}
+                          onClick={() => setShowMenu(!showMenu)}
+                          className="text-lg text-main cursor-pointer tracking-wider font-[500] font-mynamarButton"
+                        >
+                          <div className="flex items-center gap-1 line-clamp-1">
+                            {item.name}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
 
                     {showMenu && (
                       <motion.div
@@ -122,7 +128,7 @@ export default function Example() {
                           type: "spring",
                           stiffness: 200,
                         }}
-                        className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second"
+                        className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second font-myanmar"
                       >
                         <Stack
                           className="sm:!flex-row  border-b border-white"
@@ -187,7 +193,7 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <div className="hidden sm:block">
+                <div className="hidden sm:block" id="wallet">
                   <WalletMultiButton />
                 </div>
 
@@ -278,16 +284,17 @@ export default function Example() {
 
           <DisclosurePanel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2 relative">
-              {navigation.map((item, i) => (
-                <div
-                  key={i}
-                  onClick={() => setShowMenu(!showMenu)}
-                  className="text-base px-3 py-2 text-main tracking-wider font-[500]"
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </div>
-              ))}
+              {path.length > 1 &&
+                navigation.map((item, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setShowMenu(!showMenu)}
+                    className="text-base px-3 py-2 text-main tracking-wider font-[500] font-mynamarButton"
+                    aria-current={item.current ? "page" : undefined}
+                  >
+                    {item.name}
+                  </div>
+                ))}
 
               {showMenu && (
                 <motion.div
@@ -298,7 +305,7 @@ export default function Example() {
                     type: "spring",
                     stiffness: 120,
                   }}
-                  className="rounded min-h-32 absolute left-[0] sm:left-[-6%] top-[95%] sm:top-[130%] bg-second z-50 w-full"
+                  className="rounded min-h-32 absolute left-[0] sm:left-[-6%] top-[95%] sm:top-[130%] bg-second z-50 w-full font-myanmar"
                 >
                   <Stack
                     className="sm:!flex-row  border-b border-white"
@@ -352,7 +359,7 @@ export default function Example() {
                   </div>
                 </motion.div>
               )}
-              <div>
+              <div id="wallet">
                 <WalletMultiButton />
               </div>
             </div>
