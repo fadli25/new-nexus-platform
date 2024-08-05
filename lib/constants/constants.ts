@@ -9,6 +9,7 @@ export const MINT: web3.PublicKey = new web3.PublicKey(
 export const TOKEN_METADATA_PROGRAM_ID = new web3.PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
 );
+
 export const NEXUS_PREFIX = "NEXUS-pool";
 export const USER_PREFIX = "USER";
 export const IDENTIFIER_PREFIX = "IDENTIFIER";
