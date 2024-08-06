@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import { cardStyle, inputMuiFontSize, inputStyle } from "@/lib/styles/styles";
 import { profileOverview } from "@/lib/fakedata/Data";
 import TimeZoneInput from "@/components/TimeZoneInput";
+import CountryInput from "@/components/CountryInput";
+import ExpertiseLevelInput from "@/components/ExpertiseLevelInput";
 
 export default function page() {
   const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
@@ -110,7 +112,7 @@ export default function page() {
       </div>
 
       <div className="cls-span-1 md:col-span-3">
-        <Card className="rounded-b-none !px-0 border-b-2 pb-0" width="lg">
+        <Card className="rounded-b-none !p-0 border-b-2" width="lg">
           <div className="flex justify-between items-center">
             <Stack flexDirection="row">
               {menu.map((el, i) => (
@@ -125,7 +127,7 @@ export default function page() {
                     variant="text"
                     disabled={tap === el}
                     onClick={() => setTap(el)}
-                    className={`!text-black/70 !normal-case !text-xs sm:!text-sm !py-2 !px-4 ${
+                    className={`!text-black/70 !normal-case !text-xs sm:!text-sm !pt-5 !pb-4 !px-4 ${
                       tap === el && "!text-black !font-semibold"
                     }`}
                   >
@@ -236,14 +238,9 @@ export default function page() {
                 sx={inputMuiFontSize}
               />
 
-              <TextField
-                label="Level of expertise"
-                variant="outlined"
-                value={editForm.levelOfExpertise}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, levelOfExpertise: e.target.value })
-                }
-                sx={inputMuiFontSize}
+              <ExpertiseLevelInput
+                editForm={editForm}
+                setEditForm={setEditForm}
               />
 
               <TextField
@@ -281,15 +278,7 @@ export default function page() {
                 disabled
               />
 
-              <TextField
-                label="Country"
-                variant="outlined"
-                value={editForm.country}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, country: e.target.value })
-                }
-                sx={inputMuiFontSize}
-              />
+              <CountryInput editForm={editForm} setEditForm={setEditForm} />
 
               <TimeZoneInput editForm={editForm} setEditForm={setEditForm} />
             </div>
