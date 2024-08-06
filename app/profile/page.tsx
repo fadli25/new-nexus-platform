@@ -1,12 +1,14 @@
 "use client";
 
 import Card from "@/components/Card";
-import { Button, Stack, Switch } from "@mui/material";
+import { Button, Modal, Stack, Switch, TextField } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 import dragon from "@/public/dragon.svg";
 import { motion } from "framer-motion";
-import { cardStyle } from "@/lib/styles/styles";
+import { cardStyle, inputMuiFontSize, inputStyle } from "@/lib/styles/styles";
+import { profileOverview } from "@/lib/fakedata/Data";
+import TimeZoneInput from "@/components/TimeZoneInput";
 
 export default function page() {
   const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
@@ -15,6 +17,21 @@ export default function page() {
 
   const [tap, setTap] = useState(menu[0]);
   const address = "HxVh4haF3Uu2QibqQqinEDXGxx5ThtARA24vaMfhSCaW";
+
+  const [showEdit, setShowEdit] = useState(false);
+
+  const [editForm, setEditForm] = useState<any>({
+    username: null,
+    roleDescription: null,
+    levelOfExpertise: null,
+    paymentRate: null,
+    profileOverview: profileOverview,
+    category: null,
+    country: null,
+    timeZone: null,
+    linkResume: null,
+    linkPortfolio: null,
+  });
 
   return (
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
@@ -94,28 +111,40 @@ export default function page() {
 
       <div className="cls-span-1 md:col-span-3">
         <Card className="rounded-b-none !px-0 border-b-2 pb-0" width="lg">
-          <Stack flexDirection="row">
-            {menu.map((el, i) => (
-              <div
-                key={i}
-                className={`${
-                  tap === el &&
-                  "border-b-4 border-black transition-all duration-300 ease-in-out"
-                }`}
-              >
-                <Button
-                  variant="text"
-                  disabled={tap === el}
-                  onClick={() => setTap(el)}
-                  className={`!text-black/70 !normal-case !text-xs sm:!text-sm !py-2 !px-4 ${
-                    tap === el && "!text-black !font-semibold"
+          <div className="flex justify-between items-center">
+            <Stack flexDirection="row">
+              {menu.map((el, i) => (
+                <div
+                  key={i}
+                  className={`${
+                    tap === el &&
+                    "border-b-4 border-black transition-all duration-300 ease-in-out"
                   }`}
                 >
-                  {el}
-                </Button>
-              </div>
-            ))}
-          </Stack>
+                  <Button
+                    variant="text"
+                    disabled={tap === el}
+                    onClick={() => setTap(el)}
+                    className={`!text-black/70 !normal-case !text-xs sm:!text-sm !py-2 !px-4 ${
+                      tap === el && "!text-black !font-semibold"
+                    }`}
+                  >
+                    {el}
+                  </Button>
+                </div>
+              ))}
+            </Stack>
+
+            {tap === menu[0] && (
+              <Button
+                variant="contained"
+                onClick={() => setShowEdit(true)}
+                className="!text-second !mx-4 !bg-main !px-3 !py-2 !text-xs !normal-case"
+              >
+                Edit Profile
+              </Button>
+            )}
+          </div>
         </Card>
         {tap === menu[0] && (
           <motion.div
@@ -175,30 +204,126 @@ export default function page() {
               <div className={`${cardStyle}`}>View Portfolio</div>
               <div className={`${cardStyle}`}>View Resume</div>
             </div>
-
-            <Stack
-              mt={4}
-              justifyContent="center"
-              alignItems="center"
-              gap={2}
-              flexDirection="row"
-            >
-              <Button
-                variant="contained"
-                className="!text-xs !px-5 !py-2 !text-black !bg-main !normal-case !font-mynamarButton"
-              >
-                Edit Profile
-              </Button>
-              <Button
-                variant="contained"
-                className="!text-xs !px-5 !py-2 !text-black !bg-main !normal-case !font-mynamarButton"
-              >
-                Save
-              </Button>
-            </Stack>
           </motion.div>
         )}
       </div>
+
+      <Modal
+        open={showEdit}
+        onClose={() => setShowEdit(false)}
+        className="grid place-items-center overflow-y-scroll"
+      >
+        <Card width="md">
+          <Stack spacing={3}>
+            <TextField
+              label="username"
+              variant="outlined"
+              value={editForm.username}
+              onChange={(e) =>
+                setEditForm({ ...editForm, username: e.target.value })
+              }
+              sx={inputMuiFontSize}
+            />
+
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-3">
+              <TextField
+                label="Role Description"
+                variant="outlined"
+                value={editForm.roleDescription}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, roleDescription: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+
+              <TextField
+                label="Level of expertise"
+                variant="outlined"
+                value={editForm.levelOfExpertise}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, levelOfExpertise: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+
+              <TextField
+                label="Payment Rate"
+                variant="outlined"
+                value={editForm.paymentRate}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, paymentRate: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+            </div>
+
+            <TextField
+              label="Profile Overveiw"
+              variant="outlined"
+              multiline
+              rows={6}
+              value={editForm.profileOverview}
+              onChange={(e) =>
+                setEditForm({ ...editForm, profileOverview: e.target.value })
+              }
+              sx={inputMuiFontSize}
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <TextField
+                label="Category"
+                variant="outlined"
+                value={editForm.category}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, category: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+
+              <TextField
+                label="Countrry"
+                variant="outlined"
+                value={editForm.country}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, country: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+
+              <TimeZoneInput editForm={editForm} setEditForm={setEditForm} />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <TextField
+                label="Link Resume"
+                variant="outlined"
+                value={editForm.linkResume}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, category: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+
+              <TextField
+                label="Link Portfolio"
+                variant="outlined"
+                value={editForm.linkPortfolio}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, linkPortfolio: e.target.value })
+                }
+                sx={inputMuiFontSize}
+              />
+            </div>
+
+            <Button
+              variant="contained"
+              className="!mt-8 !text-black !bg-main !text-xs !px-6 !py-2 !normal-case !w-fit !mx-auto"
+            >
+              Save
+            </Button>
+          </Stack>
+        </Card>
+      </Modal>
     </div>
   );
 }
