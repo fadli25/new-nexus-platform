@@ -32,26 +32,26 @@ export default function Log() {
   const router = useRouter();
 
   return (
-    <div className="px-4 sm:px-0 absolute top-[57px] left-0 w-full logBg overflow-y-scroll pb-20">
+    <div className="px-4 sm:px-0 absolute top-[57px] left-0 w-full logBg overflow-y-scroll ">
       <Toaster />
-      <Stack spacing={3} alignItems="center" mt={8}>
-        <div className="text-xl sm:text-3xl text-center font-myanmar font-[500]">
+      <Stack spacing={3} alignItems="center" mt={11}>
+        <div className="text-4xl sm:text-3xl text-center font-myanmar font-[500]">
           Streamlining daily managerial and <br /> financial activities of{" "}
           <br /> Web3 businesses and stakeholders
         </div>
       </Stack>
 
-      <div id="wallet" className="mt-24 mx-auto w-fit">
+      <div id="wallet" className="mt-20 mx-auto w-fit">
         <WalletMultiButton />
       </div>
 
-      <Card width="md" className="!mt-10">
+      <Card width="md" className="!mt-24  !mb-14">
         <div className="text-sm">Nexus Explore</div>
         <div className="grid gap-3 grid-cols-2 sm:grid-cols-4 mt-3">
           {NexusTypes.map((el, i) => (
             <motion.button
               key={i}
-              className="p-4 grid grid-cols-2 items-center gap-2 sm:gap-1 border border-black/30 rounded-xl disabled:opacity-25 w-full"
+              className="p-4 grid grid-cols-2 items-center md:gap-8 sm:gap-1 border border-black/30 rounded-xl disabled:opacity-25 w-full"
               disabled={el.disabled}
               whileHover={!el.disabled ? { scale: 1.02 } : {}}
               onClick={notify}
