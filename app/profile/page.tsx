@@ -278,10 +278,11 @@ export default function page() {
                   setEditForm({ ...editForm, category: e.target.value })
                 }
                 sx={inputMuiFontSize}
+                disabled
               />
 
               <TextField
-                label="Countrry"
+                label="Country"
                 variant="outlined"
                 value={editForm.country}
                 onChange={(e) =>
