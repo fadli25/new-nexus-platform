@@ -3,7 +3,7 @@ import {
     BN,
     Program, web3
 } from '@project-serum/anchor';
-import { USER_PREFIX } from "../constants/constants";
+import { USER_PREFIX } from "../../constants/constants";
 const idl = require("../../../data/nexus.json")
 
 // pub struct ApplyInfo {

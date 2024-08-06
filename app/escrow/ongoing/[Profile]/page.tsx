@@ -227,46 +227,48 @@ export default function page() {
             )}
 
             {
-              <motion.div
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: "easeInOut",
-                  type: "spring",
-                  stiffness: 500,
-                }}
-                className="px-4 mt-4"
-              >
-                <div className="text-xs text-black font-[200]">
-                  Your submission was rejected, you can either dispute or
-                  Terminate
-                </div>
+              escrow_info && escrow_info.status == 4 &&
+              (
+                <motion.div
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "easeInOut",
+                    type: "spring",
+                    stiffness: 500,
+                  }}
+                  className="px-4 mt-4"
 
-                <Stack
-                  flexDirection="row"
-                  mt={4}
-                  justifyContent="center"
-                  alignItems="center"
-                  gap={2}
                 >
-                  <Button
-                    variant="contained"
-                    className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
-                  >
-                    Dispute
-                  </Button>
+                  <div className="text-xs text-black font-[200]">
+                    Your submission was rejected, you can either dispute or Terminate
+                  </div>
 
-                  <Button
-                    variant="contained"
-                    className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
-                    onClick={() => Tarminat()}
+                  <Stack
+                    flexDirection="row"
+                    mt={4}
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
                   >
-                    Terminate
-                  </Button>
-                </Stack>
-              </motion.div>
-            }
+                    <Button
+                      variant="contained"
+                      className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
+                    >
+                      Dispute
+                    </Button>
+
+                    <Button
+                      variant="contained"
+                      className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
+                      onClick={() => Tarminat()}
+                    >
+                      Terminate
+                    </Button>
+                  </Stack>
+                </motion.div>
+              )}
           </div>
         </div>
       </div>

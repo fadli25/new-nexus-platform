@@ -1,7 +1,7 @@
 import { IDL } from "@/data/IDL";
 import { BorshAccountsCoder } from "@coral-xyz/anchor";
 import { web3 } from "@project-serum/anchor";
-import { USER_PREFIX } from "../../constants/constants";
+import { USER_PREFIX } from "../../../constants/constants";
 const idl = require("../../../../data/nexus.json")
 
 import type { Commitment, Connection } from "@solana/web3.js";

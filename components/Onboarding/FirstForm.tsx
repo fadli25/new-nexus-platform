@@ -1,16 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { FormContext } from "@/contexts/FormContext";
+import { OnboardingScreenForm } from "@/lib/types/types";
+import { init_user } from "@/lib/user/init_user";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Button, Stack } from "@mui/material";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { OnboardingScreenForm } from "@/lib/types/types";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import React, { useContext, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function FirstForm({ handleGoToStep }: any) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
 
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
+
+  // console.log("image input:", imageInput);
+  // console.log("selected:", selectedImage || null);
   const {
     register,
     handleSubmit,
@@ -63,6 +72,47 @@ export default function FirstForm({ handleGoToStep }: any) {
     console.log("Watched Twitter Profile:", watchedTwitterProfile);
     console.log("Watched Email:", watchedEmail);
   }, [watchedUsername, watchedTwitterProfile, watchedEmail]);
+
+
+  // async function initialize_user() {
+  //   try {
+  //     // if (profile_overview.length > 120) {
+  //     //   return notify_warning(
+  //     //     "Profile Overview need to be at least 120 characters!"
+  //     //   );
+  //     // }
+
+  //     // notify_laoding("Creating Profile...");
+  //     // setLoading(true);
+  //     await init_user(
+  //       anchorWallet,
+  //       connection,
+  //       formData.UserName,
+  //       "",
+  //       "category",
+  //       roles,
+  //       level,
+  //       others,
+  //       profile_overview,
+  //       payment_rate_per_hour,
+  //       nogotion,
+  //       portfolio,
+  //       resume,
+  //       tosp,
+  //       timezone,
+  //       country,
+  //       wallet
+  //     );
+  //     // notify_delete();
+  //     // notify_success("Profile Created!");
+  //     // setLoading(false);
+  //   } catch (e) {
+  //     // setLoading(false);
+  //     // notify_delete();
+  //     // notify_error("Transaction Failed");
+  //     console.log(e);
+  //   }
+  // }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -3,16 +3,13 @@ import {
     BN,
     Program, web3
 } from '@project-serum/anchor';
-import { NEXUSESCROW_V1, USER_PREFIX } from "../../constants/constants";
-import { get_userr_info } from './utils.ts/get_userr_info';
-const idl = require("../../../data/nexus.json")
+import { USER_PREFIX } from "../constants/constants";
+const idl = require("../../data/nexus.json")
 
-
-export async function openDispute(
+export async function update_user(
     anchorWallet: any,
     connection: web3.Connection,
-    wallet: any,
-    escrow: web3.PublicKey,
+    wallet: any
 ) {
 
     const provider = new AnchorProvider(
@@ -22,7 +19,7 @@ export async function openDispute(
     const PROGRAM_ID = new web3.PublicKey(idl.metadata.address)
     const program = new Program(idl, idl.metadata.address, provider);
 
-    const [reciever] = web3.PublicKey.findProgramAddressSync(
+    const [user] = web3.PublicKey.findProgramAddressSync(
         [
             anchorWallet.publicKey.toBuffer(),
             Buffer.from(USER_PREFIX),
@@ -30,17 +27,8 @@ export async function openDispute(
         PROGRAM_ID
     );
 
-    // const [nexusEscrow] = web3.PublicKey.findProgramAddressSync(
-    //     [
-    //         Buffer.from(NEXUSESCROW_V1)
-    //     ],
-    //     PROGRAM_ID
-    // );
-
-
-    const tx = await program.methods.fOpenDispute().accounts({
-        escrow: escrow,
-        reciever: reciever,
+    const tx = await program.methods.closeUser().accounts({
+        user: user,
         authority: anchorWallet.publicKey,
         systemProgram: web3.SystemProgram.programId
     })
@@ -52,6 +40,5 @@ export async function openDispute(
     wallet.sendTransaction(tx, connection, {
         preflightCommitment: "confirmed"
     })
-
     return tx;
 }

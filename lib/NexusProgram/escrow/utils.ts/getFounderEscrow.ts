@@ -5,7 +5,7 @@ const idl = require("../../../../data/nexus.json")
 
 import type { Commitment, Connection } from "@solana/web3.js";
 import { PublicKey } from "@solana/web3.js";
-import { USER_PREFIX } from "../../constants/constants";
+import { USER_PREFIX } from "../../../constants/constants";
 
 export const getFounderEscrow = async (
     connection: Connection,
