@@ -55,7 +55,7 @@ body {
 }
 
 .logBg {
-  background-image: url(../public/LogingBg.png);
+  background-image: url(../public/LogingBg.svg);
   background-size: cover;
   background-position: bottom left;
   min-height: calc(100vh - 57px);
