@@ -6,7 +6,11 @@ import { init_user } from "@/lib/user/init_user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Button, Stack } from "@mui/material";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import React, { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -73,7 +77,6 @@ export default function FirstForm({ handleGoToStep }: any) {
     console.log("Watched Email:", watchedEmail);
   }, [watchedUsername, watchedTwitterProfile, watchedEmail]);
 
-
   // async function initialize_user() {
   //   try {
   //     // if (profile_overview.length > 120) {
@@ -117,7 +120,10 @@ export default function FirstForm({ handleGoToStep }: any) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack alignItems="center" gap={5}>
-        <Stack gap={3} className="flex-col md:!flex-row items-end pt-5">
+        <Stack
+          gap={3}
+          className="flex-col md:!flex-row items-center sm:items-end pt-5"
+        >
           <div className="rounded-2xl bg-white relative h-fit">
             {imagePreview ? (
               <img

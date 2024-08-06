@@ -53,3 +53,10 @@ body {
 .escrow::-webkit-scrollbar-thumb {
   @apply bg-second rounded-full;
 }
+
+.logBg {
+  background-image: url(../public/LogingBg.png);
+  background-size: cover;
+  background-position: bottom left;
+  min-height: calc(100vh - 57px);
+}

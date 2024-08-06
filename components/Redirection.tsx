@@ -6,10 +6,10 @@ import Log from "./Log";
 import Loading from "./Loading";
 
 export default function Redirection({ children }: any) {
-  const { publicKey } = useWallet();
+  const publicKey = useWallet();
   const [load, setLoad] = useState(true);
   useEffect(() => {
-    if (!publicKey) {
+    if (!publicKey.connected) {
       setTimeout(() => {
         setLoad(false);
       }, 1000);
@@ -17,6 +17,8 @@ export default function Redirection({ children }: any) {
     }
   }, [publicKey]);
   return (
-    <div>{publicKey ? children : <>{load ? <Loading /> : <Log />}</>}</div>
+    <div>
+      {publicKey.connected ? children : <>{load ? <Loading /> : <Log />}</>}
+    </div>
   );
 }
