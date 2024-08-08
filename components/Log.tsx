@@ -24,7 +24,7 @@ const notify = () =>
 export default function Log() {
   const NexusTypes = [
     { title: "Nexus Escrow Contracts", image: EscrowImg, disabled: false },
-    { title: "Nexus Swap and Payments", image: PaymentBackImg, disabled: true },
+    { title: "Nexus Payments and Swap", image: PaymentBackImg, disabled: true },
     { title: "Nexus Businesses", image: BusnessesImg, disabled: true },
     { title: "Nexus Professinals", image: ProfessionalImg, disabled: true },
   ];
@@ -45,19 +45,19 @@ export default function Log() {
         <WalletMultiButton />
       </div>
 
-      <Card width="md" className="!mt-24  !mb-14">
+      <Card width="md" className="!mt-24  !mb-14 ">
         <div className="text-sm">Nexus Explore</div>
         <div className="grid gap-3 grid-cols-2 sm:grid-cols-4 mt-3">
           {NexusTypes.map((el, i) => (
             <motion.button
               key={i}
-              className="p-4 grid grid-cols-2 items-center md:gap-8 sm:gap-1 border border-black/30 rounded-xl disabled:opacity-25 w-full"
+              className="py-4 px-2 grid grid-cols-2 items-center md:gap-4 sm:gap-1 border border-black/30 rounded-xl disabled:opacity-25 w-full"
               disabled={el.disabled}
               whileHover={!el.disabled ? { scale: 1.02 } : {}}
               onClick={notify}
             >
               <Image src={el.image} alt="" className="w-full" />
-              <div className="text-[10px] sm:text-xs ">{el.title}</div>
+              <div className="text-[10px] sm:text-xs text-left">{el.title}</div>
             </motion.button>
           ))}
         </div>
