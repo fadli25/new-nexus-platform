@@ -40,7 +40,8 @@ export async function init_user(
     tosp: string,
     timezone: string,
     country: string,
-    wallet: any
+    twitter: string,
+    wallet: any,
 ) {
 
     const provider = new AnchorProvider(
@@ -73,19 +74,20 @@ export async function init_user(
         tosp,
         timezone,
         country,
+        twitter
     }).accounts({
         user: user,
         authority: anchorWallet.publicKey,
         systemProgram: web3.SystemProgram.programId
     })
-        .transaction()
-    // .rpc({
-    //     commitment: "confirmed",
-    // })
+        // .transaction()
+        .rpc({
+            commitment: "confirmed",
+        })
 
-    wallet.sendTransaction(tx, connection, {
-        preflightCommitment: "confirmed"
-    })
+    // wallet.sendTransaction(tx, connection, {
+    //     preflightCommitment: "confirmed"
+    // })
 
     return tx;
 }

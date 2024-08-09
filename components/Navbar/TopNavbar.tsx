@@ -1,5 +1,9 @@
 "use client";
 
+import { NavigationType } from "@/lib/types/types";
+import { get_user_info } from "@/lib/user/utils/user_info";
+import Logo from "@/public/Logo.png";
+import Profile from "@/public/profile.png";
 import {
   Disclosure,
   DisclosureButton,
@@ -11,16 +15,14 @@ import {
   Transition,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
-import Logo from "@/public/Logo.png";
-import Profile from "@/public/profile.png";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { usePathname, useRouter } from "next/navigation";
-import { NavigationType } from "@/lib/types/types";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useState } from "react";
-import { motion } from "framer-motion";
 import { Stack } from "@mui/material";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaDiscord, FaXTwitter } from "react-icons/fa6";
 
 let navigation: NavigationType[] = [
@@ -73,9 +75,37 @@ function classNames(...classes: any) {
 }
 
 export default function Example() {
+
+
+  const router = useRouter();
+
+
+  const { connection } = useConnection();
+
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+
+  async function check_user() {
+    try {
+      const user_info = await get_user_info(anchorWallet, connection);
+      console.log("nav");
+      if (!user_info) {
+        console.log("nav push");
+        router.push("/");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    check_user();
+  }, [anchorWallet, anchorWallet?.publicKey]);
+
+
   const path = usePathname();
   const [showMenu, setShowMenu] = useState(false);
-  const router = useRouter();
   return (
     <Disclosure as="nav" className="bg-second">
       {({ open }) => (
@@ -166,10 +196,9 @@ export default function Example() {
                             {nexusExploreMenuSecondary.map((el, index) => (
                               <motion.button
                                 key={index}
-                                className={`${
-                                  el.name === "Landing Page" &&
+                                className={`${el.name === "Landing Page" &&
                                   "border-b border-white"
-                                }`}
+                                  }`}
                                 onClick={() => {
                                   setShowMenu(false);
                                   router.push(el.link);
@@ -339,10 +368,9 @@ export default function Example() {
                       {nexusExploreMenuSecondary.map((el, index) => (
                         <motion.button
                           key={index}
-                          className={`${
-                            el.name === "Landing Page" &&
+                          className={`${el.name === "Landing Page" &&
                             "border-b border-white"
-                          }`}
+                            }`}
                           onClick={() => router.push(el.link)}
                         >
                           {el.name}
