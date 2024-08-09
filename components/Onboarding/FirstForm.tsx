@@ -106,7 +106,6 @@ export default function FirstForm({ handleGoToStep }: any) {
     console.log("Watched Email:", watchedEmail);
   }, [watchedUsername, watchedTwitterProfile, watchedEmail]);
 
-
   const router = useRouter();
 
 
@@ -185,7 +184,10 @@ export default function FirstForm({ handleGoToStep }: any) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack alignItems="center" gap={5}>
-        <Stack gap={3} className="flex-col md:!flex-row items-end pt-5">
+        <Stack
+          gap={3}
+          className="flex-col md:!flex-row items-center sm:items-end pt-5"
+        >
           <div className="rounded-2xl bg-white relative h-fit">
             {imagePreview ? (
               <img

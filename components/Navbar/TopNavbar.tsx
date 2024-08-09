@@ -106,6 +106,7 @@ export default function Example() {
 
   const path = usePathname();
   const [showMenu, setShowMenu] = useState(false);
+  const publicKey = useWallet();
   return (
     <Disclosure as="nav" className="bg-second">
       {({ open }) => (
@@ -136,6 +137,7 @@ export default function Example() {
                 <div className="hidden sm:block sm:absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-55%] z-30">
                   <div className="flex space-x-4 relative">
                     {path.length > 1 &&
+                      publicKey.connected &&
                       navigation.map((item, i) => (
                         <div
                           key={i}
@@ -223,11 +225,11 @@ export default function Example() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="hidden sm:block" id="wallet">
-                  <WalletMultiButton />
+                  {publicKey.connected && <WalletMultiButton />}
                 </div>
 
                 {/* Profile dropdown */}
-                {path.length > 1 && (
+                {path.length > 1 && publicKey.connected && (
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <MenuButton className="relative flex rounded-full bg-gray-800 text-sm ring-2 ring-main">
@@ -388,7 +390,7 @@ export default function Example() {
                 </motion.div>
               )}
               <div id="wallet">
-                <WalletMultiButton />
+                {publicKey.connected && <WalletMultiButton />}
               </div>
             </div>
           </DisclosurePanel>
