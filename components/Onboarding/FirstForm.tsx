@@ -3,14 +3,12 @@
 import { FormContext } from "@/contexts/FormContext";
 import { OnboardingScreenForm } from "@/lib/types/types";
 import { init_user } from "@/lib/user/init_user";
+import { get_user_info } from "@/lib/user/utils/user_info";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Button, Stack } from "@mui/material";
-import {
-  useAnchorWallet,
-  useConnection,
-  useWallet,
-} from "@solana/wallet-adapter-react";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -39,7 +37,37 @@ export default function FirstForm({ handleGoToStep }: any) {
   const watchedTwitterProfile = watch("twitterProfile");
   const watchedEmail = watch("email");
 
-  const onSubmit: SubmitHandler<OnboardingScreenForm> = (data: any) => {
+  const onSubmit: SubmitHandler<OnboardingScreenForm> = async (data: any) => {
+    console.log("wow");
+    if (!isValid) {
+      return console.log("still some empty;")
+    }
+    console.log(watch("email"));
+
+    await init_user(
+      anchorWallet,
+      connection,
+      // watch.sdfdsf,
+      watch("username"),
+      "",
+      "",
+      "",
+      "",
+      watch("email"),
+      "",
+      // "payment_rate_per_hour",
+      0,
+      // "nogotion",
+      true,
+      "",
+      "",
+      "",
+      "",
+      "",
+      watch("twitterProfile"),
+      wallet
+    );
+
     const formData = new FormData();
     if (imageFile) {
       formData.append("profileImage", imageFile);
@@ -59,6 +87,7 @@ export default function FirstForm({ handleGoToStep }: any) {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("wow1")
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
@@ -77,6 +106,28 @@ export default function FirstForm({ handleGoToStep }: any) {
     console.log("Watched Email:", watchedEmail);
   }, [watchedUsername, watchedTwitterProfile, watchedEmail]);
 
+  const router = useRouter();
+
+
+  async function check_user() {
+    try {
+      const user_info = await get_user_info(anchorWallet, connection);
+      console.log("nav");
+      if (user_info) {
+        console.log("nav push");
+        router.push("/escrow");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    check_user();
+  }, [anchorWallet, anchorWallet?.publicKey]);
+
+
   // async function initialize_user() {
   //   try {
   //     // if (profile_overview.length > 120) {
@@ -87,23 +138,36 @@ export default function FirstForm({ handleGoToStep }: any) {
 
   //     // notify_laoding("Creating Profile...");
   //     // setLoading(true);
+
+  //     // const watchedUsername = watch("username");
+  //     // const watchedTwitterProfile = watch("twitterProfile");
+  //     // const watchedEmail = watch("email");    
+  //     if (!isValid) {
+  //       return console.log("still some empty;")
+  //     }
+  //     console.log(watch("email"));
+
   //     await init_user(
   //       anchorWallet,
   //       connection,
-  //       formData.UserName,
+  //       // watch.sdfdsf,
+  //       watch("username"),
   //       "",
-  //       "category",
-  //       roles,
-  //       level,
-  //       others,
-  //       profile_overview,
-  //       payment_rate_per_hour,
-  //       nogotion,
-  //       portfolio,
-  //       resume,
-  //       tosp,
-  //       timezone,
-  //       country,
+  //       "",
+  //       "",
+  //       "",
+  //       watch("email"),
+  //       "",
+  //       // "payment_rate_per_hour",
+  //       0,
+  //       // "nogotion",
+  //       true,
+  //       "",
+  //       "",
+  //       "",
+  //       "",
+  //       "",
+  //       watch("twitterProfile"),
   //       wallet
   //     );
   //     // notify_delete();
@@ -217,6 +281,7 @@ export default function FirstForm({ handleGoToStep }: any) {
         </Stack>
 
         <Button
+          // onClick={() => initialize_user()}
           className="!bg-main !text-second !font-semibold !text-sm !capitalize !px-12 !py-2 disabled:!bg-main/30 disabled:!text-black/40 font-mulish"
           variant="contained"
           disabled={!isValid}
