@@ -56,3 +56,13 @@ export const OnboardingScreenForm = z.object({
   image: z.any(),
 });
 export type OnboardingScreenForm = z.infer<typeof OnboardingScreenForm>;
+
+export interface ApproveModalType {
+  title: string;
+  client?: string;
+  contractor?: string;
+  amount?: number;
+  messageTitle: string;
+  messageDescription?: string;
+  children?: any;
+}

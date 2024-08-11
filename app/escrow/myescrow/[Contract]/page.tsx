@@ -3,15 +3,12 @@
 import Card from "@/components/Card";
 import CardAccordion from "@/components/CardAccordion";
 import CardAccordionAccept from "@/components/CardAccordionAccept";
-import CardAnimation from "@/components/CardAnimation";
 import { getApplyEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getApplyEscrow";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
-import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
 import { inputStyle } from "@/lib/styles/styles";
 import Coin from "@/public/coin.svg";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ShareIcon from "@mui/icons-material/Share";
 import { Button, IconButton, Modal, Stack, Switch } from "@mui/material";
 import { web3 } from "@project-serum/anchor";
 import {
@@ -22,6 +19,8 @@ import {
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import linksvg from "@/public/linksvg.svg";
+import ApproveModal from "@/components/ApproveModal";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -97,35 +96,64 @@ export default function page() {
 
   const [showStartProject, setShowStartProject] = useState(false);
   const [showTerminate, setShowTerminate] = useState(false);
-  const [showRefund, setShowRefund] = useState(false);
+  const [showReject, setShowReject] = useState(false);
+  const [showApprove, setShowApprove] = useState(false);
+
+  function handleCancelProjectTermination() {
+    setShowTerminate(false);
+    setShowReject(false);
+  }
+
+  function handleShowStartProject() {
+    setShowStartProject(true);
+  }
+
+  function handleShowApprove() {
+    setShowApprove(true);
+  }
+
+  function handleShowReject() {
+    setShowReject(true);
+    setShowTerminate(false);
+  }
+
+  function handleCloseReject() {
+    setShowReject(false);
+  }
   return (
     <div>
-      <div className="max-w-5xl mx-auto pt-4">
-        <Card width="lg">
-          <Stack
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Stack flexDirection="row" alignItems="center" gap={1}>
-              <div className="text-lg line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
-                Build a team dashboard
-              </div>
+      <div className="max-w-6xl mx-auto pt-4">
+        <div className="flex items-center gap-3">
+          <Card width="lg">
+            <Stack
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Stack flexDirection="row" alignItems="center" gap={1}>
+                <div className="text-base line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
+                  Build a team dashboard
+                </div>
 
-              <ShareIcon />
+                {/* <ShareIcon /> */}
+              </Stack>
+              <Stack flexDirection="row" alignItems="center" gap={1}>
+                <Image src={Coin} alt="coin" className="w-5" />
+                <div className="text-sm sm:text-xl font-semibold">
+                  {escrowInfo ? Number(escrowInfo.amount) : "--"}
+                </div>
+              </Stack>
             </Stack>
-            <Stack flexDirection="row" alignItems="center" gap={1}>
-              <Image src={Coin} alt="coin" className="w-5" />
-              <div className="text-xl font-semibold">
-                {escrowInfo ? Number(escrowInfo.amount) : "--"}
-              </div>
-            </Stack>
-          </Stack>
-        </Card>
+          </Card>
+
+          <div className="bg-white rounded-xl p-5 h-full hidden sm:block">
+            <Image src={linksvg} alt="" className="w-[30px] py-[3px]" />
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           <Card className="col-span-1 md:col-span-3" width="lg">
-            <div className="text-sm text-textColor">Description</div>
-            <div className="text-sm mt-3 leading-7 min-h-24 px-5 py-2">
+            <div className="text-xs sm:text-sm text-textColor">Description</div>
+            <div className="text-xs sm:text-sm mt-3 leading-7 min-h-24 px-5 py-2">
               {escrowInfo ? escrowInfo.description : "--"}
             </div>
           </Card>
@@ -174,30 +202,18 @@ export default function page() {
                 title="Approved Contractor"
                 type="Chat"
                 escrowInfo={escrowInfo}
+                showTerminate={showTerminate}
+                showApprove={handleShowApprove}
+                reject={showReject}
+                showReject={handleShowReject}
+                cancel={handleCancelProjectTermination}
               >
                 <Stack flexDirection="row" gap={1}>
-                  <div
-                    className={
-                      showStartProject || showTerminate || showRefund
-                        ? "hidden"
-                        : ""
-                    }
-                  >
-                    <Button
-                      variant="contained"
-                      onClick={() => setShowStartProject(true)}
-                      className="!text-xs !bg-main !font-semibold !normal-case !text-second !px-4 !py-2"
-                    >
-                      Start Project
-                    </Button>
-                  </div>
-
                   <Button
                     variant="contained"
                     onClick={() => {
                       setShowTerminate(true);
-                      setShowRefund(false);
-                      setShowStartProject(false);
+                      setShowReject(false);
                     }}
                     className="!text-xs !bg-white !font-semibold !normal-case !text-second !px-4 !py-2"
                   >
@@ -207,11 +223,7 @@ export default function page() {
               </CardAccordionAccept>
             )}
 
-            <Card>
-              <div className="text-base text-textColor">Submission</div>
-            </Card>
-
-            {showStartProject && (
+            {/* {showStartProject && (
               <CardAnimation>
                 <Stack
                   flexDirection="row"
@@ -274,7 +286,7 @@ export default function page() {
                   terminate the project
                 </div>
               </CardAnimation>
-            )}
+            )} */}
           </Stack>
 
           {applys && escrowInfo && (
@@ -288,6 +300,7 @@ export default function page() {
                     )
                   : applys
               }
+              startProject={handleShowStartProject}
               type="Approve"
               page={"approve"}
               link={"approve"}
@@ -318,6 +331,44 @@ export default function page() {
             </Button>
           </Stack>
         </Card>
+      </Modal>
+
+      <Modal
+        open={showStartProject}
+        onClose={() => setShowStartProject(false)}
+        className="grid place-items-center"
+      >
+        <ApproveModal
+          title="Confirmation"
+          messageTitle="Are you sure to start the contract??"
+          messageDescription="Contract can oly be terminated by both parties mutually agreeing to do so"
+        >
+          <Button
+            variant="contained"
+            className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
+          >
+            Start Project
+          </Button>
+        </ApproveModal>
+      </Modal>
+
+      <Modal
+        open={showApprove}
+        onClose={() => setShowApprove(false)}
+        className="grid place-items-center"
+      >
+        <ApproveModal
+          title="Confirmation"
+          messageTitle="Are you sure to start the contract??"
+          messageDescription="Contract can oly be terminated by both parties mutually agreeing to do so"
+        >
+          <Button
+            variant="contained"
+            className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
+          >
+            Approve
+          </Button>
+        </ApproveModal>
       </Modal>
     </div>
   );

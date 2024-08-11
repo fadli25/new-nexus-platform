@@ -19,6 +19,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { CiFileOn } from "react-icons/ci";
 
 export default function page() {
   const [escrow_info, setEscrowInfo] = useState<any>();
@@ -226,9 +227,48 @@ export default function page() {
               </Card>
             )}
 
-            {
-              escrow_info && escrow_info.status == 4 &&
-              (
+            <div className="flex gap-2 mt-4">
+              <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
+                <CiFileOn className="text-6xl mx-auto" />
+                <div className="text-xs mt-1">Link to Resources</div>
+              </Card>
+              <div className="w-full">
+                <Card className="text-xs text-center">
+                  Project has started please make submission before the deadline
+                  {/* Your submission was approved and pay has been made to your
+                  wallet, project will auto terminate in 24 hours */}
+                </Card>
+                <Card className="mt-2 !py-3">
+                  <Stack
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <div className="text-sm text-textColor">Submission</div>
+                    <Button
+                      variant="contained"
+                      className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
+                      onClick={() => submission()}
+                    >
+                      Submission
+                    </Button>
+                  </Stack>
+                </Card>
+              </div>
+            </div>
+
+            {escrow_info && escrow_info.status == 4 && (
+              <motion.div
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: "easeInOut",
+                  type: "spring",
+                  stiffness: 500,
+                }}
+                className="px-4 mt-4"
+              >
                 <motion.div
                   initial={{ y: -10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -239,12 +279,7 @@ export default function page() {
                     stiffness: 500,
                   }}
                   className="px-4 mt-4"
-
                 >
-                  <div className="text-xs text-black font-[200]">
-                    Your submission was rejected, you can either dispute or Terminate
-                  </div>
-
                   <Stack
                     flexDirection="row"
                     mt={4}
@@ -254,21 +289,22 @@ export default function page() {
                   >
                     <Button
                       variant="contained"
-                      className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
+                      className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white"
                     >
                       Dispute
                     </Button>
 
                     <Button
-                      variant="contained"
-                      className="!text-xs sm:!text-sm !bg-second !px-4 !font-semibold !py-2 !rounded-md !normal-case !text-white"
+                      variant="outlined"
+                      className="!text-xs sm:!text-sm !border !border-second !px-4 !py-2 !rounded-md !normal-case !text-second"
                       onClick={() => Tarminat()}
                     >
                       Terminate
                     </Button>
                   </Stack>
                 </motion.div>
-              )}
+              </motion.div>
+            )}
           </div>
         </div>
       </div>

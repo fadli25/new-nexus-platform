@@ -7,8 +7,17 @@ import { useRouter } from "next/navigation";
 import { escape } from "querystring";
 import React from "react";
 
-export default function CardApp({ title, role, type, approve, escrow, apply, link }: any) {
-
+export default function CardApp({
+  title,
+  role,
+  type,
+  approve,
+  escrow,
+  apply,
+  link,
+  type2 = false,
+  startProject,
+}: any) {
   const links = (_link: string) => {
     window.open(_link, "_blank");
   };
@@ -39,19 +48,31 @@ export default function CardApp({ title, role, type, approve, escrow, apply, lin
         </Stack>
       </Stack>
 
-      <Button
-        onClick={() => {
-          if (title == "Chat") {
-            links(link)
-          } else {
-            approve(escrow, apply)
-          }
-        }}
-        variant="contained"
-        className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
-      >
-        {type}
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button
+          onClick={() => {
+            if (title == "Chat") {
+              links(link);
+            } else {
+              approve(escrow, apply);
+            }
+          }}
+          variant="contained"
+          className="!normal-case !text-[11px] !text-white  !bg-second !px-4  !pt-2"
+        >
+          {type}
+        </Button>
+
+        {type2 && (
+          <Button
+            variant="outlined"
+            onClick={startProject}
+            className="!normal-case !text-[11px] !border !border-black !text-second !px-4 !pt-2"
+          >
+            {type2}
+          </Button>
+        )}
+      </div>
     </Stack>
   );
 }
