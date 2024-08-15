@@ -37,7 +37,7 @@ export default function SecondForm({ handleGoToStep }: any) {
           }}
         >
           <Stack gap={1}>
-            <div className="bg-white p-12 rounded-2xl border-2">
+            <div className="bg-white p-6 sm:p-12 rounded-2xl border-2">
               <Image src={el.image} alt="" className="w-[120px]" />
             </div>
 
