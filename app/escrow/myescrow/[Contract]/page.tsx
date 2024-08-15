@@ -167,7 +167,7 @@ export default function page() {
             >
               <div>Public</div>
               <Switch />
-              <div>Public</div>
+              <div>Private</div>
             </Stack>
 
             <Stack mt={4} spacing={2}>

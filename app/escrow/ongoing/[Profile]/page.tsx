@@ -99,7 +99,7 @@ export default function page() {
 
   return (
     <div>
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto mb-28">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-8">
           <Card className="!py-4 !col-span-1 sm:!col-span-3" width="lg">
             <Stack
@@ -136,14 +136,14 @@ export default function page() {
         </div>
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
-          <Card className="!p-0 sm:col-span-2 overflow-hidden h-fit">
+          <Card className="!p-0 sm:col-span-2 overflow-hidden h-full">
             <Image
               src={dragon}
               alt="dragon"
               className="w-full rounded-xl object-cover object-center"
             />
 
-            <Stack py={2} spacing={3} px={2}>
+            <Stack py={1} spacing={3} px={2}>
               <Stack
                 flexDirection="row"
                 justifyContent="space-between"
@@ -152,7 +152,7 @@ export default function page() {
                 <div className="text-xl font-[500] line-clamp-1">
                   {escrow_info ? escrow_info.founderInfo.name : "--"}
                 </div>
-                {escrow_info && escrow_info.founderInfo.twitter.length > 0 && (
+                {escrow_info && escrow_info.founderInfo.twitter.length > 0 ? (
                   <span
                     onClick={() =>
                       links(escrow_info.founderInfo.twitter.length)
@@ -160,28 +160,36 @@ export default function page() {
                   >
                     <XIcon className="text-xl" />
                   </span>
+                ) : (
+                  <span>
+                    <XIcon className="text-xl" />
+                  </span>
                 )}
               </Stack>
 
-              <Stack
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="end"
-              >
-                {escrow_info &&
-                  escrow_info.founderInfo.telegramId.length > 0 && (
-                    <Button
-                      onClick={() => links(escrow_info.founderInfo.telegramId)}
-                      variant="contained"
-                      className="!text-sm !px-10 !py-2 !capitalize !font-semibold !bg-second !w-fit"
-                    >
-                      Start Chat
-                    </Button>
-                  )}
+              <div className="text-[11px] font-[300] line-clamp-1 py-1">
+                0 Leaderboard rating
+              </div>
 
-                <div className="text-[11px] font-[300] line-clamp-1 py-1">
-                  0 Leaderboard rating
-                </div>
+              <Stack flexDirection="row" justifyContent="center">
+                {escrow_info &&
+                escrow_info.founderInfo.telegramId.length > 0 ? (
+                  <Button
+                    onClick={() => links(escrow_info.founderInfo.telegramId)}
+                    variant="contained"
+                    className="!text-sm !px-10 !py-2 !capitalize !font-semibold !bg-second !w-56"
+                  >
+                    Start Chat
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    disabled={true}
+                    className="!text-sm !px-10 !py-2 !capitalize !font-semibold !bg-first !w-56"
+                  >
+                    Start Chat
+                  </Button>
+                )}
               </Stack>
             </Stack>
           </Card>
@@ -203,42 +211,14 @@ export default function page() {
                 </div>
               </div>
             </Card>
-            {escrow_info && (
+            {/* {escrow_info && (
               <span onClick={() => links(escrow_info.materials)}>
                 <Card className="mt-4 text-sm py-4">Link to materials</Card>
               </span>
-            )}
-            {escrow_info && escrow_info.status == 2 && (
-              <Card className="mt-4 !py-3">
-                <Stack
-                  flexDirection="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <div className="text-sm text-textColor">Submission</div>
-                  <Button
-                    variant="contained"
-                    className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
-                    onClick={() => submission()}
-                  >
-                    Submission
-                  </Button>
-                </Stack>
-              </Card>
-            )}
-
-            <div className="flex gap-2 mt-4">
-              <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
-                <CiFileOn className="text-6xl mx-auto" />
-                <div className="text-xs mt-1">Link to Resources</div>
-              </Card>
-              <div className="w-full">
-                <Card className="text-xs text-center">
-                  Project has started please make submission before the deadline
-                  {/* Your submission was approved and pay has been made to your
-                  wallet, project will auto terminate in 24 hours */}
-                </Card>
-                <Card className="mt-2 !py-3">
+            )} */}
+            <Card className="mt-2 !pt-2 !h-64">
+              {escrow_info && escrow_info.status === 2 && (
+                <Card className="mt-4 !py-3">
                   <Stack
                     flexDirection="row"
                     alignItems="center"
@@ -254,21 +234,48 @@ export default function page() {
                     </Button>
                   </Stack>
                 </Card>
-              </div>
-            </div>
+              )}
 
-            {escrow_info && escrow_info.status == 4 && (
-              <motion.div
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: "easeInOut",
-                  type: "spring",
-                  stiffness: 500,
-                }}
-                className="px-4 mt-4"
-              >
+              <div className="flex gap-2 mt-4">
+                <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
+                  <CiFileOn className="text-6xl mx-auto" />
+                  {escrow_info && (
+                    <div
+                      className="text-xs mt-1"
+                      onClick={() => links(escrow_info.materials)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Link to Resources
+                    </div>
+                  )}
+                </Card>
+                <div className="w-full">
+                  <Card className="text-xs text-center">
+                    Project has started please make submission before the
+                    deadline
+                    {/* Your submission was approved and pay has been made to your
+                  wallet, project will auto terminate in 24 hours */}
+                  </Card>
+                  <Card className="mt-2 !py-3">
+                    <Stack
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <div className="text-sm text-textColor">Submission</div>
+                      <Button
+                        variant="contained"
+                        className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
+                        onClick={() => submission()}
+                      >
+                        Submission
+                      </Button>
+                    </Stack>
+                  </Card>
+                </div>
+              </div>
+
+              {escrow_info && escrow_info.status === 4 && (
                 <motion.div
                   initial={{ y: -10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -280,31 +287,43 @@ export default function page() {
                   }}
                   className="px-4 mt-4"
                 >
-                  <Stack
-                    flexDirection="row"
-                    mt={4}
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
+                  <motion.div
+                    initial={{ y: -10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      duration: 0.8,
+                      ease: "easeInOut",
+                      type: "spring",
+                      stiffness: 500,
+                    }}
+                    className="px-4 mt-4"
                   >
-                    <Button
-                      variant="contained"
-                      className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white"
+                    <Stack
+                      flexDirection="row"
+                      mt={4}
+                      justifyContent="center"
+                      alignItems="center"
+                      gap={2}
                     >
-                      Dispute
-                    </Button>
+                      <Button
+                        variant="contained"
+                        className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white !w-56"
+                      >
+                        Dispute
+                      </Button>
 
-                    <Button
-                      variant="outlined"
-                      className="!text-xs sm:!text-sm !border !border-second !px-4 !py-2 !rounded-md !normal-case !text-second"
-                      onClick={() => Tarminat()}
-                    >
-                      Terminate
-                    </Button>
-                  </Stack>
+                      <Button
+                        variant="outlined"
+                        className="!text-xs sm:!text-sm !border !border-second !px-4 !py-2 !rounded-md !normal-case !text-second !w-56"
+                        onClick={() => Tarminat()}
+                      >
+                        Terminate
+                      </Button>
+                    </Stack>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            )}
+              )}
+            </Card>
           </div>
         </div>
       </div>
