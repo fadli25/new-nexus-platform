@@ -203,42 +203,14 @@ export default function page() {
                 </div>
               </div>
             </Card>
-            {escrow_info && (
+            {/* {escrow_info && (
               <span onClick={() => links(escrow_info.materials)}>
                 <Card className="mt-4 text-sm py-4">Link to materials</Card>
               </span>
-            )}
-            {escrow_info && escrow_info.status == 2 && (
-              <Card className="mt-4 !py-3">
-                <Stack
-                  flexDirection="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <div className="text-sm text-textColor">Submission</div>
-                  <Button
-                    variant="contained"
-                    className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
-                    onClick={() => submission()}
-                  >
-                    Submission
-                  </Button>
-                </Stack>
-              </Card>
-            )}
-
-            <div className="flex gap-2 mt-4">
-              <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
-                <CiFileOn className="text-6xl mx-auto" />
-                <div className="text-xs mt-1">Link to Resources</div>
-              </Card>
-              <div className="w-full">
-                <Card className="text-xs text-center">
-                  Project has started please make submission before the deadline
-                  {/* Your submission was approved and pay has been made to your
-                  wallet, project will auto terminate in 24 hours */}
-                </Card>
-                <Card className="mt-2 !py-3">
+            )} */}
+            <Card className="!py-2 !mt-2 min-h-[190px]">
+              {escrow_info && escrow_info.status == 2 && (
+                <Card className="mt-4 !py-3">
                   <Stack
                     flexDirection="row"
                     alignItems="center"
@@ -254,21 +226,42 @@ export default function page() {
                     </Button>
                   </Stack>
                 </Card>
-              </div>
-            </div>
+              )}
 
-            {escrow_info && escrow_info.status == 4 && (
-              <motion.div
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: "easeInOut",
-                  type: "spring",
-                  stiffness: 500,
-                }}
-                className="px-4 mt-4"
-              >
+              <div className="flex gap-2 mt-2">
+                <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
+                  <CiFileOn className="text-6xl mx-auto" />
+                  <div className="text-xs mt-1">Link to Resources</div>
+                </Card>
+                <div className="w-full">
+                  <Card className="text-[11px] text-center">
+                    Project has started please make submission before the
+                    deadline
+                    {/* Your submission was approved and pay has been made to your
+                  wallet, project will auto terminate in 24 hours */}
+                  </Card>
+                  <Card className="mt-2 !py-2">
+                    <Stack
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <div className="text-xs sm:text-sm text-textColor">
+                        Submission
+                      </div>
+                      <Button
+                        variant="contained"
+                        className="!text-[10px] sm:!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
+                        onClick={() => submission()}
+                      >
+                        Submission
+                      </Button>
+                    </Stack>
+                  </Card>
+                </div>
+              </div>
+
+              {escrow_info && escrow_info.status == 4 && (
                 <motion.div
                   initial={{ y: -10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -282,29 +275,28 @@ export default function page() {
                 >
                   <Stack
                     flexDirection="row"
-                    mt={4}
                     justifyContent="center"
                     alignItems="center"
                     gap={2}
                   >
                     <Button
                       variant="contained"
-                      className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white"
+                      className="!text-xs sm:!text-sm !bg-second !px-4 !py-2 !rounded-md !normal-case !text-white !w-full"
                     >
                       Dispute
                     </Button>
 
                     <Button
                       variant="outlined"
-                      className="!text-xs sm:!text-sm !border !border-second !px-4 !py-2 !rounded-md !normal-case !text-second"
+                      className="!text-xs sm:!text-sm !border !border-red-600 !px-4 !py-2 !rounded-md !normal-case !text-red-600 !w-full"
                       onClick={() => Tarminat()}
                     >
                       Terminate
                     </Button>
                   </Stack>
                 </motion.div>
-              </motion.div>
-            )}
+              )}
+            </Card>
           </div>
         </div>
       </div>

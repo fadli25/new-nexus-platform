@@ -21,6 +21,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
+import { FaEdit } from "react-icons/fa";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -130,12 +131,14 @@ export default function page() {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Stack flexDirection="row" alignItems="center" gap={1}>
+              <Stack flexDirection="row" alignItems="center" gap={1.5}>
                 <div className="text-base line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
                   Build a team dashboard
                 </div>
 
-                {/* <ShareIcon /> */}
+                <button onClick={handleOpenModal}>
+                  <FaEdit className="text-xl text-textColor" />
+                </button>
               </Stack>
               <Stack flexDirection="row" alignItems="center" gap={1}>
                 <Image src={Coin} alt="coin" className="w-5" />
@@ -152,7 +155,14 @@ export default function page() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           <Card className="col-span-1 md:col-span-3" width="lg">
-            <div className="text-xs sm:text-sm text-textColor">Description</div>
+            <div className="flex justify-between items-center w-full">
+              <div className="text-xs sm:text-sm text-textColor">
+                Description
+              </div>
+              <button onClick={handleOpenModal}>
+                <FaEdit className="text-lg text-textColor" />
+              </button>
+            </div>
             <div className="text-xs sm:text-sm mt-3 leading-7 min-h-24 px-5 py-2">
               {escrowInfo ? escrowInfo.description : "--"}
             </div>
@@ -167,7 +177,7 @@ export default function page() {
             >
               <div>Public</div>
               <Switch />
-              <div>Public</div>
+              <div>Private</div>
             </Stack>
 
             <Stack mt={4} spacing={2}>
