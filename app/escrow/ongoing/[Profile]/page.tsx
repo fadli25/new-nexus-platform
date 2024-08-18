@@ -257,7 +257,7 @@ export default function page() {
                 </Card>
                 <div className="w-full">
                   <Card className="text-xs text-center">
-                    Project has started please make submission before the
+                    Contract has started please make submission before the
                     deadline
                     {/* Your submission was approved and pay has been made to your
                   wallet, project will auto terminate in 24 hours */}

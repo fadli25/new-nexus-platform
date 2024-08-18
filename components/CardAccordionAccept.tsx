@@ -98,7 +98,7 @@ export default function CardAccordionAccept({
 
         <div className="px-5">
           <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
-            Project has started <span className="font-semibold">Manay</span>{" "}
+            Contract has started <span className="font-semibold">Manay</span>{" "}
             will make submission when done
           </div>
 

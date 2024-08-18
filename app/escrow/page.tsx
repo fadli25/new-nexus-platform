@@ -216,7 +216,7 @@ export default function page() {
                   }
                   className={`${inputStyle} w-full`}
                   rows={3}
-                  placeholder="Eg. A brief description of what the project entails"
+                  placeholder="Eg. A brief description of what the contract entails"
                 ></textarea>
               </div>
             </Stack>

@@ -393,7 +393,7 @@ export default function page() {
             variant="contained"
             className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
           >
-            Start Project
+            Start Contract
           </Button>
         </ApproveModal>
       </Modal>
