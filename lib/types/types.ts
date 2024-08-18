@@ -63,6 +63,6 @@ export interface ApproveModalType {
   contractor?: string;
   amount?: number;
   messageTitle: string;
-  messageDescription?: string;
+  messageDescription?: any;
   children?: any;
 }

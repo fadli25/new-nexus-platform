@@ -101,6 +101,7 @@ export default function page() {
   const [showApprove, setShowApprove] = useState(false);
   const [titleInput, setTitleInput] = useState("Build a team dashboard");
   const [isEditing, setIsEditing] = useState(false);
+  const [openDispute, setOpenDispute] = useState(false);
   const [error, setError] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -145,6 +146,12 @@ export default function page() {
       inputRef.current.focus();
     }
   }, [isEditing]);
+
+  function handleOpenDispute() {
+    setShowTerminate(false);
+    setShowApprove(false);
+    setOpenDispute(true);
+  }
 
   return (
     <div>
@@ -251,7 +258,7 @@ export default function page() {
                 showTerminate={showTerminate}
                 showApprove={handleShowApprove}
                 reject={showReject}
-                showReject={handleShowReject}
+                openDispute={openDispute}
                 cancel={handleCancelProjectTermination}
               >
                 <Stack flexDirection="row" gap={1}>
@@ -334,7 +341,6 @@ export default function page() {
               </CardAnimation>
             )} */}
           </Stack>
-
           {applys && escrowInfo && (
             <CardAccordion
               title="Applications"
@@ -404,15 +410,23 @@ export default function page() {
         className="grid place-items-center"
       >
         <ApproveModal
-          title="Confirmation"
-          messageTitle="Are you sure to start the contract??"
-          messageDescription="Contract can oly be terminated by both parties mutually agreeing to do so"
+          title="Dispute Request"
+          messageTitle="Are you sure you want tot request a dispute??"
+          messageDescription={
+            <>
+              To prevent abuse, we charge a dispute resolution fee.
+              <br />
+              Please try as much as pussible to resolve your issues before
+              opening a dispute.
+            </>
+          }
         >
           <Button
             variant="contained"
-            className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
+            onClick={handleOpenDispute}
+            className="!normal-case !text-white !text-xs !bg-black !px-16 !py-2"
           >
-            Approve
+            Open dispute
           </Button>
         </ApproveModal>
       </Modal>

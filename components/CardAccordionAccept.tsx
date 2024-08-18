@@ -23,7 +23,7 @@ export default function CardAccordionAccept({
   cancel,
   showApprove,
   reject,
-  showReject,
+  openDispute,
   closeReject,
 }: any) {
   const anchorWallet = useAnchorWallet();
@@ -112,7 +112,7 @@ export default function CardAccordionAccept({
             </div>
           </motion.button>
 
-          {showTerminate && (
+          {/* {showTerminate && (
             <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
               <Button
                 variant="contained"
@@ -130,24 +130,35 @@ export default function CardAccordionAccept({
                 Reject
               </Button>
             </CardAnimation>
-          )}
+          )} */}
 
-          {reject && (
+          {showTerminate && (
             <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
               <Button
                 variant="contained"
-                onClick={showApprove}
-                className="!normal-case !text-sm !py-3 !text-black !bg-green-500 !col-span-1 !rounded-md"
+                onClick={cancel}
+                className="!normal-case !text-xs !py-3 !text-white !bg-red-700 !col-span-1 !rounded-md"
               >
-                Request New Submission
+                Cancel Contract Termination
               </Button>
 
               <Button
                 variant="contained"
-                onClick={cancel}
-                className="!normal-case !text-sm !py-3 !bg-red-600 !text-white !col-span-1 !rounded-md"
+                onClick={showApprove}
+                className="!normal-case !text-xs !py-3 !bg-black !text-white !col-span-1 !rounded-md"
               >
-                Dispute and Request Refund
+                Dispute and Request termination
+              </Button>
+            </CardAnimation>
+          )}
+
+          {openDispute && (
+            <CardAnimation>
+              <Button
+                variant="contained"
+                className="!text-sm !mt-4 !w-full !text-white !bg-black !normal-case !px-10 !py-2"
+              >
+                Chat with Moderator
               </Button>
             </CardAnimation>
           )}

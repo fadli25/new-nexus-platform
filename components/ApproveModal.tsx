@@ -35,7 +35,7 @@ export default function ApproveModal({
         {messageTitle}
       </div>
       <div className="text-center text-sm font-[200] text-textColor mt-2">
-        {messageDescription}
+        <p>{messageDescription}</p>
       </div>
 
       <div className="flex justify-center mt-12">{children}</div>
