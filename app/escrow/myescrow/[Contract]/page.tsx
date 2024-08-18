@@ -18,7 +18,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
@@ -99,6 +99,24 @@ export default function page() {
   const [showTerminate, setShowTerminate] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [showApprove, setShowApprove] = useState(false);
+  const [titleInput, setTitleInput] = useState("Build a team dashboard");
+  const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState("");
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function handleTitleEdit() {
+    if (isEditing) {
+      if (titleInput.trim() === "") {
+        setError("Title cannot be empty");
+      } else {
+        setError("");
+        setIsEditing(false);
+      }
+    } else {
+      setIsEditing(true);
+    }
+  }
 
   function handleCancelProjectTermination() {
     setShowTerminate(false);
@@ -121,6 +139,13 @@ export default function page() {
   function handleCloseReject() {
     setShowReject(false);
   }
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
   return (
     <div>
       <div className="max-w-6xl mx-auto pt-4">
@@ -132,11 +157,22 @@ export default function page() {
               justifyContent="space-between"
             >
               <Stack flexDirection="row" alignItems="center" gap={1.5}>
-                <div className="text-base line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
-                  Build a team dashboard
-                </div>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    ref={inputRef}
+                    className="text-base line-clamp-1 sm:text-2xl font-semibold font-myanmarButton h-6 border-0 focus:outline-none"
+                    placeholder="Eg. Enter a new title"
+                    value={titleInput}
+                    onChange={(e) => setTitleInput(e.target.value)}
+                  />
+                ) : (
+                  <div className="text-base line-clamp-1 sm:text-2xl font-semibold font-myanmarButton">
+                    {titleInput}
+                  </div>
+                )}
 
-                <button onClick={handleOpenModal}>
+                <button onClick={handleTitleEdit}>
                   <FaEdit className="text-xl text-textColor" />
                 </button>
               </Stack>

@@ -108,11 +108,15 @@ export default function page() {
               alignItems="center"
               className="text-base sm:text-xl font-[500] h-12"
             >
-              <div className="flex-1">Build a team dashboard</div>
+              <div className="flex-1 font-myanmar_khyay">
+                Build a team dashboard
+              </div>
 
-              <Stack flexDirection="row" gap={1}>
+              <Stack flexDirection="row" gap={1} alignItems={"flex-start"}>
                 <Image src={coin} alt="coin" className="w-5" />
-                <div>{escrow_info ? Number(escrow_info.amount) : "--"}</div>
+                <div className="font-myanmar_khyay">
+                  {escrow_info ? Number(escrow_info.amount) : "--"}
+                </div>
               </Stack>
             </Stack>
           </Card>
@@ -124,10 +128,12 @@ export default function page() {
               alignItems="center"
               gap={2}
             >
-              <div className="text-sm font-[500]">Private</div>
+              <div className="text-sm font-[500] font-myanmar">Private</div>
               <div className="flex flex-col space-y-2">
-                <div className="text-xs text-textColor">Deadline</div>
-                <div className="text-base font-semibold line-clamp-1">
+                <div className="text-xs text-textColor font-myanmar">
+                  Deadline
+                </div>
+                <div className="text-base font-semibold line-clamp-1 font-myanmar">
                   2d 24hrs 30min
                 </div>
               </div>
@@ -149,7 +155,7 @@ export default function page() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <div className="text-xl font-[500] line-clamp-1">
+                <div className="text-xl font-[500] line-clamp-1 font-myanmar_khyay">
                   {escrow_info ? escrow_info.founderInfo.name : "--"}
                 </div>
                 {escrow_info && escrow_info.founderInfo.twitter.length > 0 ? (
@@ -230,7 +236,7 @@ export default function page() {
                       className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
                       onClick={() => submission()}
                     >
-                      Submission
+                      Submit
                     </Button>
                   </Stack>
                 </Card>
@@ -262,13 +268,18 @@ export default function page() {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <div className="text-sm text-textColor">Submission</div>
+                      <div className="text-sm text-textColor">
+                        <input
+                          placeholder="Submission"
+                          className="h-6 border-0 focus:outline-none"
+                        />
+                      </div>
                       <Button
                         variant="contained"
-                        className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
+                        className="!text-xs !bg-second !px-4 !pb-2 !pt-3 !rounded-md !font-semibold !normal-case !text-white"
                         onClick={() => submission()}
                       >
-                        Submission
+                        Submit
                       </Button>
                     </Stack>
                   </Card>

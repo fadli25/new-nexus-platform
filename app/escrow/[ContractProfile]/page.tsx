@@ -194,7 +194,7 @@ export default function page() {
           </Card>
 
           <div className="sm:col-span-3">
-            <Card width="lg" className=" h-fit">
+            <Card width="lg" className=" h-72">
               <div className="text-sm text-textColor">Description</div>
 
               <div className="p-1 mt-3">
@@ -208,19 +208,22 @@ export default function page() {
                 </div>
               </div>
             </Card>
-            <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
-              <Card className="mt-4 text-base">Link to materials</Card>
-            </span>
 
-            <Stack alignItems="center" mt={4}>
-              <Button
-                variant="contained"
-                onClick={handleOpenModal}
-                className="!text-xs sm:!text-sm !font-semibold !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
-              >
-                Apply to work
-              </Button>
-            </Stack>
+            <Card className="mt-4">
+              <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
+                <Card className="mt-4 text-base">Link to materials</Card>
+              </span>
+
+              <Stack alignItems="center" mt={4}>
+                <Button
+                  variant="contained"
+                  onClick={handleOpenModal}
+                  className="!text-xs sm:!text-sm !font-semibold !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
+                >
+                  Apply to work
+                </Button>
+              </Stack>
+            </Card>
           </div>
         </div>
       </div>

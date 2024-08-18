@@ -16,6 +16,11 @@
   src: url(../public/fonts/Myanmar.ttf);
 }
 
+@font-face {
+  font-family: mynamarKhyay;
+  src: url(../public/fonts/MyanmarKhyay.ttf);
+}
+
 body {
   color: black;
 
