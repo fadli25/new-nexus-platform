@@ -22,8 +22,9 @@ const config: Config = {
 
       fontFamily: {
         mynamarButton: "mynamarButton",
-        myanmar: ['"Myanmar Text"', "sans-serif"],
-        mulish: ['"Mulish"', "sans-serif"],
+        myanmar: ["Myanmar Text", "sans-serif"],
+        mulish: ["Mulish", "sans-serif"],
+        myanmar_khyay: ["mynamarKhyay", "sans-serif"],
       },
     },
   },
