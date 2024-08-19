@@ -4,7 +4,7 @@ import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getApplyFreelancer } from "@/lib/NexusProgram/escrow/utils.ts/getApplyFreelancer";
 import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
-import { fakeData } from "@/lib/fakedata/Data";
+import { motion } from "framer-motion";
 import { Stack } from "@mui/material";
 import {
   useAnchorWallet,
@@ -57,12 +57,32 @@ export default function page() {
     getPendingEscrow();
   }, [anchorWallet]);
 
+  const menu = [
+    { title: "Ongoing Contracts", key: 0 },
+    { title: "Disputes", key: 1 },
+    { title: "View Past Contracts", key: 2 },
+  ];
+
+  const [value, setValue] = useState(0);
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center-center w-full py-10 max-w-7xl mx-auto">
         <Card className="pb-10">
-          <div className="text-sm text-textColor">Ongoing Contracts</div>
-
+          <div className="flex justify-center sm:justify-start items-center gap-3 sm:gap-5">
+            {menu.map((el, i) => (
+              <motion.button
+                whileHover={el.key == value ? {} : { scale: 1.02 }}
+                whileTap={el.key == value ? {} : { scale: 0.98 }}
+                key={i}
+                onClick={() => setValue(i)}
+                className="text-sm text-textColor disabled:text-black"
+                disabled={el.key == value}
+              >
+                {el.title}
+              </motion.button>
+            ))}
+          </div>
           <Stack mt={4} spacing={2.8}>
             {ongoingEscrow &&
               ongoingEscrow.map((el, i) => (

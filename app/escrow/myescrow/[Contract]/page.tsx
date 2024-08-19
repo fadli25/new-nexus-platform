@@ -267,6 +267,7 @@ export default function page() {
                     onClick={() => {
                       setShowTerminate(true);
                       setShowReject(false);
+                      setOpenDispute(false);
                     }}
                     className="!text-xs !bg-white !font-semibold !normal-case !text-second !px-4 !py-2"
                   >
