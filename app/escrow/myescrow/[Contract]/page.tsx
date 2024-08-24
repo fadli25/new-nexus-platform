@@ -6,6 +6,7 @@ import CardAccordionAccept from "@/components/CardAccordionAccept";
 import { getApplyEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getApplyEscrow";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
+import { timeLeft } from "@/lib/utils/time_formatter";
 import { inputStyle } from "@/lib/styles/styles";
 import Coin from "@/public/coin.svg";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -50,7 +51,7 @@ export default function page() {
       const info = await getEscrowInfo(anchorWallet, connection, escrow);
       info!.escrow = escrow;
       console.log("info");
-      console.log(info);
+      console.log(info, "info too");
 
       const freelancerInfo = await get_userr_info(
         anchorWallet,
@@ -88,7 +89,7 @@ export default function page() {
 
   const filter = () => {
     console.log(applys![0].pubkey.toBase58());
-    console.log(escrowInfo.reciever.toBase58());
+    // console.log(escrowInfo.reciever.toBase58());
     const wddd = applys?.filter(
       (ap: any) => ap.pubkey.toBase58() == escrowInfo.reciever.toBase58()
     );
@@ -99,10 +100,14 @@ export default function page() {
   const [showTerminate, setShowTerminate] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [showApprove, setShowApprove] = useState(false);
-  const [titleInput, setTitleInput] = useState("Build a team dashboard");
+  const [titleInput, setTitleInput] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [openDispute, setOpenDispute] = useState(false);
   const [error, setError] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
+  const descriptionInputRef = useRef<HTMLInputElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -146,6 +151,33 @@ export default function page() {
       inputRef.current.focus();
     }
   }, [isEditing]);
+
+  function handleDescriptionEdit() {
+    if (isDescriptionEditing) {
+      if (descriptionInput.trim() === "") {
+        setError("Description cannot be empty");
+      } else {
+        setError("");
+        setIsDescriptionEditing(false);
+      }
+    } else {
+      setIsDescriptionEditing(true);
+    }
+  }
+
+  useEffect(() => {
+    if (isDescriptionEditing && descriptionInputRef.current) {
+      descriptionInputRef.current.focus();
+    }
+  }, [isDescriptionEditing]);
+
+  useEffect(() => {
+    if (escrowInfo) {
+      setTitleInput(escrowInfo.contractName || "Build a team dashboard");
+      setDescriptionInput(escrowInfo.description || "No description available");
+      setDeadline(timeLeft(escrowInfo.deadline));
+    }
+  }, [escrowInfo]);
 
   function handleOpenDispute() {
     setShowTerminate(false);
@@ -202,12 +234,23 @@ export default function page() {
               <div className="text-xs sm:text-sm text-textColor">
                 Description
               </div>
-              <button onClick={handleOpenModal}>
+              <button onClick={handleDescriptionEdit}>
                 <FaEdit className="text-lg text-textColor" />
               </button>
             </div>
             <div className="text-xs sm:text-sm mt-3 leading-7 min-h-24 px-5 py-2">
-              {escrowInfo ? escrowInfo.description : "--"}
+              {isDescriptionEditing ? (
+                <input
+                  type="text"
+                  ref={descriptionInputRef}
+                  className="text-base line-clamp-1 sm:text-sm font-semibold font-myanmarButton h-6 border-0 focus:outline-none"
+                  placeholder="Enter a new description"
+                  value={descriptionInput}
+                  onChange={(e) => setDescriptionInput(e.target.value)}
+                />
+              ) : (
+                <div>{descriptionInput}</div>
+              )}
             </div>
           </Card>
 
@@ -230,7 +273,7 @@ export default function page() {
                   onClick={() => filter()}
                   className="text-lg font-[500] line-clamp-1"
                 >
-                  2d 24hrs 30 min
+                  {deadline}
                 </div>
                 <IconButton onClick={handleOpenModal}>
                   <EditOutlinedIcon className="text-textColor text-base" />
@@ -369,16 +412,26 @@ export default function page() {
       >
         <Card className="text-center text-lg p-10">
           <div>Active Deadline</div>
-          <div className="mt-6 text-3xl font-[500]">2d 24hrs 30min</div>
+          <div className="mt-6 text-3xl font-[500]">
+            {escrowInfo ? deadline : "2d 24hrs 30min"}
+          </div>
           <input
             className={`${inputStyle} mx-auto mt-8 w-[80%]`}
             type="datetime-local"
+            value={deadline}
+            onChange={(e) => {
+              const dateObject = new Date(e.target.value);
+              const epochTime = Math.floor(dateObject.getTime() / 1000);
+              console.log(epochTime);
+              setDeadline(e.target.value);
+            }}
           />
 
           <Stack alignItems="center" mt={5}>
             <Button
               variant="contained"
               className="!text-second !text-xs sm:!text-sm !bg-main !normal-case !px-10 !py-2"
+              onClick={handleCloseModal}
             >
               Done
             </Button>
