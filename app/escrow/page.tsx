@@ -8,6 +8,7 @@ import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
 import { getFounderEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFounderEscrow";
 import { fakeData } from "@/lib/fakedata/Data";
 import { inputStyle } from "@/lib/styles/styles";
+import { formatTime } from "@/lib/utils/time_formatter";
 import coin from "@/public/coin.svg";
 import { Button, Stack, Switch } from "@mui/material";
 import {
@@ -67,7 +68,15 @@ export default function page() {
     setTimeValue(e);
     var date = new Date(e); // some mock date
     var milliseconds = date.getTime();
-    console.log();
+    const formatTimes = formatTime(milliseconds);
+    console.log(
+      time_value,
+      e,
+      date,
+      new Date(milliseconds),
+      formatTimes,
+      "time"
+    );
     setForm({ ...form, DeadLine: milliseconds / 1000 });
     // setTime(milliseconds / 1000);
   };

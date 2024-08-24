@@ -6,6 +6,7 @@ import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo"
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
 import { USER_PREFIX } from "@/lib/constants/constants";
 import { inputStyle } from "@/lib/styles/styles";
+import { formatTime, timeLeft } from "@/lib/utils/time_formatter";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
 import XIcon from "@mui/icons-material/X";
@@ -71,7 +72,7 @@ export default function page() {
 
       info!.founderInfo = founder_info;
       info!.freelancer = freelancer_info;
-      console.log(info);
+      console.log(info, "info", formatTime(info!.deadline));
       setEscrowInfo(info);
       setTelegram(freelancer_info!.telegramId);
     } catch (e) {
@@ -120,7 +121,11 @@ export default function page() {
               alignItems="center"
               className="text-base sm:text-xl font-[500] h-12"
             >
-              <div className="flex-1">Build a team dashboard</div>
+              <div className="flex-1">
+                {escrowInfo && escrowInfo.contractName !== ""
+                  ? escrowInfo.contractName
+                  : "Build a team dashboard"}
+              </div>
 
               <Stack flexDirection="row" gap={1}>
                 <Image src={coin} alt="coin" className="w-5" />
@@ -140,7 +145,9 @@ export default function page() {
               <div className="flex flex-col space-y-2">
                 <div className="text-xs text-textColor">Deadline</div>
                 <div className="text-base font-semibold line-clamp-1">
-                  2d 24hrs 30min
+                  {escrowInfo && escrowInfo.deadline
+                    ? timeLeft(escrowInfo.deadline)
+                    : "2d 24hrs 30min"}
                 </div>
               </div>
             </Stack>
