@@ -1,5 +1,6 @@
 "use client";
 
+import { formatTime } from "@/lib/utils/time_formatter";
 import coin from "@/public/coin.svg";
 import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
@@ -24,6 +25,7 @@ export default function CardContract({
   const router = useRouter();
   const path = usePathname();
 
+  const formattedDeadline = formatTime(deadline);
   return (
     <motion.button
       whileHover={{ x: 5 }}
@@ -64,7 +66,7 @@ export default function CardContract({
               path.slice(1, 16) === "escrow/myescrow" && "hidden"
             }`}
           >
-            <span>{deadline ? deadline : "N/A"}</span>
+            <span>{deadline ? `${formattedDeadline}` : "N/A"}</span>
             <span> min ago</span>
           </div>
         </Stack>
