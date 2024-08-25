@@ -160,7 +160,7 @@ export default function Example() {
                           type: "spring",
                           stiffness: 200,
                         }}
-                        className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second font-myanmar"
+                        className="rounded min-h-32 absolute left-[-13%] top-[150%] bg-second font-myanmar"
                       >
                         <Stack
                           className="sm:!flex-row  border-b border-white"

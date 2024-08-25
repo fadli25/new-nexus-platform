@@ -70,11 +70,11 @@ export default function page() {
               Disputes
             </motion.button>
           </Stack>
-          <div className="pt-[3px]">View past contracts</div>
+          <div className="pt-[3px] cursor-pointer">View past contracts</div>
         </Stack>
 
         <Stack spacing={2.8} mt={3}>
-          {escrows &&
+          {openContracts && escrows &&
             escrows.map((el, i) => (
               <CardContract
                 key={i}
@@ -85,6 +85,20 @@ export default function page() {
                 type={1}
               />
             ))}
+
+            {/* Disputes Logic */}
+
+            {/* {!openContracts && disputes &&
+            disputes.map((el, i) => (
+              <CardContract
+                key={i}
+                contractName={el.contractName}
+                amount={Number(el.amount)}
+                deadline={Number(el.deadline)}
+                escrow={el.pubkey.toBase58()}
+                type={1}
+              />
+            ))} */}
         </Stack>
       </Card>
     </div>

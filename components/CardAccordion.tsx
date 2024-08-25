@@ -45,7 +45,7 @@ export default function CardAccordion({
           justifyContent="space-between"
           alignItems="center"
         >
-          <div className="text-base sm:text-[20px] text-[#696969] font-[500]">
+          <div className="text-base sm:text-[20px] text-[#696969] font-[600]">
             {title}
           </div>
           <Stack flexDirection="row" gap={1}>

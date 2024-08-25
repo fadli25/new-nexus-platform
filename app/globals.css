@@ -24,7 +24,7 @@
 body {
   color: black;
 
-  font-family: mynamar;
+  font-family: "Myanmar Text" !important;
   letter-spacing: 0.8px;
   @apply bg-gradient-to-t from-[#dcdcdc] to-[#F7F5F2] bg-no-repeat min-h-svh;
 }

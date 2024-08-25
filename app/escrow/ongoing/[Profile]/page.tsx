@@ -108,7 +108,7 @@ export default function page() {
               alignItems="center"
               className="text-base sm:text-xl font-[500] h-12"
             >
-              <div className="flex-1 font-myanmar_khyay">
+              <div className="flex-1 font-myanmar_khyay ">
                 Build a team dashboard
               </div>
 
