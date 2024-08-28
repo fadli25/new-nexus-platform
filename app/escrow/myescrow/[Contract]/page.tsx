@@ -28,6 +28,19 @@ export default function page() {
   const [open, setOpen] = useState(false);
   const [escrowInfo, setEscrowInfo] = useState<any>();
   const [applys, setApplys] = useState<any[]>();
+  const [showStartProject, setShowStartProject] = useState(false);
+  const [showTerminate, setShowTerminate] = useState(false);
+  const [showReject, setShowReject] = useState(false);
+  const [showApprove, setShowApprove] = useState(false);
+  const [titleInput, setTitleInput] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [openDispute, setOpenDispute] = useState(false);
+  const [error, setError] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
+  const descriptionInputRef = useRef<HTMLInputElement>(null);
+
   const anchorWallet = useAnchorWallet();
   // const wallet = useWallet();
   const { connection } = useConnection();
@@ -41,6 +54,11 @@ export default function page() {
 
   function handleCloseModal() {
     setOpen(false);
+    const date = new Date(deadline);
+    if (date.toDateString() !== "Invalid Date") {
+      const epochTime = Math.floor(date.getTime() / 1000);
+      setDeadline(timeLeft(epochTime));
+    }
   }
 
   const getEscrowInfosss = async () => {
@@ -95,19 +113,6 @@ export default function page() {
     );
     console.log(wddd);
   };
-
-  const [showStartProject, setShowStartProject] = useState(false);
-  const [showTerminate, setShowTerminate] = useState(false);
-  const [showReject, setShowReject] = useState(false);
-  const [showApprove, setShowApprove] = useState(false);
-  const [titleInput, setTitleInput] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [openDispute, setOpenDispute] = useState(false);
-  const [error, setError] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [descriptionInput, setDescriptionInput] = useState("");
-  const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
-  const descriptionInputRef = useRef<HTMLInputElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -212,12 +217,15 @@ export default function page() {
                 )}
 
                 <button onClick={handleTitleEdit}>
-                  <FaEdit className="text-xl text-textColor" />
+                  <FaEdit
+                    className="text-xl text-textColor "
+                    style={{ display: "unset" }}
+                  />
                 </button>
               </Stack>
               <Stack flexDirection="row" alignItems="center" gap={1}>
                 <Image src={Coin} alt="coin" className="w-5" />
-                <div className="text-sm sm:text-xl font-semibold">
+                <div className="text-sm sm:text-xl font-semibold leading-none ">
                   {escrowInfo ? Number(escrowInfo.amount) : "--"}
                 </div>
               </Stack>
@@ -420,9 +428,6 @@ export default function page() {
             type="datetime-local"
             value={deadline}
             onChange={(e) => {
-              const dateObject = new Date(e.target.value);
-              const epochTime = Math.floor(dateObject.getTime() / 1000);
-              console.log(epochTime);
               setDeadline(e.target.value);
             }}
           />
