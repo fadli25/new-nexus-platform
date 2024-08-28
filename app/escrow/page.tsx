@@ -1,28 +1,25 @@
 "use client";
 
-import Card from "@/components/Card";
-import CardContract from "@/components/CardContract";
-import Loading from "@/components/Loading";
-import { initEscrow } from "@/lib/NexusProgram/escrow/init_escrow";
-import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
-import { getFounderEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFounderEscrow";
-import { fakeData } from "@/lib/fakedata/Data";
-import { inputStyle } from "@/lib/styles/styles";
-import { formatTime } from "@/lib/utils/time_formatter";
-import coin from "@/public/coin.svg";
+import React, { Suspense, useEffect, useState } from "react";
+import Image from "next/image";
 import { Button, Stack, Switch } from "@mui/material";
 import {
   useAnchorWallet,
   useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
-import Image from "next/image";
-import React, { Suspense, useEffect, useState } from "react";
+import Card from "@/components/Card";
+import CardContract from "@/components/CardContract";
+import Loading from "@/components/Loading";
+import { initEscrow } from "@/lib/NexusProgram/escrow/init_escrow";
+import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
+import { inputStyle } from "@/lib/styles/styles";
+import { formatTime } from "@/lib/utils/time_formatter";
+import coin from "@/public/coin.svg";
 
-export default function page() {
-  const [time_value, setTimeValue] = useState();
-  const [escrows, setEscrows] = useState<any[]>();
-
+export default function Page() {
+  const [timeValue, setTimeValue] = useState("");
+  const [escrows, setEscrows] = useState<any[]>([]);
   const [form, setForm] = useState({
     ContractName: "",
     TelegramLink: "",
@@ -37,7 +34,7 @@ export default function page() {
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  function isDisabled() {
+  const isDisabled = () => {
     return (
       !form.TelegramLink ||
       !form.ContractName ||
@@ -46,47 +43,42 @@ export default function page() {
       !form.Description ||
       !form.Link
     );
-  }
+  };
 
-  const getEscrow = async () => {
+  const fetchEscrows = async () => {
     try {
-      console.log("wow");
       const escrow = await getAllEscrow(connection, "confirmed");
       setEscrows(escrow);
-      console.log(escrow);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    if (!anchorWallet) return;
-    getEscrow();
+    if (anchorWallet) {
+      fetchEscrows();
+    }
   }, [anchorWallet]);
 
-  const onChangeTime = (e: any) => {
-    setTimeValue(e);
-    var date = new Date(e); // some mock date
-    var milliseconds = date.getTime();
-    const formatTimes = formatTime(milliseconds);
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const date = new Date(e.target.value);
+    const milliseconds = date.getTime();
+    const formattedTime = formatTime(milliseconds);
+    setTimeValue(e.target.value);
+    setForm((prevForm) => ({ ...prevForm, DeadLine: milliseconds / 1000 }));
     console.log(
-      time_value,
-      e,
+      timeValue,
+      e.target.value,
       date,
       new Date(milliseconds),
-      formatTimes,
+      formattedTime,
       "time"
     );
-    setForm({ ...form, DeadLine: milliseconds / 1000 });
-    // setTime(milliseconds / 1000);
   };
 
-  const init_esc = async () => {
+  const handleSubmit = async () => {
     try {
-      console.log(form);
-      console.log(form.DeadLine);
-
-      initEscrow(
+      await initEscrow(
         anchorWallet!,
         connection,
         form.ContractName,
@@ -97,8 +89,8 @@ export default function page() {
         form.DeadLine,
         wallet
       );
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -112,7 +104,7 @@ export default function page() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <div className="text-sm sm:text-base text-textColor  !font-myanmar">
+              <div className="text-sm sm:text-base text-textColor font-myanmar">
                 Create new escrow contract
               </div>
               <Stack
@@ -122,22 +114,23 @@ export default function page() {
                 className="text-xs sm:text-sm"
               >
                 <div>Public</div>
-                <div>
-                  <Switch
-                    color="warning"
-                    value={form.private}
-                    onChange={(e) =>
-                      setForm({ ...form, private: e.target.checked })
-                    }
-                  />
-                </div>
+                <Switch
+                  color="warning"
+                  checked={!form.private}
+                  onChange={(e) =>
+                    setForm((prevForm) => ({
+                      ...prevForm,
+                      private: !e.target.checked,
+                    }))
+                  }
+                />
                 <div>Private</div>
               </Stack>
             </Stack>
 
             <Stack
               spacing={2}
-              width={"100%"}
+              width="100%"
               mt={5}
               className="text-xs sm:text-sm"
             >
@@ -146,50 +139,58 @@ export default function page() {
                 <input
                   value={form.ContractName}
                   onChange={(e) =>
-                    setForm({ ...form, ContractName: e.target.value })
+                    setForm((prevForm) => ({
+                      ...prevForm,
+                      ContractName: e.target.value,
+                    }))
                   }
                   className={`${inputStyle} w-full`}
-                  placeholder="Eg. Build a landing page"
+                  placeholder="E.g., Build a landing page"
                 />
               </div>
 
               <div className="grid gap-6 grid-cols-4">
                 <div className="col-span-3">
-                  <label className="!font-myanmar">Telegram Link</label>
+                  <label className="font-myanmar">Telegram Link</label>
                   <input
                     type="text"
                     value={form.TelegramLink}
                     onChange={(e) =>
-                      setForm({ ...form, TelegramLink: e.target.value })
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        TelegramLink: e.target.value,
+                      }))
                     }
                     className={`${inputStyle} w-full`}
-                    placeholder="Eg. https://example.tme.com"
+                    placeholder="E.g., https://example.tme.com"
                   />
                 </div>
 
                 <div className="col-span-1">
-                  <label className="!font-myanmar">Deadline</label>
+                  <label className="font-myanmar">Deadline</label>
                   <input
                     type="date"
-                    value={time_value}
-                    onChange={(e) => onChangeTime(e.target.value)}
+                    value={timeValue}
+                    onChange={handleTimeChange}
                     className={`${inputStyle} w-full`}
-                    placeholder="Eg. 2024-08-15"
+                    placeholder="E.g., 2024-08-15"
                   />
                 </div>
               </div>
+
               <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
                 <div className="col-span-1">
-                  <label className=" line-clamp-1 !font-myanmar">
-                    Input USDC amount
-                  </label>
+                  <label className="font-myanmar">Input USDC amount</label>
                   <div className="relative">
                     <input
                       type="number"
                       min={0}
                       value={form.Amount}
                       onChange={(e) =>
-                        setForm({ ...form, Amount: Number(e.target.value) })
+                        setForm((prevForm) => ({
+                          ...prevForm,
+                          Amount: Number(e.target.value),
+                        }))
                       }
                       className={`${inputStyle} w-full`}
                       placeholder="200"
@@ -201,38 +202,44 @@ export default function page() {
                 </div>
 
                 <div className="col-span-1">
-                  <label className=" line-clamp-1 !font-myanmar">
+                  <label className="font-myanmar">
                     Link to materials needed
                   </label>
                   <input
                     type="text"
                     value={form.Link}
-                    onChange={(e) => setForm({ ...form, Link: e.target.value })}
+                    onChange={(e) =>
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        Link: e.target.value,
+                      }))
+                    }
                     className={`${inputStyle} w-full`}
-                    placeholder="Eg. https://example.figma.com"
+                    placeholder="E.g., https://example.figma.com"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="" className="!font-myanmar">
-                  Description
-                </label>
+                <label className="font-myanmar">Description</label>
                 <textarea
                   value={form.Description}
                   onChange={(e) =>
-                    setForm({ ...form, Description: e.target.value })
+                    setForm((prevForm) => ({
+                      ...prevForm,
+                      Description: e.target.value,
+                    }))
                   }
                   className={`${inputStyle} w-full`}
                   rows={3}
-                  placeholder="Eg. A brief description of what the contract entails"
-                ></textarea>
+                  placeholder="E.g., A brief description of what the contract entails"
+                />
               </div>
             </Stack>
 
             <Stack mt={5} alignItems="center">
               <Button
-                onClick={() => init_esc()}
+                onClick={handleSubmit}
                 variant="contained"
                 type="submit"
                 disabled={isDisabled()}
@@ -256,9 +263,8 @@ export default function page() {
           >
             {escrows &&
               escrows.map((el, i) => (
-                <Suspense fallback={<Loading />}>
+                <Suspense fallback={<Loading />} key={i}>
                   <CardContract
-                    key={i}
                     contractName={el.contractName}
                     amount={Number(el.amount)}
                     deadline={Number(el.deadline)}
