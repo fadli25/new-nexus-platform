@@ -30,19 +30,19 @@ export default function Navbar() {
               !path.startsWith(navigation[1].path) &&
               !path.startsWith(navigation[2].path) &&
               el.name === "Home" &&
-              "!border-black !border-b-4 !text-black"
+              "!border-black !border-b-4 !text-black font-semibold"
             } 
             ${
               path.startsWith(el.path) &&
               el.name !== "Home" &&
-              "!border-black !border-b-4 !text-black"
+              "!border-black !border-b-4 !text-black font-semibold"
             }
             !flex-1 text-center `}
             key={i}
           >
             <button
               onClick={() => router.push(el.path)}
-              className={`!py-4 !normal-case !tracking-[0.8px] !text-xs sm:!text-base !font-[600] !w-full !h-full`}
+              className={`!py-4 !normal-case !tracking-[0.8px] !text-xs sm:!text-base !w-full !h-full`}
             >
               <div className="">{el.name}</div>
             </button>

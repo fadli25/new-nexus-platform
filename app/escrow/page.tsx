@@ -255,10 +255,10 @@ export default function Page() {
           </div>
 
           <Stack
-            mt={5}
+            mt={3}
             spacing={2.6}
-            className="h-[489px]  overflow-y-scroll overflow-x-hidden escrow pr-2"
-          >
+            className="h-[472px] overflow-y-scroll overflow-x-hidden escrow pr-2"
+          > 
             {escrows &&
               escrows.map((el, i) => (
                 <Suspense fallback={<Loading />} key={i}>
