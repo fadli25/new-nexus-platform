@@ -20,6 +20,9 @@ import {
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { CiFileOn } from "react-icons/ci";
+import { FaFileAlt } from "react-icons/fa";
+import { FaFile } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 
 export default function page() {
@@ -202,11 +205,11 @@ export default function page() {
 
           <div className="sm:col-span-3">
             <Card width="lg" className=" h-72">
-              <div className="text-sm text-textColor">Description</div>
+              <div className="text-xs text-textColor">Description</div>
 
-              <div className="p-1 mt-3">
+              <div className=" mt-3">
                 <div
-                  className="line-clamp-5 text-5 text-[13px] leading-7 cursor-pointer h-14"
+                  className="line-clamp-5 text-5 text-[12px] leading-7 cursor-pointer h-14"
                   onClick={() => setShowDescription(true)}
                 >
                   {escrowInfo && escrowInfo.description !== ""
@@ -218,7 +221,9 @@ export default function page() {
 
             <Card className="mt-4">
               <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
-                <Card className="mt-4 text-base">Link to Resources</Card>
+                <Card className="mt-4 text-base !flex !justify-center gap-1 !items-start">
+                  <div><CiFileOn className="text-xl" /></div>
+                   <div className="mt-[2px]">Link to Resources</div></Card>
               </span>
 
               <Stack alignItems="center" mt={4}>
