@@ -43,7 +43,7 @@ export default function page() {
 
   return (
     <div>
-      <Card width="md" className="pb-10">
+      <Card width="md" className="pb-10 mt-6">
         <Stack
           flexDirection="row"
           justifyContent="space-between"
@@ -74,7 +74,8 @@ export default function page() {
         </Stack>
 
         <Stack spacing={2.8} mt={3}>
-          {openContracts && escrows &&
+          {openContracts &&
+            escrows &&
             escrows.map((el, i) => (
               <CardContract
                 key={i}
@@ -86,9 +87,9 @@ export default function page() {
               />
             ))}
 
-            {/* Disputes Logic */}
+          {/* Disputes Logic */}
 
-            {/* {!openContracts && disputes &&
+          {/* {!openContracts && disputes &&
             disputes.map((el, i) => (
               <CardContract
                 key={i}
