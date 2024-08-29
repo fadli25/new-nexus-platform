@@ -104,7 +104,7 @@ export default function CardAccordionAccept({
 
           <motion.button
             disabled={!showTerminate}
-            className="w-full cursor-default mt-2 py-3 relative text-center text-base font-[500] rounded-lg text-black shadow-sm border border-black disabled:opacity-25"
+            className="w-full cursor-default mt-2 py-3 relative text-center text-base font-[500] rounded-lg text-black shadow-sm border border-textColor disabled:opacity-25"
           >
             <div className="-mb-2">View Submission</div>
             <div className="absolute right-3 top-[11px] text-xl">
