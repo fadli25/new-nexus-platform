@@ -36,7 +36,7 @@ export default function CardApp({
         />
         <Stack spacing={0.4}>
           <div
-            className="text-base cursor-pointer font-[400] line-clamp-1"
+            className="text-base cursor-pointer font-[600] line-clamp-1"
             onClick={() => router.push("/escrow/myescrow/name/name")}
           >
             {title}

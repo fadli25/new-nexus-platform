@@ -200,7 +200,7 @@ export default function page() {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Stack flexDirection="row" alignItems="center" gap={1.5}>
+              <Stack flexDirection="row" alignItems="start" gap={1}>
                 {isEditing ? (
                   <input
                     type="text"
@@ -218,13 +218,13 @@ export default function page() {
 
                 <button onClick={handleTitleEdit}>
                   <FaEdit
-                    className="text-xl text-textColor "
+                    className="text-xl text-textColor pt-[2px]"
                     style={{ display: "unset" }}
                   />
                 </button>
               </Stack>
-              <Stack flexDirection="row" alignItems="center" gap={1}>
-                <Image src={Coin} alt="coin" className="w-5" />
+              <Stack flexDirection="row" alignItems="start" gap={1}>
+                <Image src={Coin} alt="coin" className="w-5 pt-[2px]" />
                 <div className="text-sm sm:text-xl font-semibold leading-none ">
                   {escrowInfo ? Number(escrowInfo.amount) : "--"}
                 </div>
@@ -270,13 +270,13 @@ export default function page() {
               alignItems="center"
             >
               <div>Public</div>
-              <Switch />
+              <Switch className="-mt-[6px]" />
               <div>Private</div>
             </Stack>
 
             <Stack mt={4} spacing={2}>
               <div className="text-xs text-textColor">Deadline</div>
-              <Stack flexDirection="row" gap={2} alignItems="center">
+              <Stack flexDirection="row" gap={1} alignItems="center">
                 <div
                   onClick={() => filter()}
                   className="text-lg font-[500] line-clamp-1"
@@ -284,7 +284,7 @@ export default function page() {
                   {deadline}
                 </div>
                 <IconButton onClick={handleOpenModal}>
-                  <EditOutlinedIcon className="text-textColor text-base" />
+                  <EditOutlinedIcon className="text-textColor -mt-2  text-base" />
                 </IconButton>
               </Stack>
             </Stack>
