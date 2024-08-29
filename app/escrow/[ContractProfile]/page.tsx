@@ -117,12 +117,12 @@ export default function page() {
     <div>
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-8">
-          <Card className="!py-4 !col-span-1 sm:!col-span-3" width="lg">
+          <Card className=" !col-span-1 sm:!col-span-3" width="lg">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
-              className="text-base sm:text-xl font-[600] h-12"
+              className="text-base sm:text-xl font-[600] pt-2"
             >
               <div className="flex-1 text-base sm:text-2xl">
                 {escrowInfo && escrowInfo.contractName !== ""
@@ -137,7 +137,7 @@ export default function page() {
             </Stack>
           </Card>
 
-          <Card className="!py-4 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
+          <Card className="!py-3 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
