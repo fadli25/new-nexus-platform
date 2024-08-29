@@ -39,13 +39,13 @@ export default function CardAccordion({
 
   return (
     <div>
-      <Card className="rounded-b-none border-b-2 py-4">
+      <Card className="rounded-b-none border-b-2 pt-[18px] pb-[10px]">
         <Stack
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <div className="text-base sm:text-[20px] text-[#696969] font-[600]">
+          <div className="text-base sm:text-lg text-[#696969] font-[600]">
             {title}
           </div>
           <Stack flexDirection="row" gap={1}>
