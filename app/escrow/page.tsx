@@ -99,31 +99,31 @@ export default function Page() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center w-full py-10 max-w-7xl mx-auto mb-10">
         <form onSubmit={(e) => e.preventDefault()}>
           <Card className="pb-7">
-            <Stack
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
+            <Stack flexDirection="row" justifyContent="space-between">
               <div className="text-sm sm:text-base text-textColor font-myanmar">
                 Create new escrow contract
               </div>
               <Stack
                 flexDirection="row"
-                alignItems="center"
                 gap={0.3}
-                className="text-xs sm:text-sm"
+                className="text-xs sm:text-sm pt-[0.2rem]"
+                alignItems="flex-start"
               >
                 <div>Public</div>
-                <Switch
-                  color="warning"
-                  checked={!form.private}
-                  onChange={(e) =>
-                    setForm((prevForm) => ({
-                      ...prevForm,
-                      private: !e.target.checked,
-                    }))
-                  }
-                />
+                <div className="mt-[-6px]">
+                  <Switch
+                    color="warning"
+                    checked={!form.private}
+                    onChange={(e) =>
+                      setForm((prevForm) => ({
+                        ...prevForm,
+                        private: !e.target.checked,
+                      }))
+                    }
+                    size="small"
+                  />
+                </div>
+
                 <div>Private</div>
               </Stack>
             </Stack>
@@ -202,9 +202,7 @@ export default function Page() {
                 </div>
 
                 <div className="col-span-1">
-                  <label className="font-myanmar">
-                    Link to materials needed
-                  </label>
+                  <label className="font-myanmar">Link to resources</label>
                   <input
                     type="text"
                     value={form.Link}
@@ -259,7 +257,7 @@ export default function Page() {
           <Stack
             mt={5}
             spacing={2.6}
-            className="h-[600px] sm:max-h-[489px] overflow-y-scroll overflow-x-hidden escrow pr-2"
+            className="h-[489px]  overflow-y-scroll overflow-x-hidden escrow pr-2"
           >
             {escrows &&
               escrows.map((el, i) => (
