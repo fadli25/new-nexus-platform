@@ -310,6 +310,7 @@ export default function page() {
                 }
                 title="Approved Contractor"
                 type="Chat"
+                font_size="!text-sm"
                 escrowInfo={escrowInfo}
                 showTerminate={showTerminate}
                 showApprove={handleShowApprove}
@@ -413,6 +414,8 @@ export default function page() {
               type="Approve"
               page={"approve"}
               link={"approve"}
+              font_size="!text-sm"
+              padding="!pt-[0.3rem]"
             />
           )}
         </div>
