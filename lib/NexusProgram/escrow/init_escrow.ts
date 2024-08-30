@@ -78,7 +78,6 @@ export async function initEscrow(
         SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
     );
 
-
     const tx = await program.methods.initEscrow({
         contractName: contact_name,
         deadline: new BN(deadline),
@@ -100,6 +99,8 @@ export async function initEscrow(
         .rpc({
             commitment: "confirmed",
         })
+
+
 
     // wallet.sendTransaction(tx, connection, {
     //     preflightCommitment: "confirmed"
