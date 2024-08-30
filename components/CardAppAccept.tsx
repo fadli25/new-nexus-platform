@@ -7,8 +7,16 @@ import { useRouter } from "next/navigation";
 import { escape } from "querystring";
 import React from "react";
 
-export default function CardApp({ title, role, type, approve, reject, escrow, apply, escrowInfo }: any) {
-
+export default function CardApp({
+  title,
+  role,
+  type,
+  approve,
+  reject,
+  escrow,
+  apply,
+  escrowInfo,
+}: any) {
   const links = (_link: string) => {
     window.open(_link, "_blank");
   };
@@ -28,7 +36,7 @@ export default function CardApp({ title, role, type, approve, reject, escrow, ap
         />
         <Stack spacing={0.4}>
           <div
-            className="text-base cursor-pointer font-[400] line-clamp-1"
+            className="text-base cursor-pointer font-[600] line-clamp-1"
             onClick={() => router.push("/escrow/myescrow/name/name")}
           >
             {title}
@@ -42,26 +50,28 @@ export default function CardApp({ title, role, type, approve, reject, escrow, ap
       <Button
         onClick={() => links(escrowInfo.link)}
         variant="contained"
-        className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
+        className="!normal-case !text-[11px] !text-white !bg-second !px-5 !pt-2 !h-fit"
       >
         {type}
       </Button>
-      {escrowInfo && escrowInfo.status == 9 && <>
-        <Button
-          onClick={() => approve()}
-          variant="contained"
-          className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
-        >
-          Approve
-        </Button>
-        <Button
-          onClick={() => reject()}
-          variant="contained"
-          className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
-        >
-          Reject
-        </Button>
-      </>}
-    </Stack >
+      {/* {escrowInfo && escrowInfo.status == 9 && (
+        <>
+          <Button
+            onClick={() => approve()}
+            variant="contained"
+            className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
+          >
+            Approve
+          </Button>
+          <Button
+            onClick={() => reject()}
+            variant="contained"
+            className="!normal-case !text-xs !text-white !font-semibold !bg-second !px-5 !py-2 !h-fit"
+          >
+            Reject
+          </Button>
+        </>
+      )} */}
+    </Stack>
   );
 }

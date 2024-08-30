@@ -4,62 +4,97 @@ import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getApplyFreelancer } from "@/lib/NexusProgram/escrow/utils.ts/getApplyFreelancer";
 import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
-import { fakeData } from "@/lib/fakedata/Data";
+import { motion } from "framer-motion";
 import { Stack } from "@mui/material";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
-
-  const [pendingEscrow, setPendingEscrow] = useState<any[]>()
-  const [ongoingEscrow, setOngoingEscrow] = useState<any[]>()
+  const [pendingEscrow, setPendingEscrow] = useState<any[]>();
+  const [ongoingEscrow, setOngoingEscrow] = useState<any[]>();
 
   const anchorWallet = useAnchorWallet();
   const wallet = useWallet();
   const { connection } = useConnection();
 
-
   const getPendingEscrow = async () => {
     try {
-
-      const pending = await getApplyFreelancer(anchorWallet, connection, "confirmed");
+      const pending = await getApplyFreelancer(
+        anchorWallet,
+        connection,
+        "confirmed"
+      );
       console.log("pending");
       console.log(pending);
       setPendingEscrow(pending.filter((p) => p.status != "Success"));
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const getOngoingEscrow = async () => {
     try {
-
-      const ongoing = await getFreeLacerEscrow(anchorWallet, connection, "confirmed");
+      const ongoing = await getFreeLacerEscrow(
+        anchorWallet,
+        connection,
+        "confirmed"
+      );
       console.log("ongoing");
       console.log(ongoing);
       setOngoingEscrow(ongoing);
     } catch (e) {
       console.log(e);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (!anchorWallet) return;
-    getOngoingEscrow()
-    getPendingEscrow()
-  }, [anchorWallet])
+    getOngoingEscrow();
+    getPendingEscrow();
+  }, [anchorWallet]);
+
+  const menu = [
+    { title: "Ongoing Contracts", key: 0 },
+    { title: "Disputes", key: 1 },
+    { title: "View Past Contracts", key: 2 },
+  ];
+
+  const [value, setValue] = useState(0);
 
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-content-center-center w-full py-10 max-w-7xl mx-auto">
         <Card className="pb-10">
-          <div className="text-sm text-textColor">Ongoing Projects</div>
-
-          <Stack mt={4} spacing={2.8}>
-            {ongoingEscrow && ongoingEscrow.map((el, i) => (
-              <CardContract key={i} contractName={el.contractName} amount={Number(el.amount)} deadline={Number(el.deadline)} escrow={el.pubkey.toBase58()} type={3} />
+          <div className="flex justify-center sm:justify-start items-center gap-3 sm:gap-5">
+            {menu.map((el, i) => (
+              <motion.button
+                whileHover={el.key == value ? {} : { scale: 1.02 }}
+                whileTap={el.key == value ? {} : { scale: 0.98 }}
+                key={i}
+                onClick={() => setValue(i)}
+                className="text-sm text-textColor disabled:text-black"
+                disabled={el.key == value}
+              >
+                {el.title}
+              </motion.button>
             ))}
+          </div>
+          <Stack mt={4} spacing={2.8}>
+            {ongoingEscrow &&
+              ongoingEscrow.map((el, i) => (
+                <CardContract
+                  key={i}
+                  contractName={el.contractName}
+                  amount={Number(el.amount)}
+                  deadline={Number(el.deadline)}
+                  escrow={el.pubkey.toBase58()}
+                  type={3}
+                />
+              ))}
           </Stack>
         </Card>
 
@@ -67,9 +102,10 @@ export default function page() {
           <div className="text-sm text-textColor">Pending Applications</div>
 
           <Stack mt={4} spacing={2.8}>
-            {pendingEscrow && pendingEscrow.map((el, i) => (
-              <CardContract key={i} {...el} type={3} />
-            ))}
+            {pendingEscrow &&
+              pendingEscrow.map((el, i) => (
+                <CardContract key={i} {...el} type={3} />
+              ))}
           </Stack>
         </Card>
       </div>

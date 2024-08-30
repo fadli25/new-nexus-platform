@@ -26,7 +26,7 @@ export default function page() {
   const [tap, setTap] = useState(menu[0]);
 
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
+    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5 !mb-16">
       <div className="col-span-1 md:col-span-2">
         <Card className="!p-0 overflow-hidden">
           <Image
@@ -160,7 +160,7 @@ export default function page() {
               </div>
             </Card>
 
-            <Card className="mt-5">
+            <Card className="mt-5 h-56">
               <div className="text-xs text-textColor">Profile Overview</div>
               <div className="text-sm leading-6 line-clamp-5 mt-2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -174,13 +174,17 @@ export default function page() {
             </Card>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 px-1">
-              <div className={`${cardStyle}`}>Category</div>
+              <div className={`${cardStyle} `} style={{ height: "3.65rem" }}>
+                Category
+              </div>
               <div className={`${cardStyle}`}>Country</div>
               <div className={`${cardStyle}`}>Time Zone</div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
-              <div className={`${cardStyle}`}>View Portfolio</div>
+              <div className={`${cardStyle} `} style={{ height: "3.65rem" }}>
+                View Portfolio
+              </div>
               <div className={`${cardStyle}`}>View Resume</div>
             </div>
           </motion.div>

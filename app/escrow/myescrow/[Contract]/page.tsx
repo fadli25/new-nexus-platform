@@ -3,15 +3,13 @@
 import Card from "@/components/Card";
 import CardAccordion from "@/components/CardAccordion";
 import CardAccordionAccept from "@/components/CardAccordionAccept";
-import CardAnimation from "@/components/CardAnimation";
 import { getApplyEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getApplyEscrow";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
-import { fakeData2, fakeData3 } from "@/lib/fakedata/Data";
+import { timeLeft } from "@/lib/utils/time_formatter";
 import { inputStyle } from "@/lib/styles/styles";
 import Coin from "@/public/coin.svg";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ShareIcon from "@mui/icons-material/Share";
 import { Button, IconButton, Modal, Stack, Switch } from "@mui/material";
 import { web3 } from "@project-serum/anchor";
 import {
@@ -21,18 +19,33 @@ import {
 } from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import linksvg from "@/public/linksvg.svg";
+import ApproveModal from "@/components/ApproveModal";
+import { FaEdit } from "react-icons/fa";
 
 export default function page() {
   const [open, setOpen] = useState(false);
   const [escrowInfo, setEscrowInfo] = useState<any>();
   const [applys, setApplys] = useState<any[]>();
+  const [showStartProject, setShowStartProject] = useState(false);
+  const [showTerminate, setShowTerminate] = useState(false);
+  const [showReject, setShowReject] = useState(false);
+  const [showApprove, setShowApprove] = useState(false);
+  const [titleInput, setTitleInput] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [openDispute, setOpenDispute] = useState(false);
+  const [error, setError] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
+  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
+  const [originalDescription, setOriginalDescription] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+
   const anchorWallet = useAnchorWallet();
-  // const wallet = useWallet();
   const { connection } = useConnection();
-  // const router = useRouter()
   const pathname = usePathname();
-  // const searchParams = useSearchParams()
 
   function handleOpenModal() {
     setOpen(true);
@@ -40,17 +53,21 @@ export default function page() {
 
   function handleCloseModal() {
     setOpen(false);
+    const date = new Date(deadline);
+    if (date.toDateString() !== "Invalid Date") {
+      const epochTime = Math.floor(date.getTime() / 1000);
+      setDeadline(timeLeft(epochTime));
+    }
   }
 
   const getEscrowInfosss = async () => {
     try {
-      // const address = searchParams.get("escrow");
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getEscrowInfo(anchorWallet, connection, escrow);
       info!.escrow = escrow;
       console.log("info");
-      console.log(info);
+      console.log(info, "info too");
 
       const freelancerInfo = await get_userr_info(
         anchorWallet,
@@ -59,7 +76,6 @@ export default function page() {
       );
       console.log(freelancerInfo);
       info!.freelancerInfo = freelancerInfo;
-      // console.log(info);
       setEscrowInfo(info);
     } catch (e) {
       console.log(e);
@@ -68,7 +84,6 @@ export default function page() {
 
   const getApplys = async () => {
     try {
-      // const address = searchParams.get("escrow");
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getApplyEscrow(connection, escrow, "confirmed");
@@ -88,45 +103,167 @@ export default function page() {
 
   const filter = () => {
     console.log(applys![0].pubkey.toBase58());
-    console.log(escrowInfo.reciever.toBase58());
     const wddd = applys?.filter(
       (ap: any) => ap.pubkey.toBase58() == escrowInfo.reciever.toBase58()
     );
     console.log(wddd);
   };
 
-  const [showStartProject, setShowStartProject] = useState(false);
-  const [showTerminate, setShowTerminate] = useState(false);
-  const [showRefund, setShowRefund] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function handleTitleEdit() {
+    if (isEditing) {
+      if (titleInput.trim() === "") {
+        setError("Title cannot be empty");
+      } else {
+        setError("");
+        setIsEditing(false);
+      }
+    } else {
+      setIsEditing(true);
+    }
+  }
+
+  function handleCancelProjectTermination() {
+    setShowTerminate(false);
+    setShowReject(false);
+  }
+
+  function handleShowStartProject() {
+    setShowStartProject(true);
+  }
+
+  function handleShowApprove() {
+    setShowApprove(true);
+  }
+
+  function handleShowReject() {
+    setShowReject(true);
+    setShowTerminate(false);
+  }
+
+  function handleCloseReject() {
+    setShowReject(false);
+  }
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  function handleDescriptionEdit() {
+    setIsDescriptionModalOpen(true);
+  }
+
+  function handleDescriptionModalClose() {
+    if (descriptionInput.trim() === "") {
+      setDescriptionError("Description cannot be empty");
+    } else {
+      setDescriptionError("");
+      setIsDescriptionModalOpen(false);
+      setIsDescriptionEditing(false);
+      setOriginalDescription(descriptionInput);
+    }
+  }
+
+  function handleSaveDescription() {
+    if (descriptionInput.trim() === "") {
+      setDescriptionError("Description cannot be empty");
+    } else {
+      setDescriptionError("");
+      setIsDescriptionModalOpen(false);
+      // Implement the save logic here (if needed)
+      setOriginalDescription(descriptionInput);
+    }
+  }
+
+  useEffect(() => {
+    if (escrowInfo) {
+      setTitleInput(escrowInfo.contractName || "Build a team dashboard");
+      setDescriptionInput(escrowInfo.description || "No description available");
+      setOriginalDescription(
+        escrowInfo.description || "No description available"
+      );
+      setDeadline(timeLeft(escrowInfo.deadline));
+    }
+  }, [escrowInfo]);
+
+  function handleOpenDispute() {
+    setShowTerminate(false);
+    setShowApprove(false);
+    setOpenDispute(true);
+  }
+
   return (
     <div>
-      <div className="max-w-5xl mx-auto pt-4">
-        <Card width="lg">
-          <Stack
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Stack flexDirection="row" alignItems="center" gap={1}>
-              <div className="text-lg line-clamp-1 sm:text-2xl font-semibold font-mynamarButton">
-                Build a team dashboard
-              </div>
+      <div className="max-w-6xl mx-auto pt-4">
+        <div className="flex items-center gap-3">
+          <Card width="lg">
+            <Stack
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Stack flexDirection="row" alignItems="start" gap={1}>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    ref={inputRef}
+                    className="text-base line-clamp-1 sm:text-2xl font-semibold font-myanmarButton h-6 border-0 focus:outline-none"
+                    placeholder="Eg. Enter a new title"
+                    value={titleInput}
+                    onChange={(e) => setTitleInput(e.target.value)}
+                  />
+                ) : (
+                  <div className="text-base line-clamp-1 sm:text-2xl font-semibold font-myanmarButton">
+                    {titleInput}
+                  </div>
+                )}
 
-              <ShareIcon />
+                <button onClick={handleTitleEdit}>
+                  <FaEdit
+                    className="text-xl text-textColor pt-[2px]"
+                    style={{ display: "unset" }}
+                  />
+                </button>
+              </Stack>
+              <Stack flexDirection="row" alignItems="start" gap={1}>
+                <Image src={Coin} alt="coin" className="w-5 pt-[2px]" />
+                <div className="text-sm sm:text-xl font-semibold leading-none ">
+                  {escrowInfo ? Number(escrowInfo.amount) : "--"}
+                </div>
+              </Stack>
             </Stack>
-            <Stack flexDirection="row" alignItems="center" gap={1}>
-              <Image src={Coin} alt="coin" className="w-5" />
-              <div className="text-xl font-semibold">
-                {escrowInfo ? Number(escrowInfo.amount) : "--"}
-              </div>
-            </Stack>
-          </Stack>
-        </Card>
+          </Card>
+
+          <div className="bg-white rounded-xl p-5 h-full hidden sm:block">
+            <Image src={linksvg} alt="" className="w-[30px] py-[3px]" />
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           <Card className="col-span-1 md:col-span-3" width="lg">
-            <div className="text-sm text-textColor">Description</div>
-            <div className="text-sm mt-3 leading-7 min-h-24 px-5 py-2">
-              {escrowInfo ? escrowInfo.description : "--"}
+            <div className="flex justify-between items-center w-full">
+              <div className="text-xs sm:text-sm text-textColor">
+                Description
+              </div>
+              <button onClick={handleDescriptionEdit}>
+                <FaEdit className="text-lg text-textColor" />
+              </button>
+            </div>
+            <div className="text-xs sm:text-sm mt-3 leading-7 min-h-24 py-2">
+              {isDescriptionEditing ? (
+                <input
+                  type="text"
+                  ref={descriptionInput}
+                  className="text-base line-clamp-1 sm:text-sm font-semibold font-myanmarButton h-6 border-0 focus:outline-none"
+                  placeholder="Enter a new description"
+                  value={descriptionInput}
+                  onChange={(e) => setDescriptionInput(e.target.value)}
+                />
+              ) : (
+                <div>{descriptionInput}</div>
+              )}
             </div>
           </Card>
 
@@ -138,21 +275,21 @@ export default function page() {
               alignItems="center"
             >
               <div>Public</div>
-              <Switch />
-              <div>Public</div>
+              <Switch className="-mt-[6px]" />
+              <div>Private</div>
             </Stack>
 
             <Stack mt={4} spacing={2}>
               <div className="text-xs text-textColor">Deadline</div>
-              <Stack flexDirection="row" gap={2} alignItems="center">
+              <Stack flexDirection="row" gap={1} alignItems="center">
                 <div
                   onClick={() => filter()}
                   className="text-lg font-[500] line-clamp-1"
                 >
-                  2d 24hrs 30 min
+                  {deadline}
                 </div>
                 <IconButton onClick={handleOpenModal}>
-                  <EditOutlinedIcon className="text-textColor text-base" />
+                  <EditOutlinedIcon className="text-textColor -mt-2  text-base" />
                 </IconButton>
               </Stack>
             </Stack>
@@ -174,30 +311,19 @@ export default function page() {
                 title="Approved Contractor"
                 type="Chat"
                 escrowInfo={escrowInfo}
+                showTerminate={showTerminate}
+                showApprove={handleShowApprove}
+                reject={showReject}
+                openDispute={openDispute}
+                cancel={handleCancelProjectTermination}
               >
                 <Stack flexDirection="row" gap={1}>
-                  <div
-                    className={
-                      showStartProject || showTerminate || showRefund
-                        ? "hidden"
-                        : ""
-                    }
-                  >
-                    <Button
-                      variant="contained"
-                      onClick={() => setShowStartProject(true)}
-                      className="!text-xs !bg-main !font-semibold !normal-case !text-second !px-4 !py-2"
-                    >
-                      Start Project
-                    </Button>
-                  </div>
-
                   <Button
                     variant="contained"
                     onClick={() => {
                       setShowTerminate(true);
-                      setShowRefund(false);
-                      setShowStartProject(false);
+                      setShowReject(false);
+                      setOpenDispute(false);
                     }}
                     className="!text-xs !bg-white !font-semibold !normal-case !text-second !px-4 !py-2"
                   >
@@ -207,11 +333,7 @@ export default function page() {
               </CardAccordionAccept>
             )}
 
-            <Card>
-              <div className="text-base text-textColor">Submission</div>
-            </Card>
-
-            {showStartProject && (
+            {/* {showStartProject && (
               <CardAnimation>
                 <Stack
                   flexDirection="row"
@@ -274,9 +396,8 @@ export default function page() {
                   terminate the project
                 </div>
               </CardAnimation>
-            )}
+            )} */}
           </Stack>
-
           {applys && escrowInfo && (
             <CardAccordion
               title="Applications"
@@ -288,6 +409,7 @@ export default function page() {
                     )
                   : applys
               }
+              startProject={handleShowStartProject}
               type="Approve"
               page={"approve"}
               link={"approve"}
@@ -303,21 +425,107 @@ export default function page() {
       >
         <Card className="text-center text-lg p-10">
           <div>Active Deadline</div>
-          <div className="mt-6 text-3xl font-[500]">2d 24hrs 30min</div>
+          <div className="mt-6 text-3xl font-[500]">
+            {escrowInfo ? deadline : "2d 24hrs 30min"}
+          </div>
           <input
             className={`${inputStyle} mx-auto mt-8 w-[80%]`}
             type="datetime-local"
+            value={deadline}
+            onChange={(e) => {
+              setDeadline(e.target.value);
+            }}
           />
 
           <Stack alignItems="center" mt={5}>
             <Button
               variant="contained"
               className="!text-second !text-xs sm:!text-sm !bg-main !normal-case !px-10 !py-2"
+              onClick={handleCloseModal}
             >
               Done
             </Button>
           </Stack>
         </Card>
+      </Modal>
+
+      <Modal
+        open={showStartProject}
+        onClose={() => setShowStartProject(false)}
+        className="grid place-items-center"
+      >
+        <ApproveModal
+          title="Confirmation"
+          messageTitle="Are you sure to start the contract??"
+          messageDescription="Contract can oly be terminated by both parties mutually agreeing to do so"
+        >
+          <Button
+            variant="contained"
+            className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
+          >
+            Start Contract
+          </Button>
+        </ApproveModal>
+      </Modal>
+
+      <Modal
+        open={showApprove}
+        onClose={() => setShowApprove(false)}
+        className="grid place-items-center"
+      >
+        <ApproveModal
+          title="Dispute Request"
+          messageTitle="Are you sure you want tot request a dispute??"
+          messageDescription={
+            <>
+              To prevent abuse, we charge a dispute resolution fee.
+              <br />
+              Please try as much as pussible to resolve your issues before
+              opening a dispute.
+            </>
+          }
+        >
+          <Button
+            variant="contained"
+            onClick={handleOpenDispute}
+            className="!normal-case !text-white !text-xs !bg-black !px-16 !py-2"
+          >
+            Open dispute
+          </Button>
+        </ApproveModal>
+      </Modal>
+
+      <Modal
+        open={isDescriptionModalOpen}
+        onClose={handleDescriptionModalClose}
+        aria-labelledby="description-modal"
+        aria-describedby="edit-description"
+      >
+        <div className="bg-white p-5 rounded-md w-[60rem]  mx-auto mt-32 max-h-[70vh] overflow-y-auto">
+          <h2 id="description-modal-title" className="text-xl font-semibold">
+            Edit Description
+          </h2>
+          <textarea
+            className="w-full h-[50rem] mt-3 p-2 border rounded-md focus:outline-none"
+            value={descriptionInput}
+            onChange={(e) => setDescriptionInput(e.target.value)}
+          />
+          {descriptionError && (
+            <p className="text-red-500 mt-2">{descriptionError}</p>
+          )}
+          <div className="flex justify-end gap-3 mt-4">
+            <Button
+              variant="contained"
+              onClick={handleSaveDescription}
+              disabled={descriptionInput === originalDescription}
+            >
+              Save
+            </Button>
+            <Button variant="outlined" onClick={handleDescriptionModalClose}>
+              Cancel
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

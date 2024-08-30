@@ -6,6 +6,7 @@ import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo"
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
 import { USER_PREFIX } from "@/lib/constants/constants";
 import { inputStyle } from "@/lib/styles/styles";
+import { formatTime, timeLeft } from "@/lib/utils/time_formatter";
 import coin from "@/public/coin.svg";
 import dragon from "@/public/dragon.svg";
 import XIcon from "@mui/icons-material/X";
@@ -19,6 +20,9 @@ import {
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { CiFileOn } from "react-icons/ci";
+import { FaFileAlt } from "react-icons/fa";
+import { FaFile } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 
 export default function page() {
@@ -71,7 +75,7 @@ export default function page() {
 
       info!.founderInfo = founder_info;
       info!.freelancer = freelancer_info;
-      console.log(info);
+      console.log(info, "info", formatTime(info!.deadline));
       setEscrowInfo(info);
       setTelegram(freelancer_info!.telegramId);
     } catch (e) {
@@ -113,23 +117,27 @@ export default function page() {
     <div>
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-8">
-          <Card className="!py-4 !col-span-1 sm:!col-span-3" width="lg">
+          <Card className=" !col-span-1 sm:!col-span-3" width="lg">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
-              className="text-base sm:text-xl font-[500] h-12"
+              className="text-base sm:text-xl font-[600] pt-2"
             >
-              <div className="flex-1">Build a team dashboard</div>
+              <div className="flex-1 text-base sm:text-2xl">
+                {escrowInfo && escrowInfo.contractName !== ""
+                  ? escrowInfo.contractName
+                  : "Build a team dashboard"}
+              </div>
 
-              <Stack flexDirection="row" gap={1}>
-                <Image src={coin} alt="coin" className="w-5" />
+              <Stack flexDirection="row" alignItems="start" gap={0.4}>
+                <Image src={coin} alt="coin" className="w-5 mt-[1px]" />
                 <div>{escrowInfo ? Number(escrowInfo.amount) : "--"}</div>
               </Stack>
             </Stack>
           </Card>
 
-          <Card className="!py-4 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
+          <Card className="!py-3 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
@@ -140,7 +148,9 @@ export default function page() {
               <div className="flex flex-col space-y-2">
                 <div className="text-xs text-textColor">Deadline</div>
                 <div className="text-base font-semibold line-clamp-1">
-                  2d 24hrs 30min
+                  {escrowInfo && escrowInfo.deadline
+                    ? timeLeft(escrowInfo.deadline)
+                    : "2d 24hrs 30min"}
                 </div>
               </div>
             </Stack>
@@ -149,35 +159,35 @@ export default function page() {
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
           <Card className="!p-0 sm:col-span-2 overflow-hidden ">
-            <div className="flex sm:flex-col p-2 sm:p-0">
+            <div className="flex sm:flex-col p-2">
               <Image
                 src={dragon}
                 alt="dragon"
                 className="w-[100px] p-1 sm:p-0 sm:w-full rounded-xl object-cover object-center"
               />
 
-              <Stack py={2} spacing={3} px={2}>
+              <Stack py={2} spacing={3} px={3}>
                 <Stack
                   flexDirection="row"
                   justifyContent="space-between"
-                  alignItems="center"
+                  alignItems="start"
                 >
-                  <div className="text-base sm:text-xl font-[500] line-clamp-1">
+                  <div className="text-base sm:text-3xl font-[600] line-clamp-1">
                     {escrowInfo ? escrowInfo.founderInfo.name : "--"}
                   </div>
                   <span
                     onClick={() => links(escrowInfo.founderInfo.twitter)}
                     className="hidden sm:block"
                   >
-                    <XIcon className="text-xl" />
+                    <XIcon className="text-xl mt-[2px]" />
                   </span>
                 </Stack>
 
-                <div className="flex gap-4 items-center">
+                <div className="flex gap-4 items-end sm:min-h-[81px]">
                   <Button
                     onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
                     variant="contained"
-                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit"
+                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit !mx-auto"
                   >
                     Start Chat
                   </Button>
@@ -194,12 +204,12 @@ export default function page() {
           </Card>
 
           <div className="sm:col-span-3">
-            <Card width="lg" className=" h-fit">
-              <div className="text-sm text-textColor">Description</div>
+            <Card width="lg" className=" h-72">
+              <div className="text-xs text-textColor">Description</div>
 
-              <div className="p-1 mt-3">
+              <div className=" mt-3">
                 <div
-                  className="line-clamp-5 text-5 text-[13px] leading-7 cursor-pointer h-14"
+                  className="line-clamp-5 text-5 text-[12px] leading-7 cursor-pointer h-14"
                   onClick={() => setShowDescription(true)}
                 >
                   {escrowInfo && escrowInfo.description !== ""
@@ -208,19 +218,24 @@ export default function page() {
                 </div>
               </div>
             </Card>
-            <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
-              <Card className="mt-4 text-base">Link to materials</Card>
-            </span>
 
-            <Stack alignItems="center" mt={4}>
-              <Button
-                variant="contained"
-                onClick={handleOpenModal}
-                className="!text-xs sm:!text-sm !font-semibold !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
-              >
-                Apply to work
-              </Button>
-            </Stack>
+            <Card className="mt-4">
+              <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
+                <Card className="mt-4 text-base !flex !justify-center gap-1 !items-start">
+                  <div><CiFileOn className="text-xl" /></div>
+                   <div className="mt-[2px]">Link to Resources</div></Card>
+              </span>
+
+              <Stack alignItems="center" mt={4}>
+                <Button
+                  variant="contained"
+                  onClick={handleOpenModal}
+                  className="!text-xs sm:!text-sm !font-semibold !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
+                >
+                  Apply to work
+                </Button>
+              </Stack>
+            </Card>
           </div>
         </div>
       </div>

@@ -16,10 +16,15 @@
   src: url(../public/fonts/Myanmar.ttf);
 }
 
+@font-face {
+  font-family: mynamarKhyay;
+  src: url(../public/fonts/MyanmarKhyay.ttf);
+}
+
 body {
   color: black;
 
-  font-family: mynamar;
+  font-family: "Myanmar Text" !important;
   letter-spacing: 0.8px;
   @apply bg-gradient-to-t from-[#dcdcdc] to-[#F7F5F2] bg-no-repeat min-h-svh;
 }
@@ -38,7 +43,7 @@ body {
 }
 
 #wallet .wallet-adapter-button {
-  @apply !bg-main !text-black !px-4 !py-1 !rounded-full;
+  @apply !bg-second !text-main !px-4 !py-1 !rounded-full;
 }
 
 ::-webkit-scrollbar {

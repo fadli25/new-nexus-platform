@@ -17,7 +17,11 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Stack } from "@mui/material";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -75,10 +79,7 @@ function classNames(...classes: any) {
 }
 
 export default function Example() {
-
-
   const router = useRouter();
-
 
   const { connection } = useConnection();
 
@@ -102,7 +103,6 @@ export default function Example() {
     if (!anchorWallet) return;
     check_user();
   }, [anchorWallet, anchorWallet?.publicKey]);
-
 
   const path = usePathname();
   const [showMenu, setShowMenu] = useState(false);
@@ -160,7 +160,7 @@ export default function Example() {
                           type: "spring",
                           stiffness: 200,
                         }}
-                        className="rounded min-h-32 absolute left-[-6%] top-[150%] bg-second font-myanmar"
+                        className="rounded min-h-32 absolute left-[-13%] top-[150%] bg-second font-myanmar"
                       >
                         <Stack
                           className="sm:!flex-row  border-b border-white"
@@ -198,9 +198,10 @@ export default function Example() {
                             {nexusExploreMenuSecondary.map((el, index) => (
                               <motion.button
                                 key={index}
-                                className={`${el.name === "Landing Page" &&
+                                className={`${
+                                  el.name === "Landing Page" &&
                                   "border-b border-white"
-                                  }`}
+                                }`}
                                 onClick={() => {
                                   setShowMenu(false);
                                   router.push(el.link);
@@ -370,9 +371,10 @@ export default function Example() {
                       {nexusExploreMenuSecondary.map((el, index) => (
                         <motion.button
                           key={index}
-                          className={`${el.name === "Landing Page" &&
+                          className={`${
+                            el.name === "Landing Page" &&
                             "border-b border-white"
-                            }`}
+                          }`}
                           onClick={() => router.push(el.link)}
                         >
                           {el.name}
