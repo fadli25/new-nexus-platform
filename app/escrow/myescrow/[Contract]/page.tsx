@@ -39,14 +39,13 @@ export default function page() {
   const [deadline, setDeadline] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
-  const descriptionInputRef = useRef<HTMLInputElement>(null);
+  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
+  const [originalDescription, setOriginalDescription] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
 
   const anchorWallet = useAnchorWallet();
-  // const wallet = useWallet();
   const { connection } = useConnection();
-  // const router = useRouter()
   const pathname = usePathname();
-  // const searchParams = useSearchParams()
 
   function handleOpenModal() {
     setOpen(true);
@@ -63,7 +62,6 @@ export default function page() {
 
   const getEscrowInfosss = async () => {
     try {
-      // const address = searchParams.get("escrow");
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getEscrowInfo(anchorWallet, connection, escrow);
@@ -78,7 +76,6 @@ export default function page() {
       );
       console.log(freelancerInfo);
       info!.freelancerInfo = freelancerInfo;
-      // console.log(info);
       setEscrowInfo(info);
     } catch (e) {
       console.log(e);
@@ -87,7 +84,6 @@ export default function page() {
 
   const getApplys = async () => {
     try {
-      // const address = searchParams.get("escrow");
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getApplyEscrow(connection, escrow, "confirmed");
@@ -107,7 +103,6 @@ export default function page() {
 
   const filter = () => {
     console.log(applys![0].pubkey.toBase58());
-    // console.log(escrowInfo.reciever.toBase58());
     const wddd = applys?.filter(
       (ap: any) => ap.pubkey.toBase58() == escrowInfo.reciever.toBase58()
     );
@@ -158,28 +153,38 @@ export default function page() {
   }, [isEditing]);
 
   function handleDescriptionEdit() {
-    if (isDescriptionEditing) {
-      if (descriptionInput.trim() === "") {
-        setError("Description cannot be empty");
-      } else {
-        setError("");
-        setIsDescriptionEditing(false);
-      }
+    setIsDescriptionModalOpen(true);
+  }
+
+  function handleDescriptionModalClose() {
+    if (descriptionInput.trim() === "") {
+      setDescriptionError("Description cannot be empty");
     } else {
-      setIsDescriptionEditing(true);
+      setDescriptionError("");
+      setIsDescriptionModalOpen(false);
+      setIsDescriptionEditing(false);
+      setOriginalDescription(descriptionInput);
     }
   }
 
-  useEffect(() => {
-    if (isDescriptionEditing && descriptionInputRef.current) {
-      descriptionInputRef.current.focus();
+  function handleSaveDescription() {
+    if (descriptionInput.trim() === "") {
+      setDescriptionError("Description cannot be empty");
+    } else {
+      setDescriptionError("");
+      setIsDescriptionModalOpen(false);
+      // Implement the save logic here (if needed)
+      setOriginalDescription(descriptionInput);
     }
-  }, [isDescriptionEditing]);
+  }
 
   useEffect(() => {
     if (escrowInfo) {
       setTitleInput(escrowInfo.contractName || "Build a team dashboard");
       setDescriptionInput(escrowInfo.description || "No description available");
+      setOriginalDescription(
+        escrowInfo.description || "No description available"
+      );
       setDeadline(timeLeft(escrowInfo.deadline));
     }
   }, [escrowInfo]);
@@ -246,11 +251,11 @@ export default function page() {
                 <FaEdit className="text-lg text-textColor" />
               </button>
             </div>
-            <div className="text-xs sm:text-sm mt-3 leading-7 min-h-24 px-5 py-2">
+            <div className="text-xs sm:text-sm mt-3 leading-7 min-h-24 py-2">
               {isDescriptionEditing ? (
                 <input
                   type="text"
-                  ref={descriptionInputRef}
+                  ref={descriptionInput}
                   className="text-base line-clamp-1 sm:text-sm font-semibold font-myanmarButton h-6 border-0 focus:outline-none"
                   placeholder="Enter a new description"
                   value={descriptionInput}
@@ -488,6 +493,39 @@ export default function page() {
             Open dispute
           </Button>
         </ApproveModal>
+      </Modal>
+
+      <Modal
+        open={isDescriptionModalOpen}
+        onClose={handleDescriptionModalClose}
+        aria-labelledby="description-modal"
+        aria-describedby="edit-description"
+      >
+        <div className="bg-white p-5 rounded-md w-[60rem]  mx-auto mt-32 max-h-[70vh] overflow-y-auto">
+          <h2 id="description-modal-title" className="text-xl font-semibold">
+            Edit Description
+          </h2>
+          <textarea
+            className="w-full h-[50rem] mt-3 p-2 border rounded-md focus:outline-none"
+            value={descriptionInput}
+            onChange={(e) => setDescriptionInput(e.target.value)}
+          />
+          {descriptionError && (
+            <p className="text-red-500 mt-2">{descriptionError}</p>
+          )}
+          <div className="flex justify-end gap-3 mt-4">
+            <Button
+              variant="contained"
+              onClick={handleSaveDescription}
+              disabled={descriptionInput === originalDescription}
+            >
+              Save
+            </Button>
+            <Button variant="outlined" onClick={handleDescriptionModalClose}>
+              Cancel
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );
