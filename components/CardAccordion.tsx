@@ -16,6 +16,8 @@ export default function CardAccordion({
   type,
   link,
   startProject,
+  font_size = "text-base",
+  padding = undefined,
 }: any) {
   const anchorWallet = useAnchorWallet();
   const wallet = useWallet();
@@ -44,8 +46,9 @@ export default function CardAccordion({
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"
+          className={`${padding ? padding : "pt-0"}`}
         >
-          <div className="text-base sm:text-lg text-[#696969] font-[600]">
+          <div className={`${font_size} sm:text-lg text-[#9c9595] font-[600]`}>
             {title}
           </div>
           <Stack flexDirection="row" gap={1}>

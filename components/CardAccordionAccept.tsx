@@ -25,6 +25,7 @@ export default function CardAccordionAccept({
   reject,
   openDispute,
   closeReject,
+  font_size = "text-base",
 }: any) {
   const anchorWallet = useAnchorWallet();
   const wallet = useWallet();
@@ -71,7 +72,9 @@ export default function CardAccordionAccept({
           justifyContent="space-between"
           alignItems="center"
         >
-          <div className="text-base sm:text-lg font-myanmar text-[#696969] font-semibold">
+          <div
+            className={`${font_size} sm:text-lg font-myanmar text-[#9c9595] font-semibold`}
+          >
             {title}
           </div>
           <Stack flexDirection="row" gap={1}>
@@ -104,10 +107,16 @@ export default function CardAccordionAccept({
 
           <motion.button
             disabled={!showTerminate}
-            className="w-full cursor-default mt-2 py-3 relative text-center text-base font-[500] rounded-lg text-black shadow-sm border border-textColor disabled:opacity-25"
+            className="w-full cursor-default mt-2 pt-2 pb-4 relative text-center text-base font-[500] rounded-lg disabled:opacity-25 mynamarButton"
+            style={{
+              boxShadow: "1px 1px 3px 1px rgba(0,0,0,0.3)",
+              cursor: "pointer",
+            }}
           >
-            <div className="-mb-2">View Submission</div>
-            <div className="absolute right-3 top-[11px] text-xl">
+            <div className="-mb-2" style={{ fontFamily: "mynamarButton" }}>
+              View Submission
+            </div>
+            <div className="absolute right-3 top-[9px] text-xl">
               {!showTerminate ? <FaLock /> : <FaUnlock />}
             </div>
           </motion.button>
