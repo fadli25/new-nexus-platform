@@ -143,11 +143,13 @@ export default function page() {
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
           <Card className="!p-0 sm:col-span-2 overflow-hidden h-full">
-            <Image
-              src={dragon}
-              alt="dragon"
-              className="w-full rounded-xl object-cover object-center"
-            />
+            <div className="p-2">
+              <Image
+                src={dragon}
+                alt="dragon"
+                className="w-full rounded-xl object-cover object-center"
+              />
+            </div>
 
             <Stack py={1} spacing={3} px={2}>
               <Stack
@@ -256,7 +258,7 @@ export default function page() {
                   )}
                 </Card>
                 <div className="w-full">
-                  <Card className="text-xs text-center">
+                  <Card className="text-xs text-center !shadow-none !border !border-textColor">
                     Contract has started please make submission before the
                     deadline
                     {/* Your submission was approved and pay has been made to your
