@@ -172,14 +172,14 @@ export default function page() {
                   justifyContent="space-between"
                   alignItems="start"
                 >
-                  <div className="text-base sm:text-3xl font-[600] font-myanmarButton">
+                  <div className="text-base sm:text-xl font-[600] font-myanmarButton">
                     {escrowInfo ? escrowInfo.founderInfo.name : "--"}
                   </div>
                   <span
                     onClick={() => links(escrowInfo.founderInfo.twitter)}
                     className="hidden sm:block"
                   >
-                    <XIcon className="text-xl mt-[2px]" />
+                    <XIcon className="text-lg" />
                   </span>
                 </Stack>
 

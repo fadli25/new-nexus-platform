@@ -157,7 +157,7 @@ export default function page() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <div className="text-xl font-[500] line-clamp-1 font-myanmar_khyay">
+                <div className="text-xl font-[600] line-clamp-1 font-myanmar_khyay">
                   {escrow_info ? escrow_info.founderInfo.name : "--"}
                 </div>
                 {escrow_info && escrow_info.founderInfo.twitter.length > 0 ? (
@@ -175,11 +175,11 @@ export default function page() {
                 )}
               </Stack>
 
-              <div className="text-[11px] font-[300] line-clamp-1 py-1">
+              {/* <div className="text-[11px] font-[300] line-clamp-1 py-1">
                 0 Leaderboard rating
-              </div>
+              </div> */}
 
-              <Stack flexDirection="row" justifyContent="center" pt={1.7}>
+              <Stack flexDirection="row" justifyContent="center" pt={"15%"}>
                 {escrow_info &&
                 escrow_info.founderInfo.telegramId.length > 0 ? (
                   <Button
@@ -327,7 +327,7 @@ export default function page() {
 
                       <Button
                         variant="contained"
-                        className="!text-xs sm:!text-sm !shadow-sm !px-4 !py-2 !rounded-md !normal-case !text-second !w-56"
+                        className="!text-xs sm:!text-sm !shadow-lg !px-4 !py-2 !rounded-md !bg-white !normal-case !text-second !w-56"
                         onClick={() => Tarminat()}
                       >
                         Terminate
