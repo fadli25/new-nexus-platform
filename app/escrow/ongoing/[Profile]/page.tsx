@@ -179,7 +179,7 @@ export default function page() {
                 0 Leaderboard rating
               </div>
 
-              <Stack flexDirection="row" justifyContent="center">
+              <Stack flexDirection="row" justifyContent="center" pt={1.7}>
                 {escrow_info &&
                 escrow_info.founderInfo.telegramId.length > 0 ? (
                   <Button
@@ -326,8 +326,8 @@ export default function page() {
                       </Button>
 
                       <Button
-                        variant="outlined"
-                        className="!text-xs sm:!text-sm !border !border-second !px-4 !py-2 !rounded-md !normal-case !text-second !w-56"
+                        variant="contained"
+                        className="!text-xs sm:!text-sm !shadow-sm !px-4 !py-2 !rounded-md !normal-case !text-second !w-56"
                         onClick={() => Tarminat()}
                       >
                         Terminate
