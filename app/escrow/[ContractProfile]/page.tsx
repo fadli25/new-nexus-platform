@@ -222,8 +222,11 @@ export default function page() {
             <Card className="mt-4">
               <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
                 <Card className="mt-4 text-base !flex !justify-center gap-1 !items-start">
-                  <div><CiFileOn className="text-xl" /></div>
-                   <div className="mt-[2px]">Link to Resources</div></Card>
+                  <div>
+                    <CiFileOn className="text-xl" />
+                  </div>
+                  <div className="mt-[2px] normal-case">Link to Resources</div>
+                </Card>
               </span>
 
               <Stack alignItems="center" mt={4}>

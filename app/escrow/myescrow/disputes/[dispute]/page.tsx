@@ -473,10 +473,7 @@ export default function page() {
           messageTitle="Are you sure you want tot request a dispute??"
           messageDescription={
             <>
-              To prevent abuse, we charge a dispute resolution fee.
-              <br />
-              Please try as much as pussible to resolve your issues before
-              opening a dispute.
+              There is an ongoing dispute on this contract, please use the link below to chat with a moderator
             </>
           }
         >
