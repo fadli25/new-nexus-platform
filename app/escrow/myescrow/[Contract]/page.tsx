@@ -504,7 +504,7 @@ export default function page() {
         aria-labelledby="description-modal"
         aria-describedby="edit-description"
       >
-        <div className="bg-white p-5 rounded-md w-[60rem]  mx-auto mt-32 max-h-[70vh] overflow-y-auto">
+        <div className="bg-white p-5 rounded-md w-[90%] md:w-[60rem]  mx-auto mt-32 max-h-[70vh] overflow-y-auto">
           <h2 id="description-modal-title" className="text-xl font-semibold">
             Edit Description
           </h2>
