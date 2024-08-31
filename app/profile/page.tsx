@@ -176,7 +176,7 @@ export default function page() {
               </div>
             </Card>
 
-            <Card className="mt-6" width="lg">
+            <Card className="mt-4" width="lg">
               <div className="text-xs text-textColor">Profile Overview</div>
               <div className="text-sm leading-6 line-clamp-[6] mt-2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -196,14 +196,14 @@ export default function page() {
               </div>
             </Card>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-[18px] px-1">
-              <div className={`${cardStyle}`}>Category</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-[14px] px-1">
+              <div className={`${cardStyle} !py-4`}>Category</div>
               <div className={`${cardStyle}`}>Country</div>
               <div className={`${cardStyle}`}>Time Zone</div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
-              <div className={`${cardStyle}`}>View Portfolio</div>
+              <div className={`${cardStyle} !py-4`}>View Portfolio</div>
               <div className={`${cardStyle}`}>View Resume</div>
             </div>
           </motion.div>
