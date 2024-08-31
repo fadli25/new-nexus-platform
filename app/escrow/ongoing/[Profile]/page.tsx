@@ -101,7 +101,7 @@ export default function page() {
     <div>
       <div className="max-w-5xl mx-auto mb-28">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-8">
-          <Card className="!py-4 !col-span-1 sm:!col-span-3" width="lg">
+          <Card className="!py-4 !col-span-1 sm:!col-span-3 !px-4" width="lg">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
@@ -166,11 +166,11 @@ export default function page() {
                       links(escrow_info.founderInfo.twitter.length)
                     }
                   >
-                    <XIcon className="text-xl" />
+                    <XIcon className="text-lg" />
                   </span>
                 ) : (
                   <span>
-                    <XIcon className="text-xl" />
+                    <XIcon className="text-lg" />
                   </span>
                 )}
               </Stack>
