@@ -229,7 +229,7 @@ export default function page() {
                     <div>
                       <CiFileOn className="text-xl" />
                     </div>
-                    <div className="mt-[2px]">Link to Resources</div>
+                    <div className="!normal-case">Link to Resources</div>
                   </Card>
                 </span>
               </Button>
