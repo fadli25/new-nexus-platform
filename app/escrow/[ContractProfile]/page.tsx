@@ -172,7 +172,7 @@ export default function page() {
                   justifyContent="space-between"
                   alignItems="start"
                 >
-                  <div className="text-base sm:text-3xl font-[600] line-clamp-1">
+                  <div className="text-base sm:text-3xl font-[600] font-myanmarButton">
                     {escrowInfo ? escrowInfo.founderInfo.name : "--"}
                   </div>
                   <span
@@ -183,11 +183,11 @@ export default function page() {
                   </span>
                 </Stack>
 
-                <div className="flex gap-4 items-end sm:min-h-[81px]">
+                <div className="flex gap-4 items-end sm:min-h-[81px] !mt-8">
                   <Button
                     onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
                     variant="contained"
-                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !py-2 !capitalize !bg-second !w-fit !mx-auto"
+                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !pt-3 !capitalize !bg-second !w-fit !mx-auto"
                   >
                     Start Chat
                   </Button>
@@ -220,11 +220,19 @@ export default function page() {
             </Card>
 
             <Card className="mt-4">
-              <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
-                <Card className="mt-4 text-base !flex !justify-center gap-1 !items-start">
-                  <div><CiFileOn className="text-xl" /></div>
-                   <div className="mt-[2px]">Link to Resources</div></Card>
-              </span>
+              <Button
+                className="!mt-4 w-full !bg-white hover:bg-opacity-0 shadow-none"
+                style={{ display: "unset" }}
+              >
+                <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
+                  <Card className="text-base !flex !justify-center gap-1 !items-start">
+                    <div>
+                      <CiFileOn className="text-xl" />
+                    </div>
+                    <div className="mt-[2px]">Link to Resources</div>
+                  </Card>
+                </span>
+              </Button>
 
               <Stack alignItems="center" mt={4}>
                 <Button

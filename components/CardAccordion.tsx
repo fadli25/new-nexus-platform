@@ -46,7 +46,7 @@ export default function CardAccordion({
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"
-          className={`${padding ? padding : "pt-0"}`}
+          className={`${padding ? padding : "pt-0"} pb-[.3rem]`}
         >
           <div className={`${font_size} sm:text-lg text-[#9c9595] font-[600]`}>
             {title}
