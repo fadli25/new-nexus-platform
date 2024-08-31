@@ -221,7 +221,7 @@ export default function page() {
 
             <Card className="mt-4">
               <Button
-                className="!mt-4 w-full !bg-white hover:bg-opacity-0 shadow-none"
+                className="!mt-4 w-full !bg-white hover:bg-opacity-0 shadow-none !normal-case"
                 style={{ display: "unset" }}
               >
                 <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
