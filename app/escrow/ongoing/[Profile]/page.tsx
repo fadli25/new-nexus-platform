@@ -206,7 +206,7 @@ export default function page() {
             <Card width="lg" className=" h-fit">
               <div className="text-sm text-textColor">Description</div>
 
-              <div className="p-3 mt-3">
+              <div className="py-3 mt-3">
                 <div className="line-clamp-5 text-5 text-[13px] leading-7">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
