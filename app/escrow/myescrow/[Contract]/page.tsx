@@ -210,13 +210,13 @@ export default function page() {
                   <input
                     type="text"
                     ref={inputRef}
-                    className="text-base line-clamp-1 sm:text-2xl font-semibold font-myanmarButton h-6 border-0 focus:outline-none"
+                    className="text-base line-clamp-1 sm:text-2xl !font-bold font-myanmarButton h-6 border-0 focus:outline-none"
                     placeholder="Eg. Enter a new title"
                     value={titleInput}
                     onChange={(e) => setTitleInput(e.target.value)}
                   />
                 ) : (
-                  <div className="text-base line-clamp-1 sm:text-2xl font-semibold font-myanmarButton">
+                  <div className="text-base line-clamp-1 sm:text-2xl !font-[700] font-myanmarButton">
                     {titleInput}
                   </div>
                 )}
@@ -415,7 +415,7 @@ export default function page() {
               page={"approve"}
               link={"approve"}
               font_size="!text-sm"
-              padding="!pt-[0.3rem]"
+              padding="!pt-[0.2rem]"
             />
           )}
         </div>
