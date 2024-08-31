@@ -106,7 +106,7 @@ export default function page() {
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
-              className="text-base sm:text-xl font-[500] h-12"
+              className="text-base sm:text-xl font-[600] h-12"
             >
               <div className="flex-1 font-myanmar_khyay ">
                 Build a team dashboard
