@@ -38,7 +38,7 @@ export default function page() {
   return (
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
       <div className="col-span-1 md:col-span-2">
-        <Card className="!p-0">
+        <Card className="!p-0 !h-[32rem]">
           <div className=" !flex sm:!flex-col">
             {" "}
             <div className="relative w-[50%] sm:w-full">
@@ -78,7 +78,7 @@ export default function page() {
                   Content Writer
                 </div>
 
-                <Stack
+                {/* <Stack
                   gap={0.5}
                   alignItems="center"
                   justifyContent="space-between"
@@ -86,12 +86,12 @@ export default function page() {
                 >
                   <div className="text-textColor">Open to work</div>
                   <Switch color="success" />
-                </Stack>
+                </Stack> */}
               </Stack>
 
-              <div className=" text-xs line-clamp-1 hidden sm:block">
+              {/* <div className=" text-xs line-clamp-1 hidden sm:block">
                 {address !== null ? address : "No address"}
-              </div>
+              </div> */}
             </div>
           </div>
 

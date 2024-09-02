@@ -64,6 +64,7 @@ export default function CardAccordionAccept({
     }
   };
 
+  console.log({ data });
   return (
     <div>
       <Card className="rounded-b-none border-b-2 !py-4 !pb-2">
@@ -100,10 +101,17 @@ export default function CardAccordionAccept({
         </Stack>
 
         <div className="px-5">
-          <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
-            Contract has started <span className="font-semibold">Manay</span>{" "}
-            will make submission when done
-          </div>
+          {data.length > 1 ? (
+            <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
+              Contract has started{" "}
+              <span className="font-semibold">{`${data[0].userName}`}</span>{" "}
+              will make submission when done
+            </div>
+          ) : (
+            <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
+              Select Freelancer to start contract with
+            </div>
+          )}
 
           <motion.button
             disabled={!showTerminate}
