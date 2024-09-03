@@ -166,7 +166,7 @@ export default function page() {
                 className="w-[100px] p-1 sm:p-0 sm:w-full rounded-xl object-cover object-center"
               />
 
-              <Stack py={2} spacing={3} px={3}>
+              <Stack pt={2} spacing={3} px={1}>
                 <Stack
                   flexDirection="row"
                   justifyContent="space-between"
@@ -183,11 +183,11 @@ export default function page() {
                   </span>
                 </Stack>
 
-                <div className="flex gap-4 items-end sm:min-h-[81px] !mt-8">
+                <div className="flex gap-4 items-end sm:min-h-[81px] !mt-11">
                   <Button
                     onClick={() => escrowInfo && links(escrowInfo.telegramLink)}
                     variant="contained"
-                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !pt-3 !capitalize !bg-second !w-fit !mx-auto"
+                    className="!text-[10px] sm:!text-sm !px-10 !font-semibold !pt-3 !capitalize !bg-second !w-fit !mx-auto !pb-[.8rem]"
                   >
                     Start Chat
                   </Button>

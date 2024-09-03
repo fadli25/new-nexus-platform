@@ -260,7 +260,7 @@ export default function Example() {
                                 src={Profile}
                                 alt=""
                               />
-                              <div className="text-2xl text-second font-semibold">
+                              <div className="text-2xl text-second font-semibold pt-[1rem]">
                                 Zetsu
                               </div>
                             </div>

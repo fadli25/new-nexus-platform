@@ -49,8 +49,10 @@ export default function page() {
                 alignItems="center"
                 className="text-sm font-[500]"
               >
-                <Image src={coin} alt="coin" className="w-4 h-4" />
-                <div>
+                <div className="w-[1.2rem]">
+                  <Image src={coin} alt="coin" />
+                </div>
+                <div className="pt-[.5rem]">
                   <span> 50</span>
                   <span> / Week</span>
                 </div>
@@ -120,7 +122,9 @@ export default function page() {
                   variant="text"
                   disabled={tap === el}
                   onClick={() => setTap(el)}
-                  className={`!text-black/70 !normal-case !text-sm sm:!text-base !py-2 !px-4 ${
+                  className={`${
+                    tap === el ? "!text-black/70" : "!text-gray-400"
+                  } !normal-case md:!text-xs !text-sm !py-3 !px-4 ${
                     tap === el && "!text-black !font-semibold"
                   }`}
                 >
