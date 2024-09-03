@@ -29,13 +29,11 @@ export default function page() {
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5 !mb-16">
       <div className="col-span-1 md:col-span-2">
         <Card className="!p-0 overflow-hidden">
-          <Image
-            src={dragon}
-            alt="dragon"
-            className="w-full rounded-xl object-cover object-center"
-          />
+          <div className="w-full rounded-xl m-[auto] px-[0.8rem] pt-[0.8rem] ">
+            <Image src={dragon} alt="dragon" />
+          </div>
 
-          <Stack py={2} spacing={3} px={2}>
+          <Stack pt={3} pb={2} spacing={3} px={2}>
             <Stack
               flexDirection="row"
               justifyContent="space-between"
@@ -73,7 +71,7 @@ export default function page() {
               alignItems="center"
               className="text-xs"
             >
-              <div className="text-textColor">riter</div>
+              <div className="text-textColor">writer</div>
               <div className="px-4 py-2 bg-[#1DA1F2] text-black font-[500] rounded">
                 Expert
               </div>
@@ -83,7 +81,7 @@ export default function page() {
           </Stack>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4 mt-4 ">
+        {/* <div className="grid grid-cols-2 gap-4 mt-4 ">
           {buttons.map((bt, index) => (
             <motion.button
               whileTap={{ scale: 0.98 }}
@@ -104,7 +102,7 @@ export default function page() {
               </Card>
             </motion.button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className="cls-span-1 md:col-span-3">

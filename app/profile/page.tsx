@@ -42,7 +42,7 @@ export default function page() {
           <div className=" !flex sm:!flex-col">
             {" "}
             <div className="relative w-[50%] sm:w-full">
-              <div className="absolute bottom-4 right-[17%] sm:right-4">
+              <div className="absolute bottom-4 right-[19%] sm:right-8">
                 <Button
                   variant="contained"
                   className="!text-[9px] sm:!text-xs !text-black !bg-white !normal-case !font-semibold !font-mynamarButton"
@@ -50,11 +50,9 @@ export default function page() {
                   Change PFP
                 </Button>
               </div>
-              <Image
-                src={dragon}
-                alt="dragon"
-                className="w-full rounded-xl object-cover object-center"
-              />
+              <div className="m-[auto] !px-[0.8rem] pt-[0.8rem] rounded-xl">
+                <Image src={dragon} alt="dragon" />
+              </div>
             </div>
             <div className="px-4 pb-4">
               <Stack pt={2} spacing={3}>
@@ -95,14 +93,14 @@ export default function page() {
             </div>
           </div>
 
-          <div className=" text-xs line-clamp-1 p-4 sm:hidden">
+          {/* <div className=" text-xs line-clamp-1 p-4 sm:hidden">
             {address !== null
               ? address.slice(0, 8) + "..." + address.slice(-8)
               : "No address"}
-          </div>
+          </div> */}
         </Card>
 
-        <div className="grid grid-cols-2 gap-4 mt-4 ">
+        <div className="grid grid-cols-2 gap-4 mt-[14px] ">
           {menu1.map((el, i) => (
             <div key={i} className={`${cardStyle} !py-4`}>
               {el}
@@ -127,7 +125,9 @@ export default function page() {
                     variant="text"
                     disabled={tap === el}
                     onClick={() => setTap(el)}
-                    className={`!text-black/70 !normal-case !text-xs sm:!text-sm !pt-5 !pb-4 !px-4 ${
+                    className={`${
+                      tap === el ? "!text-black/70" : "!text-gray-400"
+                    } !normal-case md:!text-xs !text-sm !py-5 !px-4 ${
                       tap === el && "!text-black !font-semibold"
                     }`}
                   >
@@ -158,7 +158,7 @@ export default function page() {
               stiffness: 200,
             }}
           >
-            <Card className="rounded-t-none pb-2" width="lg">
+            <Card className="rounded-t-none pb-2 !h-[9.85rem]" width="lg">
               <Stack
                 className="text-lg sm:text-xl font-[500]"
                 flexDirection="row"
@@ -171,9 +171,9 @@ export default function page() {
                 <div>0 Jobs Completed</div>
               </Stack>
 
-              <div className="px-1 mt-4 text-[10px] text-textColor font-[500]">
+              {/* <div className="px-1 mt-4 text-[10px] text-textColor font-[500]">
                 0 Leaderboard Ratings
-              </div>
+              </div> */}
             </Card>
 
             <Card className="mt-4" width="lg">
@@ -198,13 +198,13 @@ export default function page() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-[14px] px-1">
               <div className={`${cardStyle} !py-4`}>Category</div>
-              <div className={`${cardStyle}`}>Country</div>
-              <div className={`${cardStyle}`}>Time Zone</div>
+              <div className={`${cardStyle} !py-4`}>Country</div>
+              <div className={`${cardStyle} !py-4`}>Time Zone</div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
               <div className={`${cardStyle} !py-4`}>View Portfolio</div>
-              <div className={`${cardStyle}`}>View Resume</div>
+              <div className={`${cardStyle} !py-4`}>View Resume</div>
             </div>
           </motion.div>
         )}
@@ -218,7 +218,7 @@ export default function page() {
         <Card width="md">
           <Stack spacing={3}>
             <TextField
-              label="username"
+              label="Username"
               variant="outlined"
               value={editForm.username}
               onChange={(e) =>
