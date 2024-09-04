@@ -6,6 +6,9 @@ import React from "react";
 const theme = createTheme({
   typography: {
     fontFamily: "mynamarButton",
+    button: {
+      textTransform: "none",
+    },
   },
   palette: {
     success: {
