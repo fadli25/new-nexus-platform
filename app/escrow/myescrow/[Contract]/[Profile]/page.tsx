@@ -108,7 +108,7 @@ export default function page() {
       </div>
 
       <div className="cls-span-1 md:col-span-3">
-        <Card className="rounded-b-none px-0 border-b-2 pb-0">
+        <Card className="rounded-b-none px-0 border-b-2 pb-0 pt-[0.2rem]">
           <Stack flexDirection="row">
             {menu.map((el, i) => (
               <div
@@ -162,7 +162,7 @@ export default function page() {
               </div>
             </Card>
 
-            <Card className="mt-5 h-56">
+            <Card className="mt-5 h-[15rem]">
               <div className="text-xs text-textColor">Profile Overview</div>
               <div className="text-sm leading-6 line-clamp-5 mt-2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
