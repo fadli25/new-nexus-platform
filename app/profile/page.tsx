@@ -325,7 +325,7 @@ export default function page() {
 
               <Button
                 variant="contained"
-                className="!mt-8 !text-black !bg-main !text-xs !px-6 !py-2 !normal-case !w-fit !mx-auto"
+                className="!mt-8 !text-black !bg-main !text-xs !px-6 !py-2 !normal-case !w-fit !mx-auto !font-mynamarButton"
               >
                 Save
               </Button>
