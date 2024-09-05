@@ -1,7 +1,15 @@
 "use client";
 
 import Card from "@/components/Card";
-import { Button, Modal, Stack, Switch, TextField } from "@mui/material";
+import {
+  Button,
+  createTheme,
+  Modal,
+  Stack,
+  Switch,
+  TextField,
+  ThemeProvider,
+} from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 import dragon from "@/public/dragon.svg";
@@ -33,6 +41,12 @@ export default function page() {
     timeZone: null,
     linkResume: null,
     linkPortfolio: null,
+  });
+
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Myanmar Text",
+    },
   });
 
   return (
@@ -210,110 +224,115 @@ export default function page() {
         )}
       </div>
 
-      <Modal
-        open={showEdit}
-        onClose={() => setShowEdit(false)}
-        className="grid place-items-center overflow-y-scroll"
-      >
-        <Card width="md">
-          <Stack spacing={3}>
-            <TextField
-              label="Username"
-              variant="outlined"
-              value={editForm.username}
-              onChange={(e) =>
-                setEditForm({ ...editForm, username: e.target.value })
-              }
-              sx={inputMuiFontSize}
-            />
-
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-3">
+      <ThemeProvider theme={theme}>
+        <Modal
+          open={showEdit}
+          onClose={() => setShowEdit(false)}
+          className="grid place-items-center overflow-y-scroll"
+        >
+          <Card width="md">
+            <Stack spacing={3}>
               <TextField
-                label="Role Description"
+                label="Username"
                 variant="outlined"
-                value={editForm.roleDescription}
+                value={editForm.username}
                 onChange={(e) =>
-                  setEditForm({ ...editForm, roleDescription: e.target.value })
+                  setEditForm({ ...editForm, username: e.target.value })
                 }
                 sx={inputMuiFontSize}
               />
 
-              <ExpertiseLevelInput
-                editForm={editForm}
-                setEditForm={setEditForm}
-              />
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-3">
+                <TextField
+                  label="Role Description"
+                  variant="outlined"
+                  value={editForm.roleDescription}
+                  onChange={(e) =>
+                    setEditForm({
+                      ...editForm,
+                      roleDescription: e.target.value,
+                    })
+                  }
+                  sx={inputMuiFontSize}
+                />
+
+                <ExpertiseLevelInput
+                  editForm={editForm}
+                  setEditForm={setEditForm}
+                />
+
+                <TextField
+                  label="Payment Rate"
+                  variant="outlined"
+                  value={editForm.paymentRate}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, paymentRate: e.target.value })
+                  }
+                  sx={inputMuiFontSize}
+                />
+              </div>
 
               <TextField
-                label="Payment Rate"
+                label="Profile Overveiw"
                 variant="outlined"
-                value={editForm.paymentRate}
+                multiline
+                rows={6}
+                value={editForm.profileOverview}
                 onChange={(e) =>
-                  setEditForm({ ...editForm, paymentRate: e.target.value })
-                }
-                sx={inputMuiFontSize}
-              />
-            </div>
-
-            <TextField
-              label="Profile Overveiw"
-              variant="outlined"
-              multiline
-              rows={6}
-              value={editForm.profileOverview}
-              onChange={(e) =>
-                setEditForm({ ...editForm, profileOverview: e.target.value })
-              }
-              sx={inputMuiFontSize}
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <TextField
-                label="Category"
-                variant="outlined"
-                value={editForm.category}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, category: e.target.value })
-                }
-                sx={inputMuiFontSize}
-                disabled
-              />
-
-              <CountryInput editForm={editForm} setEditForm={setEditForm} />
-
-              <TimeZoneInput editForm={editForm} setEditForm={setEditForm} />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <TextField
-                label="Link Resume"
-                variant="outlined"
-                value={editForm.linkResume}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, category: e.target.value })
+                  setEditForm({ ...editForm, profileOverview: e.target.value })
                 }
                 sx={inputMuiFontSize}
               />
 
-              <TextField
-                label="Link Portfolio"
-                variant="outlined"
-                value={editForm.linkPortfolio}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, linkPortfolio: e.target.value })
-                }
-                sx={inputMuiFontSize}
-              />
-            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <TextField
+                  label="Category"
+                  variant="outlined"
+                  value={editForm.category}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, category: e.target.value })
+                  }
+                  sx={inputMuiFontSize}
+                  disabled
+                />
 
-            <Button
-              variant="contained"
-              className="!mt-8 !text-black !bg-main !text-xs !px-6 !py-2 !normal-case !w-fit !mx-auto"
-            >
-              Save
-            </Button>
-          </Stack>
-        </Card>
-      </Modal>
+                <CountryInput editForm={editForm} setEditForm={setEditForm} />
+
+                <TimeZoneInput editForm={editForm} setEditForm={setEditForm} />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <TextField
+                  label="Link Resume"
+                  variant="outlined"
+                  value={editForm.linkResume}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, category: e.target.value })
+                  }
+                  sx={inputMuiFontSize}
+                />
+
+                <TextField
+                  label="Link Portfolio"
+                  variant="outlined"
+                  value={editForm.linkPortfolio}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, linkPortfolio: e.target.value })
+                  }
+                  sx={inputMuiFontSize}
+                />
+              </div>
+
+              <Button
+                variant="contained"
+                className="!mt-8 !text-black !bg-main !text-xs !px-6 !py-2 !normal-case !w-fit !mx-auto"
+              >
+                Save
+              </Button>
+            </Stack>
+          </Card>
+        </Modal>
+      </ThemeProvider>
     </div>
   );
 }
