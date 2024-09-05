@@ -75,7 +75,7 @@ export default function page() {
                   justifyContent="space-between"
                   alignItems="center"
                 >
-                  <div className="text-base sm:text-lg font-[500] line-clamp-1 font-mynamarButton">
+                  <div className="text-base sm:text-lg font-[600] line-clamp-1 font-myanmar">
                     Zetsu | The shaman king
                   </div>
                 </Stack>
@@ -142,7 +142,7 @@ export default function page() {
                     className={`${
                       tap === el ? "!text-black/70" : "!text-gray-400"
                     } !normal-case md:!text-xs !text-sm !py-5 !px-4 ${
-                      tap === el && "!text-black !font-semibold"
+                      tap === el && "!text-black !font-semibold !font-myanmar"
                     }`}
                   >
                     {el}
