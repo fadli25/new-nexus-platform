@@ -8,7 +8,8 @@ export async function submit(
   anchorWallet: any,
   connection: web3.Connection,
   wallet: any,
-  escrow: web3.PublicKey
+  escrow: web3.PublicKey,
+  materials: string
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -45,7 +46,7 @@ export async function submit(
   const apiResponse = await backendApi.post(
     `/escrow/submit/${escrow.toBase58()}`,
     {
-      //   materials, //No material here. Its compulsory.
+      materials,
     }
   );
   //   if(!apiResponse) {console.log('Do something')}
