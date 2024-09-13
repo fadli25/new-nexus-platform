@@ -99,7 +99,6 @@ export async function initEscrow(
     materials,
     description,
     escrowAddress: escrow.toBase58(),
-    // freelancerAddress: freelancer.toBase58(), //No freelancer address here, its compulsory to be added
   });
   //   if(!apiResponse) {console.log('Do something')}
 

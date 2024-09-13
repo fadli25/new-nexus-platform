@@ -103,7 +103,7 @@ export async function update_user(
     // tosp,
     // timezone,
     // country,
-    // address,
+    address: anchorWallet.toBase58(),
     twitter: twitter,
     linkedin: linkedin,
     discordId: discord_id,

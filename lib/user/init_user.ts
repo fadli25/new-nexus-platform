@@ -101,7 +101,7 @@ export async function init_user(
     timezone,
     country,
     twitter,
-    // address //compulsory
+    address: anchorWallet.toBase58(),
     userId: user.toBase58(),
   });
   //   if(!apiResponse) {console.log('Do something')}
