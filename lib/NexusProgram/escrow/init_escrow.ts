@@ -95,16 +95,18 @@ export async function initEscrow(
         nexusEscrow: nexusEscrow,
         systemProgram: web3.SystemProgram.programId
     })
-        // .transaction()
-        .rpc({
-            commitment: "confirmed",
-        })
-
-
-
-    // wallet.sendTransaction(tx, connection, {
-    //     preflightCommitment: "confirmed"
+        .transaction()
+    // .rpc({
+    //     commitment: "confirmed",
     // })
+
+    const blockhash = (await connection.getLatestBlockhash()).blockhash;
+    tx.recentBlockhash = blockhash;
+    tx.feePayer = anchorWallet.publicKey;
+
+    wallet.sendTransaction(tx, connection, {
+        preflightCommitment: "confirmed"
+    })
 
     // return tx;
 }

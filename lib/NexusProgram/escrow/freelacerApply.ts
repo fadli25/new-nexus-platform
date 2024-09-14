@@ -52,14 +52,18 @@ export async function FreelacerApply(
         authority: anchorWallet.publicKey,
         systemProgram: web3.SystemProgram.programId
     })
-        // .transaction();
-        .rpc({
-            commitment: "confirmed",
-        })
+        .transaction();
+    // .rpc({
+    //     commitment: "confirmed",
+    // })
 
-    // wallet.sendTransaction(tx, connection, {
-    //     preflightCommitment: "confirmed"
-    // });
+    const blockhash = (await connection.getLatestBlockhash()).blockhash;
+    tx.recentBlockhash = blockhash;
+    tx.feePayer = anchorWallet.publicKey;
+
+    wallet.sendTransaction(tx, connection, {
+        preflightCommitment: "confirmed"
+    });
 
     return tx;
 }

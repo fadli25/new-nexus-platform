@@ -1,13 +1,5 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import Image from "next/image";
-import { Button, Stack, Switch } from "@mui/material";
-import {
-  useAnchorWallet,
-  useConnection,
-  useWallet,
-} from "@solana/wallet-adapter-react";
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import Loading from "@/components/Loading";
@@ -16,6 +8,14 @@ import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
 import { inputStyle } from "@/lib/styles/styles";
 import { formatTime } from "@/lib/utils/time_formatter";
 import coin from "@/public/coin.svg";
+import { Button, Stack, Switch } from "@mui/material";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
+import Image from "next/image";
+import React, { Suspense, useEffect, useState } from "react";
 
 export default function Page() {
   const [timeValue, setTimeValue] = useState("");
@@ -258,13 +258,13 @@ export default function Page() {
             mt={3}
             spacing={2.6}
             className="h-[472px] overflow-y-scroll overflow-x-hidden escrow pr-2"
-          > 
+          >
             {escrows &&
               escrows.map((el, i) => (
                 <Suspense fallback={<Loading />} key={i}>
                   <CardContract
                     contractName={el.contractName}
-                    amount={Number(el.amount)}
+                    amount={Number(el.amount) / 1000000000}
                     deadline={Number(el.deadline)}
                     escrow={el.pubkey.toBase58()}
                     type={2}
