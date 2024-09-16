@@ -114,9 +114,9 @@ export default function page() {
                   />
                 </div>
               </div>
-              {/* {i < ResolvedDisptued.length - 1 && (
+              {i < ResolvedDisptued.length - 1 && (
                 <hr className="w-full border border-textColor mt-6" />
-              )} */}
+              )}
             </div>
           ))}
       </motion.div>
