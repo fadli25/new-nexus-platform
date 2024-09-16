@@ -4,13 +4,13 @@ import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getApplyFreelancer } from "@/lib/NexusProgram/escrow/utils.ts/getApplyFreelancer";
 import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
-import { motion } from "framer-motion";
 import { Stack } from "@mui/material";
 import {
   useAnchorWallet,
   useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
@@ -29,7 +29,7 @@ export default function page() {
         "confirmed"
       );
       console.log("pending");
-      console.log(pending);
+      console.log(pending.filter((p) => p.status != "Success"));
       setPendingEscrow(pending.filter((p) => p.status != "Success"));
     } catch (e) {
       console.log(e);
@@ -89,7 +89,7 @@ export default function page() {
                 <CardContract
                   key={i}
                   contractName={el.contractName}
-                  amount={Number(el.amount)}
+                  amount={Number(el.amount) / 1000000000}
                   deadline={Number(el.deadline)}
                   escrow={el.pubkey.toBase58()}
                   type={3}
@@ -104,7 +104,7 @@ export default function page() {
           <Stack mt={4} spacing={2.8}>
             {pendingEscrow &&
               pendingEscrow.map((el, i) => (
-                <CardContract key={i} {...el} type={3} />
+                <CardContract key={i} contractName={el.contractName} type={3} />
               ))}
           </Stack>
         </Card>
