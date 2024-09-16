@@ -51,7 +51,10 @@ export default function page() {
       <motion.div className="w-full border border-textColor p-5 rounded-xl  flex flex-col space-y-10">
         {disptueState &&
           NotResolvedDisptued.map((el, i) => (
-            <div key={i} className="flex items-center justify-around gap-5">
+            <div
+              key={i}
+              className="flex items-center justify-center sm:justify-around flex-col sm:flex-row gap-5 border-b border-textColor/50 pb-8"
+            >
               <div className="flex justify-center">
                 <DisputeCard
                   title={el.ClinetName}
@@ -85,7 +88,7 @@ export default function page() {
         {!disptueState &&
           ResolvedDisptued.map((el, i) => (
             <div key={i}>
-              <div className="flex items-center justify-around gap-5">
+              <div className="flex items-center justify-center sm:justify-around flex-col sm:flex-row gap-5 border-b border-textColor/50 pb-8">
                 <div className="flex justify-center">
                   <DisputeCard
                     title={el.ClinetName}
@@ -114,9 +117,6 @@ export default function page() {
                   />
                 </div>
               </div>
-              {i < ResolvedDisptued.length - 1 && (
-                <hr className="w-full border border-textColor mt-6" />
-              )}
             </div>
           ))}
       </motion.div>
