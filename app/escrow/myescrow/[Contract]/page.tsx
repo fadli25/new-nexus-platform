@@ -250,7 +250,7 @@ export default function page() {
               <Stack flexDirection="row" alignItems="start" gap={1}>
                 <Image src={Coin} alt="coin" className="w-5 pt-[2px]" />
                 <div className="text-sm sm:text-xl font-semibold leading-none ">
-                  {escrowInfo ? Number(escrowInfo.amount) : "--"}
+                  {escrowInfo ? Number(escrowInfo.amount) / 1000_000_000 : "--"}
                 </div>
               </Stack>
             </Stack>

@@ -1,3 +1,4 @@
+import { backendApi } from '@/lib/utils/api.util';
 import { AnchorProvider, BN, Program, web3 } from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
@@ -6,7 +7,6 @@ import {
   SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
   USER_PREFIX,
 } from '../../constants/constants';
-import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
 /**
@@ -86,10 +86,21 @@ export async function initEscrow(
       nexusEscrow: nexusEscrow,
       systemProgram: web3.SystemProgram.programId,
     })
-    // .transaction()
-    .rpc({
-      commitment: 'confirmed',
-    });
+    .transaction()
+  // .rpc({
+  //   commitment: 'confirmed',
+  // });
+
+  const blockhash = (await connection.getLatestBlockhash()).blockhash
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = anchorWallet.publicKey;
+
+
+  await wallet.sendTransaction(tx, connection, {
+    preflightCommitment: "confirmed"
+  })
+
+
 
   const apiResponse = await backendApi.post('/escrow/init', {
     contactName: contact_name,
@@ -102,9 +113,7 @@ export async function initEscrow(
   });
   //   if(!apiResponse) {console.log('Do something')}
 
-  // wallet.sendTransaction(tx, connection, {
-  //     preflightCommitment: "confirmed"
-  // })
+  console.log(apiResponse)
 
   // return tx;
 }

@@ -1,7 +1,7 @@
+import { backendApi } from '@/lib/utils/api.util';
 import { AnchorProvider, BN, Program, web3 } from '@project-serum/anchor';
 import { NEXUSESCROW_V1, USER_PREFIX } from '../../constants/constants';
 import { get_userr_info } from './utils.ts/get_userr_info';
-import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
 export async function submit(
@@ -38,10 +38,19 @@ export async function submit(
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
-    // .transaction()
-    .rpc({
-      commitment: 'confirmed',
-    });
+    .transaction()
+  // .rpc({
+  //   commitment: 'confirmed',
+  // });
+
+  const blockhash = (await connection.getLatestBlockhash()).blockhash
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = anchorWallet.publicKey;
+
+
+  await wallet.sendTransaction(tx, connection, {
+    preflightCommitment: "confirmed"
+  })
 
   const apiResponse = await backendApi.post(
     `/escrow/submit/${escrow.toBase58()}`,
@@ -51,9 +60,6 @@ export async function submit(
   );
   //   if(!apiResponse) {console.log('Do something')}
 
-  // wallet.sendTransaction(tx, connection, {
-  //     preflightCommitment: "confirmed"
-  // })
 
   return tx;
 }

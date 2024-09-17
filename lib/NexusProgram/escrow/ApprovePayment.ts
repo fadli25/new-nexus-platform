@@ -95,16 +95,21 @@ export async function approvePayment(
         recieverAddress: reciever,
         authority: anchorWallet.publicKey,
         nexusEscrow: nexusEscrow,
-        systemProgram: web3.SystemProgram.programId
+        systemProgram: web3.SystemProgram.programId,
+        tokenProgram: TOKEN_PROGRAM_ID
     })
-        // .transaction()
-        .rpc({
-            commitment: "confirmed",
-        })
-
-    // wallet.sendTransaction(tx, connection, {
-    //     preflightCommitment: "confirmed"
+        .transaction()
+    // .rpc({
+    //     commitment: "confirmed",
     // })
+
+    const blockhash = (await connection.getLatestBlockhash()).blockhash
+    tx.recentBlockhash = blockhash;
+    tx.feePayer = anchorWallet.publicKey;
+
+    wallet.sendTransaction(tx, connection, {
+        preflightCommitment: "confirmed"
+    })
 
     return tx;
 }

@@ -2,15 +2,15 @@ import CardAppAccept from "@/components/CardAppAccept";
 import { approvePayment } from "@/lib/NexusProgram/escrow/ApprovePayment";
 import { rejectFreelancer } from "@/lib/NexusProgram/escrow/rejectFreelancer";
 import { Button, Stack } from "@mui/material";
-import { motion } from "framer-motion";
 import {
   useAnchorWallet,
   useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
+import { motion } from "framer-motion";
 import React from "react";
-import Card from "./Card";
 import { FaLock, FaUnlock } from "react-icons/fa6";
+import Card from "./Card";
 import CardAnimation from "./CardAnimation";
 
 export default function CardAccordionAccept({
@@ -129,11 +129,11 @@ export default function CardAccordionAccept({
             </div>
           </motion.button>
 
-          {/* {showTerminate && (
+          {escrowInfo.status == 9 && (
             <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
               <Button
                 variant="contained"
-                onClick={showApprove}
+                onClick={() => approveSubmit()}
                 className="!normal-case !text-sm !py-3 !text-black !bg-green-500 !col-span-1 !rounded-md"
               >
                 Approve
@@ -141,13 +141,13 @@ export default function CardAccordionAccept({
 
               <Button
                 variant="contained"
-                onClick={showReject}
+                onClick={() => RejectSubmit()}
                 className="!normal-case !text-sm !py-3 !bg-red-600 !text-white !col-span-1 !rounded-md"
               >
                 Reject
               </Button>
             </CardAnimation>
-          )} */}
+          )}
 
           {showTerminate && (
             <CardAnimation className="grid grid-cols-2 mt-4 gap-2">

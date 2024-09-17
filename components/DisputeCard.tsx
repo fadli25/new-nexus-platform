@@ -2,7 +2,7 @@ import { Button, Stack } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
-export default function DisputeCard({ title, role, image, contactLink }: any) {
+export default function DisputeCard({ title, role, image, contactLink, id }: any) {
   return (
     <div className="flex gap-4">
       <img
@@ -15,6 +15,7 @@ export default function DisputeCard({ title, role, image, contactLink }: any) {
         <div className="text-2xl font-semibold">{title}</div>
         <div className="text-base text-textColor">{role}</div>
         <Button
+          onClick={() => contactLink(id)}
           variant="outlined"
           className="!border !border-black !text-black !text-xs !font-semibold"
         >

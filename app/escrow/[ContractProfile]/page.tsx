@@ -88,13 +88,15 @@ export default function page() {
       if (telegram.length == 0) {
         return console.log("need telegram first");
       }
-
+      console.log(escrowInfo)
       const tx = await FreelacerApply(
         anchorWallet,
         connection,
         wallet,
         escrowInfo.escrow,
-        telegram
+        Number(escrowInfo.amount),
+        telegram,
+        escrowInfo.contractName
       );
     } catch (e) {
       console.log(e);

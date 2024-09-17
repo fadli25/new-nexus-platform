@@ -44,14 +44,20 @@ export async function rejectFreelancer(
         authority: anchorWallet.publicKey,
         systemProgram: web3.SystemProgram.programId
     })
-        // .transaction()
-        .rpc({
-            commitment: "confirmed",
-        })
-
-    // wallet.sendTransaction(tx, connection, {
-    //     preflightCommitment: "confirmed"
+        .transaction()
+    // .rpc({
+    //     commitment: "confirmed",
     // })
+    const blockhash = (await connection.getLatestBlockhash()).blockhash
+    tx.recentBlockhash = blockhash;
+    tx.feePayer = anchorWallet.publicKey;
+
+
+
+    await wallet.sendTransaction(tx, connection, {
+        preflightCommitment: "confirmed"
+    })
+
 
     return tx;
 }

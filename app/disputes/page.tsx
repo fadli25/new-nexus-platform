@@ -1,14 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
 import DisputeCard from "@/components/DisputeCard";
-
+import { disputeSuccess } from "@/lib/NexusProgram/escrow/disputeSuccess";
+import { disputeReject } from "@/lib/NexusProgram/escrow/disputereject";
+import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
+import {
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from "@solana/wallet-adapter-react";
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 const imageLink =
   "https://cdn.discordapp.com/attachments/1085293900706627595/1162203481017438298/Untitled670_20230803112855_1.png?ex=66d9b516&is=66d86396&hm=f02d02ef44519c088678162796c8bd1ffc30c7279248c532355f9871773447f8&";
 
 export default function page() {
   const [disptueState, setDisputeState] = useState(true);
+  const [escrows, setEscrows] = useState<any[]>();
+  // const [filter, setFilter] = useState<number>
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
   const [disputes, setDisputed] = useState([
     { id: 1, ClinetName: "Zetsu", FreelancerName: "Manay", isResolved: false },
@@ -25,6 +37,51 @@ export default function page() {
 
   const ResolvedDisptued = [...disputes].filter((x) => x.isResolved);
   const NotResolvedDisptued = [...disputes].filter((x) => !x.isResolved);
+
+  const getEscrow = async () => {
+    try {
+      console.log("wow");
+      const escrow = await getAllEscrow(
+        connection,
+        "confirmed"
+      );
+      setEscrows(escrow);
+      console.log(escrow);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    getEscrow();
+  }, [anchorWallet]);
+
+
+  const dispute_success = async (id: number) => {
+    try {
+      console.log(id);
+      console.log(escrows);
+      console.log(escrows![id]);
+
+      const tx = await disputeSuccess(anchorWallet, connection, wallet, escrows![id].pubkey, escrows![id].reciever);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const dispute_reject = async (id: number) => {
+    try {
+      console.log(id);
+      console.log(escrows);
+      console.log(escrows![id]);
+
+      const tx = await disputeReject(anchorWallet, connection, wallet, escrows![id].pubkey)
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <div className="p-5">
@@ -49,15 +106,16 @@ export default function page() {
       </div>
 
       <motion.div className="w-full border border-textColor p-5 rounded-xl  flex flex-col space-y-10">
-        {disptueState &&
-          NotResolvedDisptued.map((el, i) => (
+        {escrows &&
+          escrows.filter((es) => es.status === 5).map((el, i) => (
             <div key={i} className="flex items-center justify-around gap-5">
               <div className="flex justify-center">
                 <DisputeCard
                   title={el.ClinetName}
                   role="Client"
                   image={imageLink}
-                  contactLink="#"
+                  contactLink={dispute_reject}
+                  id={i}
                 />
               </div>
 
@@ -66,7 +124,8 @@ export default function page() {
                   title={el.FreelancerName}
                   role="Freelancer"
                   image={imageLink}
-                  contactLink="#"
+                  contactLink={dispute_success}
+                  id={i}
                 />
               </div>
 

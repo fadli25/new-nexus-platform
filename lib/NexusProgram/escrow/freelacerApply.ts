@@ -1,10 +1,11 @@
+import { backendApi } from '@/lib/utils/api.util';
 import { AnchorProvider, BN, Program, web3 } from '@project-serum/anchor';
 import { USER_PREFIX } from '../../constants/constants';
-import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
 // pub struct ApplyInfo {
 //     description: String,
+
 // }
 
 export async function FreelacerApply(
@@ -12,7 +13,9 @@ export async function FreelacerApply(
   connection: web3.Connection,
   wallet: any,
   escrow: web3.PublicKey,
-  description: string
+  amount: number,
+  description: string,
+  contactName: string
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -31,7 +34,9 @@ export async function FreelacerApply(
     PROGRAM_ID
   );
 
-  console.log(escrow.toBase58());
+  console.log(amount);
+  console.log(contactName);
+  console.log(description);
 
   const tx = await program.methods
     .freelancerApply({
@@ -44,17 +49,26 @@ export async function FreelacerApply(
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
-    // .transaction();
-    .rpc({
-      commitment: 'confirmed',
-    });
-
-  // wallet.sendTransaction(tx, connection, {
-  //     preflightCommitment: "confirmed"
+    .transaction();
+  // .rpc({
+  //   commitment: 'confirmed',
   // });
 
+
+  const blockhash = (await connection.getLatestBlockhash()).blockhash
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = anchorWallet.publicKey;
+
+
+  await wallet.sendTransaction(tx, connection, {
+    preflightCommitment: "confirmed"
+  });
+
   const apiResponse = await backendApi.post('/escrow/apply', {
+    contactName,
+    amount,
     description,
+    createdAtUTC: Date.now(),
     escrowAddress: escrow.toBase58(),
     freelancerAddress: freelancer.toBase58(),
   });

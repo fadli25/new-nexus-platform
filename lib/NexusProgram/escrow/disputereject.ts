@@ -30,7 +30,12 @@ export async function disputeReject(
     //     commitment: "confirmed",
     // })
 
-    wallet.sendTransaction(tx, connection, {
+    const blockhash = (await connection.getLatestBlockhash()).blockhash
+    tx.recentBlockhash = blockhash;
+    tx.feePayer = anchorWallet.publicKey;
+
+
+    await wallet.sendTransaction(tx, connection, {
         preflightCommitment: "confirmed"
     })
 
