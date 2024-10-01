@@ -45,6 +45,9 @@ export default function page() {
         connection,
         "confirmed"
       );
+      escrow.map((es, i) => {
+        escrow[i].id = i;
+      })
       setEscrows(escrow);
       console.log(escrow);
     } catch (e) {
@@ -109,13 +112,14 @@ export default function page() {
         {escrows &&
           escrows.filter((es) => es.status === 5).map((el, i) => (
             <div key={i} className="flex items-center justify-around gap-5">
+              {el.contractName}
               <div className="flex justify-center">
                 <DisputeCard
                   title={el.ClinetName}
                   role="Client"
                   image={imageLink}
                   contactLink={dispute_reject}
-                  id={i}
+                  id={el.id}
                 />
               </div>
 
@@ -125,7 +129,7 @@ export default function page() {
                   role="Freelancer"
                   image={imageLink}
                   contactLink={dispute_success}
-                  id={i}
+                  id={el.id}
                 />
               </div>
 

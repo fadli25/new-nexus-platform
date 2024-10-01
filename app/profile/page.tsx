@@ -19,6 +19,8 @@ import { profileOverview } from "@/lib/fakedata/Data";
 import TimeZoneInput from "@/components/TimeZoneInput";
 import CountryInput from "@/components/CountryInput";
 import ExpertiseLevelInput from "@/components/ExpertiseLevelInput";
+import { update_user } from "@/lib/user/update_user";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 export default function page() {
   const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
@@ -26,7 +28,12 @@ export default function page() {
   const menu1 = ["Level of expertise", "Payment rate"];
 
   const [tap, setTap] = useState(menu[0]);
+
   const address = "HxVh4haF3Uu2QibqQqinEDXGxx5ThtARA24vaMfhSCaW";
+
+  const anchorWallet = useAnchorWallet();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
   const [showEdit, setShowEdit] = useState(false);
 
@@ -48,6 +55,54 @@ export default function page() {
       fontFamily: "Myanmar Text",
     },
   });
+
+
+
+  const onSubmit = async () => {
+    try {
+    console.log("wow");
+    console.log(editForm);
+
+    // username: null,
+    // roleDescription: null,
+    // levelOfExpertise: null,
+    // paymentRate: null,
+    // profileOverview: profileOverview,
+    // category: null,
+    // country: null,
+    // timeZone: null,
+    // linkResume: null,
+    // linkPortfolio: null,
+
+    await update_user(
+      anchorWallet,
+      connection,
+      // watch.sdfdsf,
+      editForm.username,
+      "https://www.youtube.com/",
+      editForm.category,
+      editForm.roles,
+      editForm.profileOverview,
+      editForm.levelOfExpertise,
+      editForm.others,
+      editForm.paymentRate,
+      editForm.nigotion,
+      editForm.linkResume,
+      editForm.linkPortfolio,
+      editForm.discord_id,
+      editForm.telegram_id,
+      editForm.website,
+      editForm.linkedin,
+      editForm.twitter,
+      wallet,
+
+    );
+  } catch (e) {
+    console.log(e)
+  }
+  
+}
+
 
   return (
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-5">
@@ -293,7 +348,6 @@ export default function page() {
                     setEditForm({ ...editForm, category: e.target.value })
                   }
                   sx={inputMuiFontSize}
-                  disabled
                 />
 
                 <CountryInput editForm={editForm} setEditForm={setEditForm} />
@@ -307,7 +361,7 @@ export default function page() {
                   variant="outlined"
                   value={editForm.linkResume}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, category: e.target.value })
+                    setEditForm({ ...editForm, linkResume: e.target.value })
                   }
                   sx={inputMuiFontSize}
                 />
@@ -324,6 +378,7 @@ export default function page() {
               </div>
 
               <Button
+                onClick={() => onSubmit()}
                 variant="contained"
                 className="!mt-8 !text-black !bg-main !text-xs !px-6 !py-2 !normal-case !w-fit !mx-auto !font-mynamarButton"
               >

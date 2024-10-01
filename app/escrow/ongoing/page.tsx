@@ -4,13 +4,14 @@ import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getApplyFreelancer } from "@/lib/NexusProgram/escrow/utils.ts/getApplyFreelancer";
 import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
-import { motion } from "framer-motion";
+import { backendApi } from "@/lib/utils/api.util";
 import { Stack } from "@mui/material";
 import {
   useAnchorWallet,
   useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
@@ -31,6 +32,15 @@ export default function page() {
       console.log("pending");
       console.log(pending);
       setPendingEscrow(pending.filter((p) => p.status != "Success"));
+      console.log("wow")
+      pending.map(async (pen, i) => {
+        console.log("wow")
+        console.log(pen.escrow.toBase58())
+        const data = await backendApi.get('/escrow/' + pen.escrow.toBase58());
+        console.log(data);
+      })
+      console.log("wow")
+      
     } catch (e) {
       console.log(e);
     }
@@ -46,6 +56,8 @@ export default function page() {
       console.log("ongoing");
       console.log(ongoing);
       setOngoingEscrow(ongoing);
+
+  
     } catch (e) {
       console.log(e);
     }
@@ -85,16 +97,30 @@ export default function page() {
           </div>
           <Stack mt={4} spacing={2.8}>
             {ongoingEscrow &&
-              ongoingEscrow.map((el, i) => (
-                <CardContract
-                  key={i}
-                  contractName={el.contractName}
-                  amount={Number(el.amount)}
-                  deadline={Number(el.deadline)}
-                  escrow={el.pubkey.toBase58()}
-                  type={3}
-                />
-              ))}
+              (
+                value === 0 ?
+                  ongoingEscrow.filter((es) => es.status !== 5).map((el, i) => (
+                    <CardContract
+                      key={i}
+                      contractName={el.contractName}
+                      amount={Number(el.amount)}
+                      deadline={Number(el.deadline)}
+                      escrow={el.pubkey.toBase58()}
+                      type={3}
+                    />
+                  ))
+                  :
+                  ongoingEscrow.filter((es) => es.status === 5).map((el, i) => (
+                    <CardContract
+                      key={i}
+                      contractName={el.contractName}
+                      amount={Number(el.amount)}
+                      deadline={Number(el.deadline)}
+                      escrow={el.pubkey.toBase58()}
+                      type={3}
+                    />
+                  )))
+            }
           </Stack>
         </Card>
 

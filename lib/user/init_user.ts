@@ -76,35 +76,41 @@ export async function init_user(
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
-    // .transaction()
-    .rpc({
-      commitment: 'confirmed',
-    });
-
-  // wallet.sendTransaction(tx, connection, {
-  //     preflightCommitment: "confirmed"
-  // })
+    .transaction()
+    // .rpc({
+    //   commitment: 'confirmed',
+    // });
+  
+    const blockhash = (await connection.getLatestBlockhash()).blockhash
+    tx.recentBlockhash = blockhash;
+    tx.feePayer = anchorWallet.publicKey;
+  
+  
+    await wallet.sendTransaction(tx, connection, {
+      preflightCommitment: "confirmed"
+    })
+  
 
   const apiResponse = await backendApi.post('/nexus-user/init', {
     name,
-    image,
-    category,
-    roles,
-    levelOfExpertise: level_of_expertise,
-    paymentRatePerHour: payment_rate_per_hour,
-    profileOverview: profile_overview,
-    others,
-    negotiation: nigotion,
-    portfolio,
-    resume,
-    tosp,
-    timezone,
-    country,
-    twitter,
-    address: anchorWallet.toBase58(),
+    image: "https://www.youtube.com/",
+    others: others,
+    twitter: twitter,
+    address: anchorWallet.publicKey.toBase58(),
     userId: user.toBase58(),
+    // category: "category",
+    // roles: ["dev", "designer"],
+    // levelOfExpertise: "level_of_expertise",
+    // paymentRatePerHour: "payment_rate_per_hour",
+    // profileOverview: "profile_overview",
+    // negotiation: "",
+    // portfolio: "",
+    // resume: "",
+    // tosp: "",
+    // timezone: "",
+    // country: "",
   });
   //   if(!apiResponse) {console.log('Do something')}
 
-  return tx;
+  // return tx;
 }

@@ -34,10 +34,12 @@ export async function disputeReject(
     tx.recentBlockhash = blockhash;
     tx.feePayer = anchorWallet.publicKey;
 
+    const signTx = await wallet.signTransaction(tx);
 
-    await wallet.sendTransaction(tx, connection, {
-        preflightCommitment: "confirmed"
-    })
-
+    const hash = await connection.sendRawTransaction(signTx.serialize());
+    // sendTransaction(tx, connection, {
+    //     preflightCommitment: "confirmed"
+    // })
+    console.log(hash);
     return tx;
 }

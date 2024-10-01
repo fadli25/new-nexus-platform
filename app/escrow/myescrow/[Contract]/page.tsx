@@ -23,6 +23,7 @@ import React, { useEffect, useRef, useState } from "react";
 import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
+import { backendApi } from "@/lib/utils/api.util";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -214,6 +215,23 @@ export default function page() {
       });
   };
 
+  const privates = async () => {
+    try {
+      const address = pathname.replace("/escrow/myescrow/", "");
+
+      const apiResponse = await backendApi.patch(`escrow/update/${address}`,
+        {
+          deadline: Number(escrowInfo.deadline),
+          telegramLink: "escrowInfo.telegramLink",
+          private: false
+        }
+      );
+      console.log(apiResponse);
+    }catch(e) {
+      console.log(e);
+    }
+  }
+
   return (
     <div>
       <div className="max-w-6xl mx-auto pt-4">
@@ -302,7 +320,9 @@ export default function page() {
               alignItems="center"
             >
               <div>Public</div>
-              <Switch className="-mt-[6px]" />
+              <Switch
+              onClick={() => privates()}
+               className="-mt-[6px]" />
               <div>Private</div>
             </Stack>
 

@@ -36,10 +36,10 @@ export async function update_user(
   twitter: string,
   wallet: any
 ) {
-  twitter = twitter.replace('https://twitter.com/', '');
-  twitter = twitter.replace('/', '');
-  linkedin = linkedin.replace('https://www.linkedin.com/in/', '');
-  linkedin = linkedin.replace('/', '');
+  // twitter = twitter.replace('https://twitter.com/', '');
+  // twitter = twitter.replace('/', '');
+  // linkedin = linkedin.replace('https://www.linkedin.com/in/', '');
+  // linkedin = linkedin.replace('/', '');
 
   console.log(twitter);
   console.log(linkedin);
@@ -55,62 +55,82 @@ export async function update_user(
     PROGRAM_ID
   );
 
-  const tx = await program.methods
-    .updateUser({
-      name: name,
-      image: image,
-      category: category,
-      roles: roles,
-      levelOfExpertise: level_of_expertise,
-      paymentRatePerHour: new BN(Number(payment_rate_per_hour)),
-      profileOverview: profile_overview,
-      nigotion: nigotion,
-      others: others,
-      linkedin: linkedin,
-      twitter: twitter,
-      website: website,
-      discordId: discord_id,
-      telegramId: telegram_id,
-      resume,
-      portfolio,
-    })
-    .accounts({
-      user: user,
-      authority: anchorWallet.publicKey,
-      systemProgram: web3.SystemProgram.programId,
-    })
-    .transaction();
-  // .rpc({
-  //     commitment: "confirmed",
-  // })
+  
+  console.log(name)
+  console.log(image)
+  console.log(category)
+  console.log(roles)
+  console.log(level_of_expertise)
+  console.log(payment_rate_per_hour)
+  console.log(profile_overview)
+  console.log(nigotion)
+  console.log(others)
+  console.log(twitter)
+  console.log(linkedin)
+  console.log(website)
+  console.log(discord_id)
+  console.log(resume)
+  console.log(telegram_id)
+  console.log(portfolio)
 
-  wallet.sendTransaction(tx, connection, {
-    preflightCommitment: 'confirmed',
-  });
+  // const tx = await program.methods
+  //   .updateUser({
+  //     name: name,
+  //     image: image,
+  //     category: category,
+  //     roles: roles,
+  //     levelOfExpertise: "level_of_expertise",
+  //     paymentRatePerHour: new BN(Number(payment_rate_per_hour)),
+  //     profileOverview: profile_overview,
+  //     nigotion: nigotion,
+  //     others: others,
+  //     linkedin: linkedin,
+  //     twitter: twitter,
+  //     website: website,
+  //     discordId: discord_id,
+  //     telegramId: telegram_id,
+  //     resume,
+  //     portfolio,
+  //   })
+  //   .accounts({
+  //     user: user,
+  //     authority: anchorWallet.publicKey,
+  //     systemProgram: web3.SystemProgram.programId,
+  //   })
+  //   .transaction();
+  // // .rpc({
+  // //     commitment: "confirmed",
+  // // })
 
-  const apiResponse = await backendApi.patch(`/nexus-user/${user.toBase58()}`, {
+  // wallet.sendTransaction(tx, connection, {
+  //   preflightCommitment: 'confirmed',
+  // });
+
+  const apiResponse = await backendApi.patch(`/nexus-user/${anchorWallet.publicKey.toBase58()}`, {
     name,
-    image,
-    category,
-    roles,
-    levelOfExpertise: level_of_expertise,
+    image: "https://www.youtube.com/",
+    category: "category",
+    roles: ["developer"],
+    levelOfExpertise: "level_of_expertise",
     paymentRatePerHour: payment_rate_per_hour,
-    profileOverview: profile_overview,
-    others,
+    profileOverview: "profile_overview",
+    others: "others",
     negotiation: nigotion,
-    portfolio,
-    resume,
+    portfolio: "https://www.youtube.com/",
+    resume: "https://www.youtube.com/",
     // tosp,
     // timezone,
     // country,
-    address: anchorWallet.toBase58(),
-    twitter: twitter,
-    linkedin: linkedin,
-    discordId: discord_id,
-    telegramId: telegram_id,
-    website: website,
+    address: anchorWallet.publicKey.toBase58(),
+    twitter: "https://www.youtube.com/",
+    linkedin: "https://www.youtube.com/",
+    discordId: "https://www.youtube.com/",
+    telegramId: "https://www.youtube.com/",
+    website: "https://www.youtube.com/",
   });
+
+  console.log(apiResponse);
   //   if(!apiResponse) {console.log('Do something')}
 
-  return tx;
+  // return tx;
 }
