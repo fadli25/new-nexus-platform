@@ -16,6 +16,7 @@ import { getAllEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getAllEscrow";
 import { inputStyle } from "@/lib/styles/styles";
 import { formatTime } from "@/lib/utils/time_formatter";
 import coin from "@/public/coin.svg";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
 
 export default function Page() {
   const [timeValue, setTimeValue] = useState("");
@@ -78,6 +79,7 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
+      notify_laoding("Transaction Pending...!")
       await initEscrow(
         anchorWallet!,
         connection,
@@ -89,8 +91,12 @@ export default function Page() {
         form.DeadLine,
         wallet
       );
-    } catch (error) {
-      console.error(error);
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");      
+      console.log(e);
     }
   };
 

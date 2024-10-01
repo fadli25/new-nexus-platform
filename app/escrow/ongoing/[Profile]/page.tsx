@@ -1,5 +1,6 @@
 "use client";
 
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
 import Card from "@/components/Card";
 import { fTarminat } from "@/lib/NexusProgram/escrow/Fterminat";
 import { openDispute } from "@/lib/NexusProgram/escrow/openDipute";
@@ -44,39 +45,54 @@ export default function page() {
 
   const submission = async () => {
     try {
+      notify_laoding("Transaction Pending")
       const address = pathname.replace("/escrow/ongoing/", "");
       const escrow = new web3.PublicKey(address);
       console.log(material)
       const tx = await submit(anchorWallet, connection, wallet, escrow, material);
       // setShowSubmission(true);
       console.log(tx);
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
-      console.log(e);
+      notify_delete();
+      notify_error("Transaction Failed!");      console.log(e);
     }
   };
-
+  
   const Tarminat = async () => {
     try {
+      
+      notify_laoding("Transaction Pending")
       const address = pathname.replace("/escrow/ongoing/", "");
       const escrow = new web3.PublicKey(address);
 
       const tx = await fTarminat(anchorWallet, connection, wallet, escrow);
       // setShowSubmission(true);
       console.log(tx);
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   };
 
   const Dispute = async () => {
     try {
+      notify_laoding("Transaction Pending...!");
       const address = pathname.replace("/escrow/ongoing/", "");
       const escrow = new web3.PublicKey(address);
 
       const tx = await openDispute(anchorWallet, connection, wallet, escrow);
       // setShowSubmission(true);
       console.log(tx);
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   };

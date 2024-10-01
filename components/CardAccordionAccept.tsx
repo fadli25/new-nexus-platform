@@ -12,6 +12,7 @@ import React from "react";
 import { FaLock, FaUnlock } from "react-icons/fa6";
 import Card from "./Card";
 import CardAnimation from "./CardAnimation";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
 
 export default function CardAccordionAccept({
   children,
@@ -33,6 +34,7 @@ export default function CardAccordionAccept({
 
   const approveSubmit = async () => {
     try {
+      notify_laoding("Transaction Pending...!");
       console.log(escrowInfo);
       console.log(data);
       console.log(escrowInfo.escrow.toBase58());
@@ -45,13 +47,18 @@ export default function CardAccordionAccept({
         escrowInfo.escrow,
         escrowInfo.freelancerInfo.address
       );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
       console.log(e);
     }
   };
 
   const RejectSubmit = async () => {
     try {
+      notify_laoding("Transaction Pending...!");
       const tx = await rejectFreelancer(
         anchorWallet,
         connection,
@@ -59,7 +66,11 @@ export default function CardAccordionAccept({
         escrowInfo.escrow,
         data[0].pubkey
       );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
       console.log(e);
     }
   };

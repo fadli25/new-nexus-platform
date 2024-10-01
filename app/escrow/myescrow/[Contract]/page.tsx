@@ -24,6 +24,7 @@ import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
 import { backendApi } from "@/lib/utils/api.util";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -86,13 +87,18 @@ export default function page() {
 
   const getApplys = async () => {
     try {
+      // notify_laoding("Transaction Pending...!");
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getApplyEscrow(connection, escrow, "confirmed");
       console.log("apply");
       console.log(info);
       setApplys(info);
+      // notify_delete();
+      // notify_success("Transaction Success!")
     } catch (e) {
+      // notify_delete();
+      // notify_error("Transaction Failed!");      
       console.log(e);
     }
   };
@@ -217,6 +223,7 @@ export default function page() {
 
   const privates = async () => {
     try {
+      notify_laoding("Transaction Pending...!")
       const address = pathname.replace("/escrow/myescrow/", "");
 
       const apiResponse = await backendApi.patch(`escrow/update/${address}`,
@@ -227,7 +234,11 @@ export default function page() {
         }
       );
       console.log(apiResponse);
-    }catch(e) {
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   }

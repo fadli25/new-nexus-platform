@@ -1,5 +1,6 @@
 "use client";
 
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
 import Card from "@/components/Card";
 import { FreelacerApply } from "@/lib/NexusProgram/escrow/freelacerApply";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
@@ -85,6 +86,7 @@ export default function page() {
 
   const apply = async () => {
     try {
+      notify_laoding("Transaction Pending...!")
       if (telegram.length == 0) {
         return console.log("need telegram first");
       }
@@ -98,7 +100,11 @@ export default function page() {
         telegram,
         escrowInfo.contractName
       );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   };

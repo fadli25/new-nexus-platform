@@ -1,5 +1,6 @@
 "use client";
 
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
 import { FormContext } from "@/contexts/FormContext";
 import { OnboardingScreenForm } from "@/lib/types/types";
 import { init_user } from "@/lib/user/init_user";
@@ -38,10 +39,12 @@ export default function FirstForm({ handleGoToStep }: any) {
   const watchedEmail = watch("email");
 
   const onSubmit: SubmitHandler<OnboardingScreenForm> = async (data: any) => {
+    try {
     console.log("wow");
     if (!isValid) {
       return console.log("still some empty;")
     }
+    notify_laoding("Transaction Pending...!");
     console.log(watch("email"));
 
     await init_user(
@@ -84,6 +87,13 @@ export default function FirstForm({ handleGoToStep }: any) {
     });
 
     handleGoToStep("second");
+    notify_delete();
+    notify_success("Transaction Success!")
+  } catch (e) {
+    notify_delete();
+    notify_error("Transaction Failed!");   
+    console.log(e);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

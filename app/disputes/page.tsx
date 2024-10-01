@@ -11,6 +11,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
 const imageLink =
   "https://cdn.discordapp.com/attachments/1085293900706627595/1162203481017438298/Untitled670_20230803112855_1.png?ex=66d9b516&is=66d86396&hm=f02d02ef44519c088678162796c8bd1ffc30c7279248c532355f9871773447f8&";
 
@@ -63,25 +64,35 @@ export default function page() {
 
   const dispute_success = async (id: number) => {
     try {
+      notify_laoding("Transaction Pending...!");
       console.log(id);
       console.log(escrows);
       console.log(escrows![id]);
 
       const tx = await disputeSuccess(anchorWallet, connection, wallet, escrows![id].pubkey, escrows![id].reciever);
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   }
 
   const dispute_reject = async (id: number) => {
     try {
+      notify_laoding("transaction pending...");
       console.log(id);
       console.log(escrows);
       console.log(escrows![id]);
 
       const tx = await disputeReject(anchorWallet, connection, wallet, escrows![id].pubkey)
 
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   }

@@ -36,7 +36,7 @@ export default function page() {
       pending.map(async (pen, i) => {
         console.log("wow")
         console.log(pen.escrow.toBase58())
-        const data = await backendApi.get('/escrow/' + pen.escrow.toBase58());
+        const data = await backendApi.get('/escrow/apply/' + pen.authority.toBase58());
         console.log(data);
       })
       console.log("wow")

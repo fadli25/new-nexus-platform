@@ -6,7 +6,6 @@ import {
   createTheme,
   Modal,
   Stack,
-  Switch,
   TextField,
   ThemeProvider,
 } from "@mui/material";
@@ -21,6 +20,7 @@ import CountryInput from "@/components/CountryInput";
 import ExpertiseLevelInput from "@/components/ExpertiseLevelInput";
 import { update_user } from "@/lib/user/update_user";
 import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
 
 export default function page() {
   const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
@@ -60,6 +60,7 @@ export default function page() {
 
   const onSubmit = async () => {
     try {
+      notify_laoding("Transaction Pending...");
     console.log("wow");
     console.log(editForm);
 
@@ -95,12 +96,14 @@ export default function page() {
       editForm.linkedin,
       editForm.twitter,
       wallet,
-
     );
-  } catch (e) {
-    console.log(e)
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");      
+      console.log(e); 
   }
-  
 }
 
 
