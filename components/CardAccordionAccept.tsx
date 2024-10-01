@@ -12,7 +12,7 @@ import React from "react";
 import { FaLock, FaUnlock } from "react-icons/fa6";
 import Card from "./Card";
 import CardAnimation from "./CardAnimation";
-import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 
 export default function CardAccordionAccept({
   children,

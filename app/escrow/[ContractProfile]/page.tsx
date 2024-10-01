@@ -1,6 +1,6 @@
 "use client";
 
-import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 import Card from "@/components/Card";
 import { FreelacerApply } from "@/lib/NexusProgram/escrow/freelacerApply";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";

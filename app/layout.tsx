@@ -7,14 +7,14 @@ import Form from "@/contexts/FormContext";
 import AppWalletProvider from "@/components/AppWalletProvider";
 import Redirection from "@/components/Redirection";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Nexus Platform",
-  description: "this the description for nexus platform",
-};
+// export const metadata: Metadata = {
+//   title: "Nexus Platform",
+//   description: "this the description for nexus platform",
+// };
 
 export const notify_success = (msg: string) => {
   return toast.success(msg, {
@@ -41,9 +41,9 @@ export const notify_delete = () => {
   toast.dismiss();
 };
 
-// export const notify_delete_id = (id: any) => {
-//   return toast.dismiss(id);
-// };
+export const notify_delete_id = (id: any) => {
+  return toast.dismiss(id);
+};
 
 export default function RootLayout({
   children,

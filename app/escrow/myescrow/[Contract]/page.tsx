@@ -24,7 +24,7 @@ import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
 import { backendApi } from "@/lib/utils/api.util";
-import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 
 export default function page() {
   const [open, setOpen] = useState(false);

@@ -1,6 +1,6 @@
 "use client";
 
-import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 import { FormContext } from "@/contexts/FormContext";
 import { OnboardingScreenForm } from "@/lib/types/types";
 import { init_user } from "@/lib/user/init_user";

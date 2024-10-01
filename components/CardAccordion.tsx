@@ -8,7 +8,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import React from "react";
 import Card from "./Card";
-import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/layout";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 
 export default function CardAccordion({
   children,
