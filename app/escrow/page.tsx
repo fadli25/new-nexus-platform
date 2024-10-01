@@ -89,6 +89,7 @@ export default function Page() {
         form.Description,
         form.Amount,
         form.DeadLine,
+        form.private,
         wallet
       );
       notify_delete();
@@ -120,11 +121,14 @@ export default function Page() {
                   <Switch
                     color="warning"
                     checked={!form.private}
-                    onChange={(e) =>
+                    onChange={(e) =>{
+
                       setForm((prevForm) => ({
                         ...prevForm,
                         private: !e.target.checked,
                       }))
+                      console.log(form);
+                    }
                     }
                     size="small"
                   />

@@ -27,6 +27,7 @@ export async function initEscrow(
   description: string,
   amount: number,
   deadline: number,
+  privat: boolean,
   wallet: any
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
@@ -110,6 +111,7 @@ export async function initEscrow(
     materials,
     description,
     escrowAddress: escrow.toBase58(),
+    private: privat
   });
   //   if(!apiResponse) {console.log('Do something')}
 

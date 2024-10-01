@@ -19,7 +19,11 @@ export default function DisputeCard({ title, role, image, contactLink, id }: any
           variant="outlined"
           className="!border !border-black !text-black !text-xs !font-semibold"
         >
-          Start Chat
+          {role == "Client" ?
+          "Reject"
+          :
+          "Approve"
+          }
         </Button>
       </Stack>
     </div>

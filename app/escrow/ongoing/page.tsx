@@ -32,14 +32,11 @@ export default function page() {
       console.log("pending");
       console.log(pending);
       setPendingEscrow(pending.filter((p) => p.status != "Success"));
-      console.log("wow")
-      pending.map(async (pen, i) => {
-        console.log("wow")
-        console.log(pen.escrow.toBase58())
-        const data = await backendApi.get('/escrow/apply/' + pen.authority.toBase58());
-        console.log(data);
-      })
-      console.log("wow")
+      console.log(pending[0].user.toBase58());
+
+      /// GET THE APPLY of the freelancerAddress
+      const data = await backendApi.get('/escrow/apply/' + pending[0].user.toBase58());
+      console.log(data)
       
     } catch (e) {
       console.log(e);

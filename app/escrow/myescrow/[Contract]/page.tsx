@@ -225,12 +225,13 @@ export default function page() {
     try {
       notify_laoding("Transaction Pending...!")
       const address = pathname.replace("/escrow/myescrow/", "");
-
+      console.log(escrowInfo)
+      console.log(escrowInfo.private)
       const apiResponse = await backendApi.patch(`escrow/update/${address}`,
         {
           deadline: Number(escrowInfo.deadline),
           telegramLink: "escrowInfo.telegramLink",
-          private: false
+          private: escrowInfo.private
         }
       );
       console.log(apiResponse);
@@ -324,7 +325,7 @@ export default function page() {
           </Card>
 
           <Card className="col-span-1">
-            <Stack
+            {escrowInfo && <Stack
               flexDirection="row"
               gap={1}
               className="text-sm"
@@ -333,9 +334,16 @@ export default function page() {
               <div>Public</div>
               <Switch
               onClick={() => privates()}
+              checked={!escrowInfo.private}
+              onChange={(e) =>{
+                setEscrowInfo((prevForm:  any) => ({
+                  ...prevForm,
+                  private: !e.target.checked,
+                }))
+              }}
                className="-mt-[6px]" />
               <div>Private</div>
-            </Stack>
+            </Stack>}
 
             <Stack mt={4} spacing={2}>
               <div className="text-xs text-textColor">Deadline</div>
@@ -376,7 +384,7 @@ export default function page() {
                 openDispute={openDispute}
                 cancel={handleCancelProjectTermination}
               >
-                <Stack flexDirection="row" gap={1}>
+                {escrowInfo && escrowInfo.status !== 5 && <Stack flexDirection="row" gap={1}>
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -388,7 +396,7 @@ export default function page() {
                   >
                     Terminate
                   </Button>
-                </Stack>
+                </Stack>}
               </CardAccordionAccept>
             )}
 

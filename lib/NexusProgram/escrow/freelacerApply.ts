@@ -38,31 +38,31 @@ export async function FreelacerApply(
   console.log(contactName);
   console.log(description);
 
-  const tx = await program.methods
-    .freelancerApply({
-      description,
-    })
-    .accounts({
-      escrow: escrow,
-      apply: apply,
-      freelancer: freelancer,
-      authority: anchorWallet.publicKey,
-      systemProgram: web3.SystemProgram.programId,
-    })
-    .transaction();
+  // const tx = await program.methods
+  //   .freelancerApply({
+  //     description,
+  //   })
+  //   .accounts({
+  //     escrow: escrow,
+  //     apply: apply,
+  //     freelancer: freelancer,
+  //     authority: anchorWallet.publicKey,
+  //     systemProgram: web3.SystemProgram.programId,
+  //   })
+  //   .transaction();
   // .rpc({
   //   commitment: 'confirmed',
   // });
 
 
-  const blockhash = (await connection.getLatestBlockhash()).blockhash
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = anchorWallet.publicKey;
+  // const blockhash = (await connection.getLatestBlockhash()).blockhash
+  // tx.recentBlockhash = blockhash;
+  // tx.feePayer = anchorWallet.publicKey;
 
 
-  await wallet.sendTransaction(tx, connection, {
-    preflightCommitment: "confirmed"
-  });
+  // await wallet.sendTransaction(tx, connection, {
+  //   preflightCommitment: "confirmed"
+  // });
 
   const apiResponse = await backendApi.post('/escrow/apply', {
     contactName,
@@ -74,5 +74,6 @@ export async function FreelacerApply(
   });
   //   if(!apiResponse) {console.log('Do something')}
 
-  return tx;
+  console.log(apiResponse);
+  // return tx;
 }

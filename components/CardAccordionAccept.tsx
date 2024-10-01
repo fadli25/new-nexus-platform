@@ -13,6 +13,7 @@ import { FaLock, FaUnlock } from "react-icons/fa6";
 import Card from "./Card";
 import CardAnimation from "./CardAnimation";
 import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
+import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
 
 export default function CardAccordionAccept({
   children,
@@ -75,6 +76,24 @@ export default function CardAccordionAccept({
     }
   };
 
+  const OpenDispute = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await founderOpenDispute(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+      );
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
   console.log({ data });
   return (
     <div>
@@ -120,7 +139,16 @@ export default function CardAccordionAccept({
             </div>
           ) : (
             <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
-              Select Freelancer to start contract with
+              {
+              escrowInfo.status == 4 ?
+              "Waiting for the Frelancer To Terminate or Dispute"
+              :
+              (escrowInfo.status == 5 ?
+              "Your on Dispute Phase Now"
+              :
+              "Select Freelancer to start contract with"
+            )
+              }
             </div>
           )}
 
@@ -161,19 +189,19 @@ export default function CardAccordionAccept({
           )}
 
           {showTerminate && (
-            <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
-              <Button
+            <CardAnimation className="grid mt-4 gap-2">
+              {/* <Button
                 variant="contained"
                 onClick={cancel}
                 className="!normal-case !text-xs !py-3 !text-white !bg-red-700 !col-span-1 !rounded-md"
               >
                 Cancel Contract Termination
-              </Button>
+              </Button> */}
 
               <Button
                 variant="contained"
-                onClick={showApprove}
-                className="!normal-case !text-xs !py-3 !bg-black !text-white !col-span-1 !rounded-md"
+                onClick={() => OpenDispute()}
+                className="!normal-case !text-xs !py-3 !text-white !bg-red-700 !col-span-1 !rounded-md"
               >
                 Dispute and Request termination
               </Button>
