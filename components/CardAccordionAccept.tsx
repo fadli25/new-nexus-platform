@@ -14,6 +14,7 @@ import Card from "./Card";
 import CardAnimation from "./CardAnimation";
 import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
+import { ClientTerminat } from "@/lib/NexusProgram/escrow/CTerminate";
 
 export default function CardAccordionAccept({
   children,
@@ -76,6 +77,26 @@ export default function CardAccordionAccept({
     }
   };
 
+  const Terminate = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await ClientTerminat(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        data[0].pubkey
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      cancel();
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
   const OpenDispute = async () => {
     try {
       notify_laoding("Transaction Pending...!");
@@ -86,7 +107,8 @@ export default function CardAccordionAccept({
         escrowInfo.escrow,
       );
       notify_delete();
-      notify_success("Transaction Success!")
+      notify_success("Transaction Success!");
+      showApprove()
     } catch (e) {
       notify_delete();
       notify_error("Transaction Failed!");   
@@ -190,21 +212,21 @@ export default function CardAccordionAccept({
 
           {showTerminate && (
             <CardAnimation className="grid mt-4 gap-2">
-              {/* <Button
+              {escrowInfo.status == 2 && <Button
                 variant="contained"
-                onClick={cancel}
+                onClick={() => Terminate()}
                 className="!normal-case !text-xs !py-3 !text-white !bg-red-700 !col-span-1 !rounded-md"
               >
-                Cancel Contract Termination
-              </Button> */}
+                Cancel Contract, Termination
+              </Button>}
 
-              <Button
+              {escrowInfo.status == 4 && <Button
                 variant="contained"
                 onClick={() => OpenDispute()}
-                className="!normal-case !text-xs !py-3 !text-white !bg-red-700 !col-span-1 !rounded-md"
+                className="!normal-case !text-xs !py-3 !bg-black !text-white !col-span-1 !rounded-md"
               >
                 Dispute and Request termination
-              </Button>
+              </Button>}
             </CardAnimation>
           )}
 

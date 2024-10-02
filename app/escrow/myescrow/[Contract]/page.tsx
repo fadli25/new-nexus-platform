@@ -25,6 +25,7 @@ import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
 import { backendApi } from "@/lib/utils/api.util";
 import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
+import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -48,6 +49,7 @@ export default function page() {
 
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
+  const wallet = useWallet();
   const pathname = usePathname();
 
   function handleOpenModal() {
@@ -243,6 +245,26 @@ export default function page() {
       console.log(e);
     }
   }
+
+  const OpenDispute = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await founderOpenDispute(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      handleOpenDispute()
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
 
   return (
     <div>
@@ -556,7 +578,8 @@ export default function page() {
         >
           <Button
             variant="contained"
-            onClick={handleOpenDispute}
+            onClick={() => OpenDispute()}
+            // onClick={handleOpenDispute}
             className="!normal-case !text-white !text-xs !bg-black !px-16 !py-2"
           >
             Open dispute

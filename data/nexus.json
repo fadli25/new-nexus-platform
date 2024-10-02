@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "nexus",
+  "name": "nexus28",
   "instructions": [
     {
       "name": "initUser",
@@ -793,6 +793,58 @@
           "name": "authority",
           "isMut": true,
           "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cOpenDispute",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "founder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cTerminate",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "apply",
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "systemProgram",
