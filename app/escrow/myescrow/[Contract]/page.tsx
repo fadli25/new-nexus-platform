@@ -30,6 +30,7 @@ import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
 export default function page() {
   const [open, setOpen] = useState(false);
   const [escrowInfo, setEscrowInfo] = useState<any>();
+  const [escrowDateInfo, setEscrowDateInfo] = useState<any>();
   const [applys, setApplys] = useState<any[]>();
   const [showStartProject, setShowStartProject] = useState(false);
   const [showTerminate, setShowTerminate] = useState(false);
@@ -74,7 +75,10 @@ export default function page() {
       console.log("info");
       console.log(info, "info too");
 
-      const databaseEscrowInfo = await backendApi.get(`/escrow/${address.toBase58()}`);
+      const databaseEscrowInfo = await backendApi.get(`/escrow/${address}`);
+      console.log(databaseEscrowInfo);
+      console.log("databaseEscrowInfo");
+      setEscrowDateInfo((databaseEscrowInfo as any)!.data);
         // if(!databaseEscrowInfo) {console.log('Do something')}
 
       const freelancerInfo = await get_userr_info(
@@ -226,19 +230,24 @@ export default function page() {
       });
   };
 
-  const privates = async () => {
+  const privates = async (privat: boolean) => {
     try {
       notify_laoding("Transaction Pending...!")
       const address = pathname.replace("/escrow/myescrow/", "");
-      console.log(escrowInfo)
-      console.log(escrowInfo.private)
+      console.log(escrowDateInfo)
+      console.log(privat);
+      
       const apiResponse = await backendApi.patch(`escrow/update/${address}`,
         {
           deadline: Number(escrowInfo.deadline),
           telegramLink: "escrowInfo.telegramLink",
-          private: escrowInfo.private
+          private: privat
         }
       );
+      setEscrowDateInfo((prevForm:  any) => ({
+          ...prevForm,
+          private: privat,
+        }))
       console.log(apiResponse);
       notify_delete();
       notify_success("Transaction Success!")
@@ -358,13 +367,15 @@ export default function page() {
             >
               <div>Public</div>
               <Switch
-              onClick={() => privates()}
-              checked={!escrowInfo.private}
+              // onClick={() => privates()}
+              checked={escrowDateInfo.private}
               onChange={(e) =>{
-                setEscrowInfo((prevForm:  any) => ({
-                  ...prevForm,
-                  private: !e.target.checked,
-                }))
+                console.log(e.target.checked);
+                privates(e.target.checked)
+                // setEscrowDateInfo((prevForm:  any) => ({
+                //   ...prevForm,
+                //   private: !e.target.checked,
+                // }))
               }}
                className="-mt-[6px]" />
               <div>Private</div>

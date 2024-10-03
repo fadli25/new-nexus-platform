@@ -166,7 +166,7 @@ export default function CardAccordionAccept({
               "Waiting for the Frelancer To Terminate or Dispute"
               :
               (escrowInfo.status == 5 ?
-              "Your on Dispute Phase Now"
+              "You are on Dispute Phase Now"
               :
               "Select Freelancer to start contract with"
             )
