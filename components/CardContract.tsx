@@ -16,7 +16,7 @@ import React from "react";
 // }
 
 export default function CardContract({
-  contractName,
+  escrowName,
   amount,
   deadline,
   escrow,
@@ -48,7 +48,7 @@ export default function CardContract({
         }`}
       >
         <div className="text-base sm:text-lg text-start line-clamp-1">
-          {contractName ? contractName : "No Title"}
+          {escrowName ? escrowName : "No Title"}
         </div>
 
         <Stack spacing={2}>
@@ -57,7 +57,7 @@ export default function CardContract({
               <Image src={coin} alt="coin" className="w-4 mt-1" />
             </div>
             <div className="text-base sm:text-lg h-fit">
-              {amount ? amount : "N/A"}
+              {amount ? (amount / 1000_000_000) : "N/A"}
             </div>
           </Stack>
 

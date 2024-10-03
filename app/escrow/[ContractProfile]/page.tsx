@@ -98,7 +98,8 @@ export default function page() {
         escrowInfo.escrow,
         Number(escrowInfo.amount),
         telegram,
-        escrowInfo.contractName
+        escrowInfo.contractName,
+        escrowInfo.deadline        
       );
       notify_delete();
       notify_success("Transaction Success!")

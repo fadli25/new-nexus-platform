@@ -29,6 +29,24 @@ export default function page() {
         connection,
         "confirmed"
       );
+      const data = await backendApi.get(`/freelancer?freelancerAddress=${pending[0].user.toBase58()}`);
+      console.log(data);
+
+      ((data as any).data as any[])!.map((dt: any, id: number) => {
+        pending.map((pd: any, num: number) => {
+          if (dt.escrowAddress == pd.escrow.toBase58()) {
+            console.log(num);
+            console.log(dt.escrowAddress);
+            console.log(pd.escrow.toBase58());
+            console.log(dt.amount);
+            console.log(dt.contactName);
+            pending[num].escrowName = dt.contactName;             
+            pending[num].amount = dt.amount;             
+            pending[num].deadline = dt.deadline;             
+          }
+        })
+      })
+
       console.log("pending");
       console.log(pending);
       setPendingEscrow(pending.filter((p) => p.status != "Success"));
@@ -36,8 +54,7 @@ export default function page() {
 
       /// GET THE APPLY of the freelancerAddress
       //Get all applications of a freelancer
-      const data = await backendApi.get(`/freelancer?freelancerAddress=${pending[0].user.toBase58()}`);
-      console.log(data)
+      console.log("data")
       
     } catch (e) {
       console.log(e);

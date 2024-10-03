@@ -15,7 +15,8 @@ export async function FreelacerApply(
   escrow: web3.PublicKey,
   amount: number,
   description: string,
-  contactName: string
+  contactName: string,
+  deadline: number
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -71,6 +72,8 @@ export async function FreelacerApply(
     createdAtUTC: Date.now(),
     escrowAddress: escrow.toBase58(),
     freelancerAddress: freelancer.toBase58(),
+    status: "Proccessing",
+    deadline
   });
   //   if(!apiResponse) {console.log('Do something')}
 

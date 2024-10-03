@@ -359,7 +359,7 @@ export default function page() {
           </Card>
 
           <Card className="col-span-1">
-            {escrowInfo && <Stack
+            {escrowInfo &&  escrowDateInfo && <Stack
               flexDirection="row"
               gap={1}
               className="text-sm"
