@@ -643,7 +643,7 @@
       "args": []
     },
     {
-      "name": "rejectFreelancer",
+      "name": "rejectFreelancerApply",
       "accounts": [
         {
           "name": "escrow",
@@ -751,7 +751,7 @@
       "args": []
     },
     {
-      "name": "reject",
+      "name": "rejectSubmit",
       "accounts": [
         {
           "name": "escrow",
