@@ -649,7 +649,6 @@
           "name": "escrow",
           "isMut": true,
           "isSigner": false
-        
         },
         {
           "name": "apply",
