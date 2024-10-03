@@ -1,6 +1,6 @@
 import CardAppAccept from "@/components/CardAppAccept";
 import { approvePayment } from "@/lib/NexusProgram/escrow/ApprovePayment";
-import { rejectFreelancer } from "@/lib/NexusProgram/escrow/rejectFreelancer";
+import { rejectFreelancerSubmit } from "@/lib/NexusProgram/escrow/rejectFreelancerSubmit";
 import { Button, Stack } from "@mui/material";
 import {
   useAnchorWallet,
@@ -61,7 +61,7 @@ export default function CardAccordionAccept({
   const RejectSubmit = async () => {
     try {
       notify_laoding("Transaction Pending...!");
-      const tx = await rejectFreelancer(
+      const tx = await rejectFreelancerSubmit(
         anchorWallet,
         connection,
         wallet,

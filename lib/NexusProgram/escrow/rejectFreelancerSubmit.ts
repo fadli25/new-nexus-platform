@@ -6,7 +6,7 @@ import {
 import { NEXUSESCROW_V1, USER_PREFIX } from "../../constants/constants";
 const idl = require("../../../data/nexus.json")
 
-export async function rejectFreelancer(
+export async function rejectFreelancerSubmit(
     anchorWallet: any,
     connection: web3.Connection,
     wallet: any,
@@ -38,7 +38,7 @@ export async function rejectFreelancer(
 
     console.log(escrow.toBase58())
 
-    const tx = await program.methods.reject().accounts({
+    const tx = await program.methods.rejectSubmit().accounts({
         escrow: escrow,
         apply: apply,
         authority: anchorWallet.publicKey,
