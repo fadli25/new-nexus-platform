@@ -1,6 +1,7 @@
 import { AnchorProvider, BN, Program, web3 } from '@project-serum/anchor';
 import { NEXUSESCROW_V1, USER_PREFIX } from '../../constants/constants';
 import { get_userr_info } from './utils.ts/get_userr_info';
+import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
 export async function fTarminat(
