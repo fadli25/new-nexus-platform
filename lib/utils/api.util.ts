@@ -63,7 +63,6 @@ export class ApiService {
   }
 }
 
-// 'https://new-nexus-platform-backend.onrender.com/api/v1'
 export const backendApi = new ApiService(
-  'https://new-nexus-platform-backend-tqn6.onrender.com/api/v1'
+  'https://new-nexus-platform-backend.onrender.com/api/v1'
 );

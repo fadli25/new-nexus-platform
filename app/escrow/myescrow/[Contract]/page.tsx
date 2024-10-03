@@ -74,6 +74,9 @@ export default function page() {
       console.log("info");
       console.log(info, "info too");
 
+      const databaseEscrowInfo = await backendApi.get(`/escrow/${address.toBase58()}`);
+        // if(!databaseEscrowInfo) {console.log('Do something')}
+
       const freelancerInfo = await get_userr_info(
         anchorWallet,
         connection,
