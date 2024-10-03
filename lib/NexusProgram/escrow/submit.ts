@@ -38,19 +38,18 @@ export async function submit(
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
-    .transaction()
+    .transaction();
   // .rpc({
   //   commitment: 'confirmed',
   // });
 
-  const blockhash = (await connection.getLatestBlockhash()).blockhash
+  const blockhash = (await connection.getLatestBlockhash()).blockhash;
   tx.recentBlockhash = blockhash;
   tx.feePayer = anchorWallet.publicKey;
 
-
   await wallet.sendTransaction(tx, connection, {
-    preflightCommitment: "confirmed"
-  })
+    preflightCommitment: 'confirmed',
+  });
 
   const apiResponse = await backendApi.post(
     `/escrow/submit/${escrow.toBase58()}`,
@@ -61,6 +60,13 @@ export async function submit(
   console.log(apiResponse);
   //   if(!apiResponse) {console.log('Do something')}
 
+  const dummyDbId = 'xxx';
+  const dummyStatusUpdate = 'approved';
+  const apiResponse = await backendApi.patch(
+    `/freelancer/update/${dummyDbId}`,
+    { status: dummyStatusUpdate }
+  );
+  //   if(!apiResponse) {console.log('Do something')}
 
   return tx;
 }
