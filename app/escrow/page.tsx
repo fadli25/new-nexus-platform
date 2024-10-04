@@ -16,6 +16,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
 
 export default function Page() {
   const [timeValue, setTimeValue] = useState("");
@@ -78,6 +79,7 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
+      notify_laoding("Transaction Pending...!")
       await initEscrow(
         anchorWallet!,
         connection,
@@ -87,10 +89,15 @@ export default function Page() {
         form.Description,
         form.Amount,
         form.DeadLine,
+        form.private,
         wallet
       );
-    } catch (error) {
-      console.error(error);
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");      
+      console.log(e);
     }
   };
 
@@ -114,11 +121,14 @@ export default function Page() {
                   <Switch
                     color="warning"
                     checked={!form.private}
-                    onChange={(e) =>
+                    onChange={(e) =>{
+
                       setForm((prevForm) => ({
                         ...prevForm,
                         private: !e.target.checked,
                       }))
+                      console.log(form);
+                    }
                     }
                     size="small"
                   />

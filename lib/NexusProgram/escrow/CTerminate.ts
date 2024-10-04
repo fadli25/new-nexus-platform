@@ -3,16 +3,12 @@ import { NEXUSESCROW_V1, USER_PREFIX } from '../../constants/constants';
 import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
-/**
-    deadline: i64,
- */
-
-export async function updateEscrow(
+export async function ClientTerminat(
   anchorWallet: any,
   connection: web3.Connection,
-  contact_name: string,
-  deadline: number,
-  wallet: any
+  wallet: any,
+  escrow: web3.PublicKey,
+  apply: web3.PublicKey
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -21,13 +17,8 @@ export async function updateEscrow(
   const PROGRAM_ID = new web3.PublicKey(idl.metadata.address);
   const program = new Program(idl, idl.metadata.address, provider);
 
-  const [founder] = web3.PublicKey.findProgramAddressSync(
+  const [reciever] = web3.PublicKey.findProgramAddressSync(
     [anchorWallet.publicKey.toBuffer(), Buffer.from(USER_PREFIX)],
-    PROGRAM_ID
-  );
-
-  const [escrow] = web3.PublicKey.findProgramAddressSync(
-    [anchorWallet.publicKey.toBuffer(), Buffer.from(contact_name)],
     PROGRAM_ID
   );
 
@@ -39,12 +30,10 @@ export async function updateEscrow(
   console.log(escrow.toBase58());
 
   const tx = await program.methods
-    .updateEscrow({
-      deadline: new BN(deadline),
-    })
+    .cTerminate()
     .accounts({
       escrow: escrow,
-      founder: founder,
+      apply: apply,
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
@@ -52,18 +41,19 @@ export async function updateEscrow(
   // .rpc({
   //     commitment: "confirmed",
   // })
+  const blockhash = (await connection.getLatestBlockhash()).blockhash;
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = anchorWallet.publicKey;
 
   await wallet.sendTransaction(tx, connection, {
     preflightCommitment: 'confirmed',
   });
 
+  const dummyDbId = 'xxx';
+  const dummyStatusUpdate = 'ClientTerminate';
   const apiResponse = await backendApi.patch(
-    `/escrow/update/${escrow.toBase58()}`,
-    {
-      deadline,
-      //   telegramLink,
-      //   private
-    }
+    `/freelancer/update/${dummyDbId}`,
+    { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}
 

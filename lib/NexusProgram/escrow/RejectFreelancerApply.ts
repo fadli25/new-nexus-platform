@@ -4,10 +4,11 @@ import {
     Program, web3
 } from '@project-serum/anchor';
 import { NEXUSESCROW_V1 } from "../../constants/constants";
+import { backendApi } from '@/lib/utils/api.util';
 const idl = require("../../../data/nexus.json")
 
 
-export async function reject(
+export async function rejectFreelancerApply(
     anchorWallet: any,
     connection: web3.Connection,
     wallet: any,
@@ -39,7 +40,7 @@ export async function reject(
 
     console.log(escrow.toBase58())
 
-    const tx = await program.methods.reject().accounts({
+    const tx = await program.methods.rejectFreelancerApply().accounts({
         escrow: escrow,
         apply: apply,
         authority: anchorWallet.publicKey,
@@ -51,9 +52,18 @@ export async function reject(
     //     commitment: "confirmed",
     // })
 
-    wallet.sendTransaction(tx, connection, {
+    await wallet.sendTransaction(tx, connection, {
         preflightCommitment: "confirmed"
     })
+
+    const dummyDbId = 'xxx';
+    const dummyStatusUpdate = 'RejectApply';
+    const apiResponse = await backendApi.patch(
+      `/freelancer/update/${dummyDbId}`,
+      { status: dummyStatusUpdate }
+    );
+    //   if(!apiResponse) {console.log('Do something')}
+  
 
     return tx;
 }

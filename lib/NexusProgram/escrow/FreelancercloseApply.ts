@@ -3,16 +3,11 @@ import { NEXUSESCROW_V1, USER_PREFIX } from '../../constants/constants';
 import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
-/**
-    deadline: i64,
- */
-
-export async function updateEscrow(
+export async function closeApply(
   anchorWallet: any,
   connection: web3.Connection,
-  contact_name: string,
-  deadline: number,
-  wallet: any
+  wallet: any,
+  escrow: web3.PublicKey
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -21,30 +16,24 @@ export async function updateEscrow(
   const PROGRAM_ID = new web3.PublicKey(idl.metadata.address);
   const program = new Program(idl, idl.metadata.address, provider);
 
-  const [founder] = web3.PublicKey.findProgramAddressSync(
+  const [freelancer] = web3.PublicKey.findProgramAddressSync(
     [anchorWallet.publicKey.toBuffer(), Buffer.from(USER_PREFIX)],
     PROGRAM_ID
   );
 
-  const [escrow] = web3.PublicKey.findProgramAddressSync(
-    [anchorWallet.publicKey.toBuffer(), Buffer.from(contact_name)],
-    PROGRAM_ID
-  );
-
-  const [nexusEscrow] = web3.PublicKey.findProgramAddressSync(
-    [Buffer.from(NEXUSESCROW_V1)],
+  const [apply] = web3.PublicKey.findProgramAddressSync(
+    [anchorWallet.publicKey.toBuffer(), escrow.toBuffer()],
     PROGRAM_ID
   );
 
   console.log(escrow.toBase58());
 
   const tx = await program.methods
-    .updateEscrow({
-      deadline: new BN(deadline),
-    })
+    .closeApply()
     .accounts({
       escrow: escrow,
-      founder: founder,
+      apply: apply,
+      freelancer: freelancer,
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
@@ -57,13 +46,11 @@ export async function updateEscrow(
     preflightCommitment: 'confirmed',
   });
 
+  const dummyDbId = 'xxx';
+  const dummyStatusUpdate = 'Closed';
   const apiResponse = await backendApi.patch(
-    `/escrow/update/${escrow.toBase58()}`,
-    {
-      deadline,
-      //   telegramLink,
-      //   private
-    }
+    `/freelancer/update/${dummyDbId}`,
+    { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}
 

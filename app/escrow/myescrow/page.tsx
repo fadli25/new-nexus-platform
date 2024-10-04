@@ -3,18 +3,18 @@
 import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getFounderEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFounderEscrow";
-import { motion } from "framer-motion";
 import { Stack } from "@mui/material";
 import {
   useAnchorWallet,
   useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [escrows, setEscrows] = useState<any[]>();
-
+  // const [filter, setFilter] = useState<number>
   const anchorWallet = useAnchorWallet();
   const wallet = useWallet();
   const { connection } = useConnection();
@@ -74,9 +74,8 @@ export default function page() {
         </Stack>
 
         <Stack spacing={2.8} mt={3}>
-          {openContracts &&
-            escrows &&
-            escrows.map((el, i) => (
+          {escrows && (openContracts ?
+            escrows.filter((es) => es.status !== 5).map((el, i) => (
               <CardContract
                 key={i}
                 contractName={el.contractName}
@@ -85,7 +84,19 @@ export default function page() {
                 escrow={el.pubkey.toBase58()}
                 type={1}
               />
-            ))}
+            ))
+            :
+            escrows.filter((es) => es.status === 5).map((el, i) => (
+              <CardContract
+                key={i}
+                contractName={el.contractName}
+                amount={Number(el.amount)}
+                deadline={Number(el.deadline)}
+                escrow={el.pubkey.toBase58()}
+                type={1}
+              />
+            )))
+          }
 
           {/* Disputes Logic */}
 

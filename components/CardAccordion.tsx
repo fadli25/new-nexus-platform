@@ -8,6 +8,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import React from "react";
 import Card from "./Card";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 
 export default function CardAccordion({
   children,
@@ -25,6 +26,7 @@ export default function CardAccordion({
 
   const approve = async (escrow: any, apply: any) => {
     try {
+      notify_laoding("Transaction Pending...!");
       console.log(escrow.toBase58());
 
       const tx = await approveFreelancer(
@@ -34,7 +36,11 @@ export default function CardAccordion({
         apply,
         escrow
       );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
       console.log(e);
     }
   };
@@ -67,7 +73,7 @@ export default function CardAccordion({
               approve={approve}
               escrow={el.escrow}
               apply={el.pubkey}
-              link={link}
+              link={el.description}
               type2="Start Contract"
               startProject={startProject}
             />
