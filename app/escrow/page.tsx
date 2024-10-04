@@ -274,7 +274,7 @@ export default function Page() {
                 <Suspense fallback={<Loading />} key={i}>
                   <CardContract
                     contractName={el.contractName}
-                    amount={Number(el.amount) / 1000000000}
+                    amount={Number(el.amount)}
                     deadline={Number(el.deadline)}
                     escrow={el.pubkey.toBase58()}
                     type={2}
