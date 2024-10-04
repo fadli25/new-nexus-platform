@@ -42,7 +42,7 @@ export async function closeApply(
   //     commitment: "confirmed",
   // })
 
-  wallet.sendTransaction(tx, connection, {
+  await wallet.sendTransaction(tx, connection, {
     preflightCommitment: 'confirmed',
   });
 

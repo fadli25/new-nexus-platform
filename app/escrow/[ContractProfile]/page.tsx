@@ -114,10 +114,10 @@ export default function page() {
 
   const apply = async () => {
     try {
-      notify_laoding("Transaction Pending...!")
       if (telegram.length == 0) {
         return console.log("need telegram first");
       }
+      notify_laoding("Transaction Pending...!")
       console.log(escrowInfo)
       const tx = await FreelacerApply(
         anchorWallet,
@@ -141,9 +141,6 @@ export default function page() {
   const cancel_apply = async () => {
     try {
       notify_laoding("Transaction Pending...!")
-      if (telegram.length == 0) {
-        return console.log("need telegram first");
-      }
       console.log(escrowInfo)
       const tx = await closeApply(
         anchorWallet,

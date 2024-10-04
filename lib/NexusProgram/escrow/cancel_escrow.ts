@@ -45,7 +45,7 @@ export async function cancelEscrow(
   //     commitment: "confirmed",
   // })
 
-  wallet.sendTransaction(tx, connection, {
+  await wallet.sendTransaction(tx, connection, {
     preflightCommitment: 'confirmed',
   });
 

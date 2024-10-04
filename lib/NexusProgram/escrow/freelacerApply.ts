@@ -59,7 +59,6 @@ export async function FreelacerApply(
   tx.recentBlockhash = blockhash;
   tx.feePayer = anchorWallet.publicKey;
 
-
   await wallet.sendTransaction(tx, connection, {
     preflightCommitment: "confirmed"
   });

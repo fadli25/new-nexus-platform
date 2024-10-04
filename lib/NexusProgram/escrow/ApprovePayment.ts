@@ -97,7 +97,7 @@ export async function approvePayment(
   tx.recentBlockhash = blockhash;
   tx.feePayer = anchorWallet.publicKey;
 
-  wallet.sendTransaction(tx, connection, {
+  await wallet.sendTransaction(tx, connection, {
     preflightCommitment: 'confirmed',
   });
 
