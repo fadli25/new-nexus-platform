@@ -51,7 +51,7 @@ export async function openDispute(
   });
 
   const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'approved';
+  const dummyStatusUpdate = 'Dispute';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${dummyDbId}`,
     { status: dummyStatusUpdate }

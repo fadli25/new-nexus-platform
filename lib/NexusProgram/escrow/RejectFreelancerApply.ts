@@ -57,7 +57,7 @@ export async function rejectFreelancerApply(
     })
 
     const dummyDbId = 'xxx';
-    const dummyStatusUpdate = 'approved';
+    const dummyStatusUpdate = 'RejectApply';
     const apiResponse = await backendApi.patch(
       `/freelancer/update/${dummyDbId}`,
       { status: dummyStatusUpdate }

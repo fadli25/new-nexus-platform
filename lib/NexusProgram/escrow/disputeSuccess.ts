@@ -88,7 +88,7 @@ export async function disputeSuccess(
   console.log(hash);
 
   const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'approved';
+  const dummyStatusUpdate = 'DisputeSuccess';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${dummyDbId}`,
     { status: dummyStatusUpdate }

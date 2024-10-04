@@ -61,7 +61,7 @@ export async function submit(
   //   if(!apiResponse) {console.log('Do something')}
 
   const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'approved';
+  const dummyStatusUpdate = 'Submit';
   const apiResponse2 = await backendApi.patch(
     `/freelancer/update/${dummyDbId}`,
     { status: dummyStatusUpdate }

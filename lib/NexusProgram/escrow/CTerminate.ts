@@ -50,7 +50,7 @@ export async function ClientTerminat(
   });
 
   const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'approved';
+  const dummyStatusUpdate = 'ClientTerminate';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${dummyDbId}`,
     { status: dummyStatusUpdate }

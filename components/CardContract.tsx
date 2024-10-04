@@ -16,7 +16,7 @@ import React from "react";
 // }
 
 export default function CardContract({
-  escrowName,
+  contractName,
   amount,
   deadline,
   escrow,
@@ -48,7 +48,7 @@ export default function CardContract({
         }`}
       >
         <div className="text-base sm:text-lg text-start line-clamp-1">
-          {escrowName ? escrowName : "No Title"}
+          {contractName ? contractName : "No Title"}
         </div>
 
         <Stack spacing={2}>

@@ -50,7 +50,7 @@ export async function rejectFreelancerSubmit(
   });
 
   const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'approved';
+  const dummyStatusUpdate = 'RejectSubmit';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${dummyDbId}`,
     { status: dummyStatusUpdate }

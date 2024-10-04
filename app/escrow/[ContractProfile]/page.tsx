@@ -2,8 +2,10 @@
 
 import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 import Card from "@/components/Card";
+import { closeApply } from "@/lib/NexusProgram/escrow/FreelancercloseApply";
 import { FreelacerApply } from "@/lib/NexusProgram/escrow/freelacerApply";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
+import { get_apply_info } from "@/lib/NexusProgram/escrow/utils.ts/get_apply_info";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
 import { USER_PREFIX } from "@/lib/constants/constants";
 import { inputStyle } from "@/lib/styles/styles";
@@ -28,6 +30,7 @@ import { IoMdClose } from "react-icons/io";
 
 export default function page() {
   const [open, setOpen] = useState(false);
+  const [applyInfo, setApplyInfo] = useState<any>();
   const [telegram, setTelegram] = useState<string>("");
 
   function handleCloseModal() {
@@ -43,6 +46,29 @@ export default function page() {
   const wallet = useWallet();
   const { connection } = useConnection();
   const pathname = usePathname();
+
+  const getApply = async () => {
+    try {
+      const PROGRAM_ID = new web3.PublicKey(
+        "3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD"
+      );
+
+      const address = pathname.replace("/escrow/", "");
+      const escrow = new web3.PublicKey(address);
+
+      const [apply] = web3.PublicKey.findProgramAddressSync(
+        [anchorWallet!.publicKey.toBuffer(), escrow.toBuffer()],
+        PROGRAM_ID
+      );
+
+      const applyinfos = await get_apply_info(anchorWallet, connection, apply);
+
+      setApplyInfo(applyinfos);
+
+    } catch(e) {
+      console.log(e);
+    }
+  }
 
   const getEscrowInfos = async () => {
     try {
@@ -76,8 +102,10 @@ export default function page() {
 
       info!.founderInfo = founder_info;
       info!.freelancer = freelancer_info;
-      console.log(info, "info", formatTime(info!.deadline));
+      console.log("infoOOOOOOOOOOOO " + info);
+      console.log(info);
       setEscrowInfo(info);
+      // console.log(info, "info", formatTime(info!.deadline));
       setTelegram(freelancer_info!.telegramId);
     } catch (e) {
       console.log(e);
@@ -99,7 +127,29 @@ export default function page() {
         Number(escrowInfo.amount),
         telegram,
         escrowInfo.contractName,
-        escrowInfo.deadline        
+        Number(escrowInfo.deadline)        
+      );
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
+      console.log(e);
+    }
+  };
+
+  const cancel_apply = async () => {
+    try {
+      notify_laoding("Transaction Pending...!")
+      if (telegram.length == 0) {
+        return console.log("need telegram first");
+      }
+      console.log(escrowInfo)
+      const tx = await closeApply(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
       );
       notify_delete();
       notify_success("Transaction Success!")
@@ -113,12 +163,15 @@ export default function page() {
   useEffect(() => {
     if (!anchorWallet) return;
     getEscrowInfos();
+    getApply();
   }, [anchorWallet]);
 
   const router = useRouter();
 
   const links = (link: string) => {
-    window.open(link, "_blank");
+    if (link.length > 0) {
+      window.open(link, "_blank");
+    }    
   };
   const [showDescription, setShowDescription] = useState(false);
 
@@ -141,7 +194,7 @@ export default function page() {
 
               <Stack flexDirection="row" alignItems="start" gap={0.4}>
                 <Image src={coin} alt="coin" className="w-5 mt-[1px]" />
-                <div>{escrowInfo ? Number(escrowInfo.amount) : "--"}</div>
+                <div>{escrowInfo ? Number(escrowInfo.amount / 1000_000_000) : "--"}</div>
               </Stack>
             </Stack>
           </Card>
@@ -233,7 +286,7 @@ export default function page() {
                 className="!mt-4 w-full !bg-white hover:bg-opacity-0 shadow-none !normal-case"
                 style={{ display: "unset" }}
               >
-                <span onClick={() => links(escrowInfo.founderInfo.twitter)}>
+                <span onClick={() => links(escrowInfo.materials)}>
                   <Card className="text-base !flex !justify-center gap-1 !items-start">
                     <div>
                       <CiFileOn className="text-xl" />
@@ -243,7 +296,7 @@ export default function page() {
                 </span>
               </Button>
 
-              <Stack alignItems="center" mt={4}>
+              {!applyInfo ? <Stack alignItems="center" mt={4}>
                 <Button
                   variant="contained"
                   onClick={handleOpenModal}
@@ -252,6 +305,17 @@ export default function page() {
                   Apply to work
                 </Button>
               </Stack>
+            :
+            <Stack alignItems="center" mt={4}>
+            <Button
+              variant="contained"
+              onClick={() => cancel_apply()}
+              className="!text-xs sm:!text-sm !font-semibold !bg-main !text-second !w-fit !normal-case !py-3 !px-8"
+            >
+              Cancel Apply
+            </Button>
+          </Stack>
+            }
             </Card>
           </div>
         </div>

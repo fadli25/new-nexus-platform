@@ -56,8 +56,8 @@ export async function approveFreelancer(
     preflightCommitment: 'confirmed',
   });
 
-  const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'approved';
+  const dummyDbId = 'Approved';
+  const dummyStatusUpdate = 'Approved';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${dummyDbId}`,
     { status: dummyStatusUpdate }

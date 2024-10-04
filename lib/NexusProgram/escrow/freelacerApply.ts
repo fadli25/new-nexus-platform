@@ -55,7 +55,6 @@ export async function FreelacerApply(
   //   commitment: 'confirmed',
   // });
 
-
   const blockhash = (await connection.getLatestBlockhash()).blockhash
   tx.recentBlockhash = blockhash;
   tx.feePayer = anchorWallet.publicKey;
@@ -66,6 +65,7 @@ export async function FreelacerApply(
   });
 
   const apiResponse = await backendApi.post('/escrow/apply', {
+    applyAddress: apply.toBase58(),
     contactName,
     amount,
     description,

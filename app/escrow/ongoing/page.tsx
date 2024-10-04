@@ -145,7 +145,7 @@ export default function page() {
           <Stack mt={4} spacing={2.8}>
             {pendingEscrow &&
               pendingEscrow.map((el, i) => (
-                <CardContract key={i} {...el} type={3} />
+                <CardContract key={i} {...el} contractName={el.escrowName} type={3} />
               ))}
           </Stack>
         </Card>

@@ -79,7 +79,7 @@ export default function page() {
               <CardContract
                 key={i}
                 contractName={el.contractName}
-                amount={Number(el.amount) / 1000_000_000}
+                amount={Number(el.amount)}
                 deadline={Number(el.deadline)}
                 escrow={el.pubkey.toBase58()}
                 type={1}
@@ -90,7 +90,7 @@ export default function page() {
               <CardContract
                 key={i}
                 contractName={el.contractName}
-                amount={Number(el.amount) / 1000_000_000}
+                amount={Number(el.amount)}
                 deadline={Number(el.deadline)}
                 escrow={el.pubkey.toBase58()}
                 type={1}
