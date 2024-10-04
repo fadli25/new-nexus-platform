@@ -73,7 +73,7 @@ export default function CardAccordion({
               approve={approve}
               escrow={el.escrow}
               apply={el.pubkey}
-              link={link}
+              link={el.description}
               type2="Start Contract"
               startProject={startProject}
             />

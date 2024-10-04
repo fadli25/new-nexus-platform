@@ -66,7 +66,7 @@ export default function CardApp({
         {type2 && (
           <Button
             variant="outlined"
-            onClick={startProject}
+            onClick={() => links(link)}
             className="!normal-case !text-[11px] !border !border-black !text-second !px-4 !pt-2"
           >
             {type2}

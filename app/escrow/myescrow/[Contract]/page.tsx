@@ -100,7 +100,11 @@ export default function page() {
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getApplyEscrow(connection, escrow, "confirmed");
+
+      const data = await backendApi.get(`/freelancer?escrowAddress=${address}`);
+
       console.log("apply");
+      console.log(data);
       console.log(info);
       setApplys(info);
       // notify_delete();
