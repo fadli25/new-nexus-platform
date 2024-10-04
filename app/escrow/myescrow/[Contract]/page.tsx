@@ -543,7 +543,7 @@ export default function page() {
               startProject={handleShowStartProject}
               setSelect={setSelect}
               approve={approve}
-              type="Approve"
+              type="Chat"
               page={"approve"}
               link={"approve"}
               font_size="!text-sm"

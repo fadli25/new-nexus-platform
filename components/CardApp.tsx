@@ -51,13 +51,7 @@ export default function CardApp({
 
       <div className="flex items-center gap-3">
         <Button
-          onClick={() => {
-            if (title == "Chat") {
-              links(link);
-            } else {
-              approve(escrow, apply);
-            }
-          }}
+          onClick={() => links(link)}
           variant="contained"
           className="!normal-case !text-[11px] !text-white  !bg-second !px-4  !pt-2"
         >
