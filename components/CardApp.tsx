@@ -17,6 +17,7 @@ export default function CardApp({
   link,
   type2 = false,
   startProject,
+  setSelect
 }: any) {
   const links = (_link: string) => {
     window.open(_link, "_blank");
@@ -66,7 +67,11 @@ export default function CardApp({
         {type2 && (
           <Button
             variant="outlined"
-            onClick={() => links(link)}
+            onClick={() => {
+              startProject()
+              setSelect(apply)
+            }
+          }
             className="!normal-case !text-[11px] !border !border-black !text-second !px-4 !pt-2"
           >
             {type2}

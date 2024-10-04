@@ -26,6 +26,7 @@ import { FaEdit } from "react-icons/fa";
 import { backendApi } from "@/lib/utils/api.util";
 import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
+import { approveFreelancer } from "@/lib/NexusProgram/escrow/approveFreelancer";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -47,6 +48,7 @@ export default function page() {
   const [originalDescription, setOriginalDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [select, setSelect] = useState<any>()
 
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
@@ -274,6 +276,28 @@ export default function page() {
       notify_delete();
       notify_success("Transaction Success!");
       handleOpenDispute()
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const approve = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      // console.log(escrow.toBase58());
+      const apply = (applys!.filter((escrow: any) => escrow.pubkey.toBase58() == select.toBase58()))[0].pubkey;
+
+      const tx = await approveFreelancer(
+        anchorWallet,
+        connection,
+        wallet,
+        apply,
+        escrowInfo.escrow
+      );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
       notify_delete();
       notify_error("Transaction Failed!");   
@@ -517,6 +541,8 @@ export default function page() {
                   : applys
               }
               startProject={handleShowStartProject}
+              setSelect={setSelect}
+              approve={approve}
               type="Approve"
               page={"approve"}
               link={"approve"}
@@ -558,24 +584,27 @@ export default function page() {
         </Card>
       </Modal>
 
-      <Modal
+      {applys && select && escrowInfo && <Modal
         open={showStartProject}
         onClose={() => setShowStartProject(false)}
         className="grid place-items-center"
       >
         <ApproveModal
+          contractor={(applys.filter((escrow: any) => escrow.pubkey.toBase58() == select.toBase58()))[0].userName}
+          amount={Number(escrowInfo.amount) / 1000_000_000}
           title="Confirmation"
           messageTitle="Are you sure to start the contract??"
           messageDescription="Contract can oly be terminated by both parties mutually agreeing to do so"
         >
           <Button
+            onClick={() => approve()}
             variant="contained"
             className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
           >
             Start Contract
           </Button>
         </ApproveModal>
-      </Modal>
+      </Modal>}
 
       <Modal
         open={showApprove}

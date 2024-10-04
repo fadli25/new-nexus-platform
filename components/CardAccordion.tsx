@@ -17,6 +17,8 @@ export default function CardAccordion({
   type,
   link,
   startProject,
+  approve,
+  setSelect,
   font_size = "text-base",
   padding = undefined,
 }: any) {
@@ -24,27 +26,7 @@ export default function CardAccordion({
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  const approve = async (escrow: any, apply: any) => {
-    try {
-      notify_laoding("Transaction Pending...!");
-      console.log(escrow.toBase58());
-
-      const tx = await approveFreelancer(
-        anchorWallet,
-        connection,
-        wallet,
-        apply,
-        escrow
-      );
-      notify_delete();
-      notify_success("Transaction Success!")
-    } catch (e) {
-      notify_delete();
-      notify_error("Transaction Failed!");   
-      console.log(e);
-    }
-  };
-
+ 
   return (
     <div>
       <Card className="rounded-b-none border-b-2 pt-[18px] pb-[10px]">
@@ -76,6 +58,7 @@ export default function CardAccordion({
               link={el.description}
               type2="Start Contract"
               startProject={startProject}
+              setSelect={setSelect}
             />
           ))}
         </Stack>
