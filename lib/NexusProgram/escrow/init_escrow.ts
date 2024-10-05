@@ -104,8 +104,6 @@ export async function initEscrow(
     preflightCommitment: "confirmed"
   })
 
-
-
   const apiResponse = await backendApi.post('/escrow/init', {
     contactName: contact_name,
     deadline,
