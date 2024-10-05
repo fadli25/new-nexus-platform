@@ -22,6 +22,7 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { CiFileOn } from "react-icons/ci";
+import { closeApply } from "@/lib/NexusProgram/escrow/FreelancercloseApply";
 
 export default function page() {
   const [material, setMaterial] = useState<string>("");
@@ -115,6 +116,25 @@ export default function page() {
 
       setEscrowInfo(info);
     } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const cancel_apply = async () => {
+    try {
+      notify_laoding("Transaction Pending...!")
+      console.log(escrow_info)
+      const tx = await closeApply(
+        anchorWallet,
+        connection,
+        wallet,
+        escrow_info.escrow,
+      );
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
       console.log(e);
     }
   };
@@ -268,6 +288,35 @@ export default function page() {
                 </Card>
               )} */}
 
+              {escrow_info && escrow_info.status === 1 &&
+                <div className="flex gap-2 mt-4">
+                  <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
+                    <CiFileOn className="text-6xl mx-auto" />
+                    {escrow_info && (
+                      <div
+                        className="text-xs mt-1"
+                        onClick={() => links(escrow_info.materials)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        Link to Resources
+                      </div>
+                    )}
+                  </Card>
+                  <div className="w-full">
+                    <Card className="text-xs text-center !shadow-none !border !border-textColor">
+                        Your Application has been sent
+                      {/* Your submission was approved and pay has been made to your
+                  wallet, project will auto terminate in 24 hours */}
+                    </Card>
+                        <Button
+                          variant="contained"
+                          className="!text-sm !px-100 !py-3 !capitalize !font-semibold !bg-second !w-56"
+                          onClick={() => cancel_apply()}
+                        >
+                          Cancel Application
+                        </Button>
+                  </div>
+                </div>}
               {escrow_info && escrow_info.status === 2 &&
                 <div className="flex gap-2 mt-4">
                   <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
