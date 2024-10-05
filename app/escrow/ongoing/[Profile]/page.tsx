@@ -3,7 +3,7 @@
 import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 import Card from "@/components/Card";
 import { fTarminat } from "@/lib/NexusProgram/escrow/Fterminat";
-import { openDispute } from "@/lib/NexusProgram/escrow/openDipute";
+import { openDispute } from "@/lib/NexusProgram/escrow/FopenDipute";
 import { submit } from "@/lib/NexusProgram/escrow/submit";
 import { getEscrowInfo } from "@/lib/NexusProgram/escrow/utils.ts/getEscrowInfo";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
