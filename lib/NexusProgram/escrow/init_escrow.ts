@@ -114,7 +114,7 @@ export async function initEscrow(
     materials,
     description,
     escrowAddress: escrow.toBase58(),
-    private: true
+    private: privat
   });
   //   if(!apiResponse) {console.log('Do something')}
 
