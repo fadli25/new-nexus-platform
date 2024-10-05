@@ -99,6 +99,7 @@ export async function disputeSuccess(
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}
+  console.log(apiResponse);
 
   return tx;
 }

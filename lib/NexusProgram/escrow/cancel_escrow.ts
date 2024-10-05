@@ -53,6 +53,7 @@ export async function cancelEscrow(
     `/escrow/cancel/${escrow.toBase58()}`
   );
   //   if(!apiResponse) {console.log('Do something')}
+  console.log(apiResponse);
 
   return tx;
 }

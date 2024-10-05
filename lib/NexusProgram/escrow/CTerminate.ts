@@ -56,6 +56,7 @@ export async function ClientTerminat(
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}
+  console.log(apiResponse);
 
   return tx;
 }
