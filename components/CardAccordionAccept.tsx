@@ -154,7 +154,7 @@ export default function CardAccordionAccept({
         </Stack>
 
         <div className="px-5">
-          {data.length > 1 ? (
+          {escrowInfo.status == 2 ? (
             <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
               Contract has started{" "}
               <span className="font-semibold">{`${data[0].userName}`}</span>{" "}

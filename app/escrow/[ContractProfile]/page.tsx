@@ -77,7 +77,7 @@ export default function page() {
       const address = pathname.replace("/escrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getEscrowInfo(anchorWallet, connection, escrow);
-
+      console
       const founder_info = await get_userr_info(
         anchorWallet,
         connection,

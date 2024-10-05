@@ -23,10 +23,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { CiFileOn } from "react-icons/ci";
 import { closeApply } from "@/lib/NexusProgram/escrow/FreelancercloseApply";
+import { get_apply_info } from "@/lib/NexusProgram/escrow/utils.ts/get_apply_info";
 
 export default function page() {
   const [material, setMaterial] = useState<string>("");
   const [escrow_info, setEscrowInfo] = useState<any>();
+  const [applyInfo, setApplyInfo] = useState<any>();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -43,6 +45,30 @@ export default function page() {
   const anchorWallet = useAnchorWallet();
   const wallet = useWallet();
   const { connection } = useConnection();
+
+  const getApply = async () => {
+    try {
+      const PROGRAM_ID = new web3.PublicKey(
+        "3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD"
+      );
+
+      const address = pathname.replace("/escrow/ongoing/", "");
+      const escrow = new web3.PublicKey(address);
+
+      const [apply] = web3.PublicKey.findProgramAddressSync(
+        [anchorWallet!.publicKey.toBuffer(), escrow.toBuffer()],
+        PROGRAM_ID
+      );
+
+      const applyinfos = await get_apply_info(anchorWallet, connection, apply);
+      console.log("applyinfos")
+      console.log(applyinfos)
+      setApplyInfo(applyinfos);
+
+    } catch(e) {
+      console.log(e);
+    }
+  }
 
   const submission = async () => {
     try {
@@ -123,12 +149,14 @@ export default function page() {
   const cancel_apply = async () => {
     try {
       notify_laoding("Transaction Pending...!")
-      console.log(escrow_info)
+      console.log(pathname);
+      const address = pathname.replace("/escrow/ongoing/", "");
+      const escrow = new web3.PublicKey(address);
       const tx = await closeApply(
         anchorWallet,
         connection,
         wallet,
-        escrow_info.escrow,
+        escrow,
       );
       notify_delete();
       notify_success("Transaction Success!")
@@ -142,6 +170,7 @@ export default function page() {
   useEffect(() => {
     if (!anchorWallet) return;
     getEscrowInfos();
+    getApply();
   }, [anchorWallet]);
 
   const links = (link: string) => {
@@ -288,7 +317,7 @@ export default function page() {
                 </Card>
               )} */}
 
-              {escrow_info && escrow_info.status === 1 &&
+              {escrow_info && applyInfo && escrow_info.status === 1 &&
                 <div className="flex gap-2 mt-4">
                   <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
                     <CiFileOn className="text-6xl mx-auto" />
@@ -317,7 +346,7 @@ export default function page() {
                         </Button>
                   </div>
                 </div>}
-              {escrow_info && escrow_info.status === 2 &&
+              {escrow_info && applyInfo && escrow_info.status === 2 &&
                 <div className="flex gap-2 mt-4">
                   <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
                     <CiFileOn className="text-6xl mx-auto" />
@@ -362,7 +391,7 @@ export default function page() {
                     </Card>
                   </div>
                 </div>}
-              {escrow_info && escrow_info.status == 5 &&
+              {escrow_info && applyInfo && escrow_info.status == 5 &&
                 <div>
                   <Card className="text-xs text-center !shadow-none !border !border-textColor">
                     Dispute Mode Now!

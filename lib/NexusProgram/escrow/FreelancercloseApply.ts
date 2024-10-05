@@ -38,20 +38,12 @@ export async function closeApply(
       systemProgram: web3.SystemProgram.programId,
     })
     .transaction();
-  // .rpc({
-  //     commitment: "confirmed",
-  // })
 
   await wallet.sendTransaction(tx, connection, {
     preflightCommitment: 'confirmed',
   });
 
-  const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'Closed';
-  const apiResponse = await backendApi.patch(
-    `/freelancer/update/${apply.toBase58()}`,
-    { status: dummyStatusUpdate }
-  );
+  const apiResponse = await backendApi.delete(`/freelancer/delete/${apply.toBase58()}`);
   //   if(!apiResponse) {console.log('Do something')}
   console.log(apiResponse);
   return tx;

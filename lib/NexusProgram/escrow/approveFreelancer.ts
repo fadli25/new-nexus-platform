@@ -60,7 +60,6 @@ export async function approveFreelancer(
   //   preflightCommitment: 'confirmed',
   // });
 
-  const dummyDbId = 'Approved';
   const dummyStatusUpdate = 'Approved';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${apply.toBase58()}`,
