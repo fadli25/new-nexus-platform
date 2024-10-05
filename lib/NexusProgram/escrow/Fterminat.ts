@@ -22,6 +22,11 @@ export async function fTarminat(
     PROGRAM_ID
   );
 
+  const [apply] = web3.PublicKey.findProgramAddressSync(
+    [anchorWallet.publicKey.toBuffer(), escrow.toBuffer()],
+    PROGRAM_ID
+  );
+
   // const [nexusEscrow] = web3.PublicKey.findProgramAddressSync(
   //     [
   //         Buffer.from(NEXUSESCROW_V1)
@@ -52,7 +57,7 @@ export async function fTarminat(
   const dummyDbId = 'xxx';
   const dummyStatusUpdate = 'FreelancerTerminate';
   const apiResponse = await backendApi.patch(
-    `/freelancer/update/${dummyDbId}`,
+    `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}

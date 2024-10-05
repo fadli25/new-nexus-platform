@@ -59,7 +59,7 @@ export async function approveFreelancer(
   const dummyDbId = 'Approved';
   const dummyStatusUpdate = 'Approved';
   const apiResponse = await backendApi.patch(
-    `/freelancer/update/${dummyDbId}`,
+    `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}

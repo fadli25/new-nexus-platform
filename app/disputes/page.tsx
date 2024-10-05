@@ -86,7 +86,7 @@ export default function page() {
       console.log(escrows);
       console.log(escrows![id]);
 
-      const tx = await disputeReject(anchorWallet, connection, wallet, escrows![id].pubkey)
+      const tx = await disputeReject(anchorWallet, connection, wallet, escrows![id].pubkey, escrows![id].reciever)
 
       notify_delete();
       notify_success("Transaction Success!")

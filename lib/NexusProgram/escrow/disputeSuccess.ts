@@ -54,6 +54,11 @@ export async function disputeSuccess(
     SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
   );
 
+  const [apply] = web3.PublicKey.findProgramAddressSync(
+    [reciever.toBuffer(), escrow.toBuffer()],
+    PROGRAM_ID
+  );
+
   const tx = await program.methods
     .disputeSuccess()
     .accounts({
@@ -90,7 +95,7 @@ export async function disputeSuccess(
   const dummyDbId = 'xxx';
   const dummyStatusUpdate = 'DisputeSuccess';
   const apiResponse = await backendApi.patch(
-    `/freelancer/update/${dummyDbId}`,
+    `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}

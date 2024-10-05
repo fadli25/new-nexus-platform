@@ -8,7 +8,9 @@ export async function founderOpenDispute(
   anchorWallet: any,
   connection: web3.Connection,
   wallet: any,
-  escrow: web3.PublicKey
+  escrow: web3.PublicKey,
+  reciever: web3.PublicKey,
+  
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -28,6 +30,12 @@ export async function founderOpenDispute(
   //     ],
   //     PROGRAM_ID
   // );
+
+  const [apply] = web3.PublicKey.findProgramAddressSync(
+    [reciever.toBuffer(), escrow.toBuffer()],
+    PROGRAM_ID
+  );
+
 
   const tx = await program.methods
     .cOpenDispute()
@@ -53,9 +61,10 @@ export async function founderOpenDispute(
   const dummyDbId = 'xxx';
   const dummyStatusUpdate = 'Dispute';
   const apiResponse = await backendApi.patch(
-    `/freelancer/update/${dummyDbId}`,
+    `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }
   );
+
   //   if(!apiResponse) {console.log('Do something')}
 
   return tx;

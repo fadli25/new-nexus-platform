@@ -23,6 +23,12 @@ export async function submit(
     PROGRAM_ID
   );
 
+  const [apply] = web3.PublicKey.findProgramAddressSync(
+    [anchorWallet.publicKey.toBuffer(), escrow.toBuffer()],
+    PROGRAM_ID
+  );
+
+  
   // const [nexusEscrow] = web3.PublicKey.findProgramAddressSync(
   //     [
   //         Buffer.from(NEXUSESCROW_V1)
@@ -63,7 +69,7 @@ export async function submit(
   const dummyDbId = 'xxx';
   const dummyStatusUpdate = 'Submit';
   const apiResponse2 = await backendApi.patch(
-    `/freelancer/update/${dummyDbId}`,
+    `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}

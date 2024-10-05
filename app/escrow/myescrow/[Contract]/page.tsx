@@ -272,6 +272,7 @@ export default function page() {
         connection,
         wallet,
         escrowInfo.escrow,
+        escrowInfo.reciever,
       );
       notify_delete();
       notify_success("Transaction Success!");

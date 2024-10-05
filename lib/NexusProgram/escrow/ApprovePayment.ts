@@ -36,6 +36,12 @@ export async function approvePayment(
     [Buffer.from(NEXUSESCROW_V1)],
     PROGRAM_ID
   );
+
+  const [apply] = web3.PublicKey.findProgramAddressSync(
+    [reciever.toBuffer(), escrow.toBuffer()],
+    PROGRAM_ID
+  );
+
   console.log('reciever');
   console.log(reciever.toBase58());
   const [userMintTokenAccount] = web3.PublicKey.findProgramAddressSync(
@@ -104,7 +110,7 @@ export async function approvePayment(
   const dummyDbId = 'xxx';
   const dummyStatusUpdate = 'Success';
   const apiResponse = await backendApi.patch(
-    `/freelancer/update/${dummyDbId}`,
+    `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }
   );
   //   if(!apiResponse) {console.log('Do something')}
