@@ -52,9 +52,13 @@ export async function approveFreelancer(
   tx.recentBlockhash = blockhash;
   tx.feePayer = anchorWallet.publicKey;
 
-  await wallet.sendTransaction(tx, connection, {
-    preflightCommitment: 'confirmed',
-  });
+  const signTx = await wallet.signTransaction(tx);
+
+  const hash = await connection.sendRawTransaction(signTx.serialize());
+  console.log(hash);
+  // await wallet.sendTransaction(tx, connection, {
+  //   preflightCommitment: 'confirmed',
+  // });
 
   const dummyDbId = 'Approved';
   const dummyStatusUpdate = 'Approved';
