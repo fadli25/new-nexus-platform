@@ -10,7 +10,7 @@ const idl = require('../../../data/nexus.json');
 export async function updateEscrow(
   anchorWallet: any,
   connection: web3.Connection,
-  contact_name: string,
+  escrow: web3.PublicKey,
   deadline: number,
   wallet: any
 ) {
@@ -23,11 +23,6 @@ export async function updateEscrow(
 
   const [founder] = web3.PublicKey.findProgramAddressSync(
     [anchorWallet.publicKey.toBuffer(), Buffer.from(USER_PREFIX)],
-    PROGRAM_ID
-  );
-
-  const [escrow] = web3.PublicKey.findProgramAddressSync(
-    [anchorWallet.publicKey.toBuffer(), Buffer.from(contact_name)],
     PROGRAM_ID
   );
 

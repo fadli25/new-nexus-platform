@@ -24,9 +24,12 @@ import React, { useEffect, useState } from "react";
 import { CiFileOn } from "react-icons/ci";
 import { closeApply } from "@/lib/NexusProgram/escrow/FreelancercloseApply";
 import { get_apply_info } from "@/lib/NexusProgram/escrow/utils.ts/get_apply_info";
+import { timeLeft } from "@/lib/utils/time_formatter";
+import { backendApi } from "@/lib/utils/api.util";
 
 export default function page() {
   const [material, setMaterial] = useState<string>("");
+  const [deadline, setDeadline] = useState<any>();
   const [escrow_info, setEscrowInfo] = useState<any>();
   const [applyInfo, setApplyInfo] = useState<any>();
   const [open, setOpen] = useState(false);
@@ -137,7 +140,9 @@ export default function page() {
         connection,
         info!.founder
       );
-
+      const databaseEscrowInfo = await backendApi.get(`/escrow/${address}`);
+      console.log(databaseEscrowInfo);
+      info!.private = (databaseEscrowInfo as any).private
       info!.founderInfo = founder_info;
 
       setEscrowInfo(info);
@@ -173,6 +178,13 @@ export default function page() {
     getApply();
   }, [anchorWallet]);
 
+  useEffect(() => {
+    if (escrow_info) {
+      setDeadline(timeLeft(escrow_info.deadline));
+    }
+  }, [escrow_info]);
+
+
   const links = (link: string) => {
     window.open(link, "_blank");
   };
@@ -201,24 +213,24 @@ export default function page() {
             </Stack>
           </Card>
 
-          <Card className="!py-4 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
+          {escrow_info && deadline && <Card className="!py-4 !px-4 col-span-1 sm:max-w-72 grid place-items-center">
             <Stack
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
               gap={2}
             >
-              <div className="text-sm font-[500] font-myanmar">Private</div>
+              <div className="text-sm font-[500] font-myanmar">{escrow_info.private ? "Private" : "Public"}</div>
               <div className="flex flex-col space-y-2">
                 <div className="text-xs text-textColor font-myanmar">
                   Deadline
                 </div>
                 <div className="text-base font-semibold line-clamp-1 font-myanmar">
-                  2d 24hrs 30min
+                  {deadline}
                 </div>
               </div>
             </Stack>
-          </Card>
+          </Card>}
         </div>
 
         <div className="grid sm:grid-cols-5 gap-4 mt-5">
@@ -324,6 +336,28 @@ export default function page() {
                 </Card>
               )}
 
+              {escrow_info && applyInfo && escrow_info.status === 3 &&
+                <div className="flex gap-2 mt-4">
+                  <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">
+                    <CiFileOn className="text-6xl mx-auto" />
+                    {escrow_info && (
+                      <div
+                        className="text-xs mt-1"
+                        onClick={() => links(escrow_info.materials)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        Link to Resources
+                      </div>
+                    )}
+                  </Card>
+                  <div className="w-full">
+                    <Card className="text-xs text-center !shadow-none !border !border-textColor">
+                    Your submission was approved and pay has been made to your wallet
+                      {/* Your submission was approved and pay has been made to your
+                  wallet, project will auto terminate in 24 hours */}
+                    </Card>
+                  </div>
+                </div>}
               {escrow_info && applyInfo && escrow_info.status === 1 &&
                 <div className="flex gap-2 mt-4">
                   <Card className="!w-fit !py-2 text-center !px-2 grid place-content-center">

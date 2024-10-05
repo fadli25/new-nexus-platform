@@ -24,9 +24,10 @@ import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
 import { backendApi } from "@/lib/utils/api.util";
-import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
+import { notify_delete, notify_error, notify_laoding, notify_success, notify_worning } from "@/app/loading";
 import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
 import { approveFreelancer } from "@/lib/NexusProgram/escrow/approveFreelancer";
+import { updateEscrow } from "@/lib/NexusProgram/escrow/update_escrow";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -42,6 +43,7 @@ export default function page() {
   const [openDispute, setOpenDispute] = useState(false);
   const [error, setError] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [newdeadline, setNewDeadline] = useState<any>();
   const [descriptionInput, setDescriptionInput] = useState("");
   const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
@@ -67,6 +69,38 @@ export default function page() {
       setDeadline(timeLeft(epochTime));
     }
   }
+
+  const update_escrow = async () => {
+    try {
+      const address = pathname.replace("/escrow/myescrow/", "");
+      const escrow = new web3.PublicKey(address);
+      const now = Date.now();
+      const date = new Date(newdeadline);
+      const milliseconds = date.getTime();
+
+      if (milliseconds <= now) {
+        return notify_worning("Time Need to be more than the current time!");
+      }
+      notify_laoding("Transaction Pending...!")
+
+      const tx = await updateEscrow(
+        anchorWallet,
+        connection,
+        escrow,
+        milliseconds / 1000,
+        wallet
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      handleCloseModal();
+      setEscrowInfo((preEscrow: any) => ({...preEscrow, DeadLine: milliseconds / 1000}));
+      // setForm((prevForm) => ({ ...prevForm, DeadLine: newdeadline / 1000 }));
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
+      console.log(e);
+    }
+  }  
 
   const getEscrowInfosss = async () => {
     try {
@@ -449,7 +483,7 @@ export default function page() {
                 openDispute={openDispute}
                 cancel={handleCancelProjectTermination}
               >
-                {escrowInfo && escrowInfo.status !== 5 && <Stack flexDirection="row" gap={1}>
+                {escrowInfo && escrowInfo.status !== 5 && escrowInfo.status !== 3 && <Stack flexDirection="row" gap={1}>
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -567,9 +601,9 @@ export default function page() {
           <input
             className={`${inputStyle} mx-auto mt-8 w-[80%]`}
             type="datetime-local"
-            value={deadline}
+            value={newdeadline}
             onChange={(e) => {
-              setDeadline(e.target.value);
+              setNewDeadline(e.target.value);
             }}
           />
 
@@ -577,7 +611,7 @@ export default function page() {
             <Button
               variant="contained"
               className="!text-second !text-xs sm:!text-sm !bg-main !normal-case !px-10 !py-2"
-              onClick={handleCloseModal}
+              onClick={() => update_escrow()}
             >
               Done
             </Button>
