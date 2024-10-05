@@ -29,7 +29,7 @@ export default function Page() {
     Amount: 0,
     Link: "",
     Description: "",
-    private: true,
+    private: false,
   });
 
   const anchorWallet = useAnchorWallet();
@@ -94,6 +94,8 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
+      console.log(form);
+      console.log(form.private);
       notify_laoding("Transaction Pending...!")
       await initEscrow(
         anchorWallet!,
@@ -135,13 +137,13 @@ export default function Page() {
                 <div className="mt-[-6px]">
                   <Switch
                     color="warning"
-                    checked={!form.private}
+                    checked={form.private}
                     onChange={(e) =>{
-
                       setForm((prevForm) => ({
                         ...prevForm,
-                        private: !e.target.checked,
+                        private: e.target.checked,
                       }))
+                      console.log(!e.target.checked);
                       console.log(form);
                     }
                     }

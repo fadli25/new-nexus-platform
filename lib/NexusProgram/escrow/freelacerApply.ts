@@ -59,12 +59,17 @@ export async function FreelacerApply(
   tx.recentBlockhash = blockhash;
   tx.feePayer = anchorWallet.publicKey;
 
-  await wallet.sendTransaction(tx, connection, {
-    preflightCommitment: "confirmed"
-  });
+  // await wallet.sendTransaction(tx, connection, {
+  //   preflightCommitment: "confirmed"
+  // });
+
+  const signTx = await wallet.signTransaction(tx);
+
+  const hash = await connection.sendRawTransaction(signTx.serialize());
+  console.log(hash);
 
   const apiResponse = await backendApi.post('/escrow/apply', {
-    applyAddress: apply.toBase58(),
+    applicationAddress : apply.toBase58(),
     contactName,
     amount,
     description,
