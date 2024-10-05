@@ -66,7 +66,6 @@ export async function submit(
   console.log(apiResponse);
   //   if(!apiResponse) {console.log('Do something')}
 
-  const dummyDbId = 'xxx';
   const dummyStatusUpdate = 'Submit';
   const apiResponse2 = await backendApi.patch(
     `/freelancer/update/${apply.toBase58()}`,

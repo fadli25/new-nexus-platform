@@ -298,9 +298,15 @@ export default function page() {
               </span>
             )} */}
             <Card className="mt-2 !pt-2 !h-64">
-              {/* {escrow_info && escrow_info.status === 2 && (
+              {escrow_info && escrow_info.status === 9 && (
+                
                 <Card className="mt-4 !py-3">
-                  <Stack
+                  <Card className="text-xs text-center !shadow-none !border !border-textColor">
+                        Your submition has send, Wait until the Client Approve it within the next 14 days otherwise the funds will be released to you
+                      {/* Your submission was approved and pay has been made to your
+                  wallet, project will auto terminate in 24 hours */}
+                    </Card>
+                  {/* <Stack
                     flexDirection="row"
                     alignItems="center"
                     justifyContent="space-between"
@@ -308,14 +314,15 @@ export default function page() {
                     <div className="text-sm text-textColor">Submission</div>
                     <Button
                       variant="contained"
+                      disabled={false}
                       className="!text-xs !bg-second !px-4 !py-2 !rounded-md !font-semibold !normal-case !text-white"
                       onClick={() => submission()}
                     >
                       Submit
                     </Button>
-                  </Stack>
+                  </Stack> */}
                 </Card>
-              )} */}
+              )}
 
               {escrow_info && applyInfo && escrow_info.status === 1 &&
                 <div className="flex gap-2 mt-4">

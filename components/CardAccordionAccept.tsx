@@ -169,14 +169,22 @@ export default function CardAccordionAccept({
               (escrowInfo.status == 5 ?
               "You are on Dispute Phase Now"
               :
-              "Select Freelancer to start contract with"
+              (escrowInfo.status == 9 ?
+                "Freelancer has made submission, please respond within the next 14 days or funds will be released to the contractor"
+                :
+                (escrowInfo.status == 3 ?
+                  "You approved the submission, payment was made and contract terminated"
+                  :
+                  "Select Freelancer to start contract with"
+                )
+              )
             )
               }
             </div>
           )}
 
           <motion.button
-            disabled={!showTerminate}
+            disabled={escrowInfo.status !== 1 && escrowInfo.status !== 2 && escrowInfo.status !== 3}
             className="w-full cursor-default mt-2 pt-2 pb-4 relative text-center text-base font-[500] rounded-lg disabled:opacity-25 mynamarButton"
             style={{
               boxShadow: "1px 1px 3px 1px rgba(0,0,0,0.3)",
@@ -187,7 +195,7 @@ export default function CardAccordionAccept({
               View Submission
             </div>
             <div className="absolute right-3 top-[9px] text-xl">
-              {!showTerminate ? <FaLock /> : <FaUnlock />}
+              {(escrowInfo.status !== 1 && escrowInfo.status !== 2 && escrowInfo.status !== 3) ? <FaLock /> : <FaUnlock />}
             </div>
           </motion.button>
 
