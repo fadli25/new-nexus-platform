@@ -17,6 +17,7 @@ import {
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
 import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
+import { backendApi } from "@/lib/utils/api.util";
 
 export default function Page() {
   const [timeValue, setTimeValue] = useState("");
@@ -49,6 +50,20 @@ export default function Page() {
   const fetchEscrows = async () => {
     try {
       const escrow = await getAllEscrow(connection, "confirmed");
+      console.log("databaseEscrowInfo");
+      const databaseEscrowInfo = await backendApi.get(`/escrow`);
+      console.log(databaseEscrowInfo);
+      (databaseEscrowInfo as any).data!.map((data: any) => {
+        escrow.map((es: any, id: any) => {
+          if (es.pubkey.toBase58() == data.escrowAddress) {
+            console.log(data.escrowAddress)
+            console.log(es.pubkey.toBase58())
+            console.log(data.contactName)
+            console.log(data.private)
+            escrow[id].private = data.private;
+          }
+        })
+      })
       setEscrows(escrow);
     } catch (error) {
       console.error(error);
@@ -271,6 +286,7 @@ export default function Page() {
           >
             {escrows &&
               escrows.map((el, i) => (
+                !el.private &&
                 <Suspense fallback={<Loading />} key={i}>
                   <CardContract
                     contractName={el.contractName}
