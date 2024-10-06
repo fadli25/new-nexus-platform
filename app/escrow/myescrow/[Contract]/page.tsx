@@ -28,6 +28,8 @@ import { notify_delete, notify_error, notify_laoding, notify_success, notify_wor
 import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
 import { approveFreelancer } from "@/lib/NexusProgram/escrow/approveFreelancer";
 import { updateEscrow } from "@/lib/NexusProgram/escrow/update_escrow";
+import { rejectFreelancerSubmit } from "@/lib/NexusProgram/escrow/rejectFreelancerSubmit";
+import { approvePayment } from "@/lib/NexusProgram/escrow/ApprovePayment";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -35,6 +37,7 @@ export default function page() {
   const [escrowDateInfo, setEscrowDateInfo] = useState<any>();
   const [applys, setApplys] = useState<any[]>();
   const [showStartProject, setShowStartProject] = useState(false);
+  const [showApproveSubmit, setShowApproveSubmit] = useState(false);
   const [showTerminate, setShowTerminate] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [showApprove, setShowApprove] = useState(false);
@@ -190,6 +193,10 @@ export default function page() {
     setShowStartProject(true);
   }
 
+  function handleShowApproveSubmit() {
+    setShowApproveSubmit(true);
+  }
+
   function handleShowApprove() {
     setShowApprove(true);
   }
@@ -298,6 +305,57 @@ export default function page() {
     }
   }
 
+  const approveSubmit = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      console.log(escrowInfo);
+      console.log(escrowInfo.escrow.toBase58());
+      console.log(escrowInfo.freelancerInfo.address.toBase58());
+
+      const tx = await approvePayment(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        escrowInfo.freelancerInfo.address
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      setShowApproveSubmit(false);
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const RejectSubmit = async () => {
+    try {
+
+      notify_laoding("Transaction Pending...!");
+      const dataa = escrowInfo.reciever
+      ? applys?.filter(
+          (ap: any) =>
+            ap.user.toBase58() == escrowInfo.reciever.toBase58()
+        )
+      : []
+
+      const tx = await rejectFreelancerSubmit(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        dataa![0].pubkey
+      );
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
   const OpenDispute = async () => {
     try {
       notify_laoding("Transaction Pending...!");
@@ -332,7 +390,8 @@ export default function page() {
         escrowInfo.escrow
       );
       notify_delete();
-      notify_success("Transaction Success!")
+      notify_success("Transaction Success!");
+      setShowStartProject(false);
     } catch (e) {
       notify_delete();
       notify_error("Transaction Failed!");   
@@ -478,7 +537,7 @@ export default function page() {
                 font_size="!text-sm"
                 escrowInfo={escrowInfo}
                 showTerminate={showTerminate}
-                showApprove={handleShowApprove}
+                showApprove={handleShowApproveSubmit}
                 reject={showReject}
                 openDispute={openDispute}
                 cancel={handleCancelProjectTermination}
@@ -619,6 +678,32 @@ export default function page() {
         </Card>
       </Modal>
 
+      {applys && escrowInfo && escrowInfo.reciever && <Modal
+        open={showApproveSubmit}
+        onClose={() => setShowApproveSubmit(false)}
+        className="grid place-items-center"
+      >
+        <ApproveModal
+          contractor={applys?.filter(
+                (ap: any) =>
+                  ap.user.toBase58() === escrowInfo.reciever.toBase58()
+              )[0].userName
+            }
+          amount={Number(escrowInfo.amount) / 1000_000_000}
+          title="Confirmation"
+          messageTitle="Are you sure you want to approve submission??"
+          messageDescription="Money will be released to the contractor and Contract will be Terminated!"
+        >
+          <Button
+            onClick={() => approveSubmit()}
+            variant="contained"
+            className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
+          >
+            Approve
+          </Button>
+        </ApproveModal>
+      </Modal>}
+      
       {applys && select && escrowInfo && <Modal
         open={showStartProject}
         onClose={() => setShowStartProject(false)}

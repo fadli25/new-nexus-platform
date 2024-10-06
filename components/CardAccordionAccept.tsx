@@ -109,7 +109,7 @@ export default function CardAccordionAccept({
       );
       notify_delete();
       notify_success("Transaction Success!");
-      showApprove()
+      // showApprove()
     } catch (e) {
       notify_delete();
       notify_error("Transaction Failed!");   
@@ -184,7 +184,7 @@ export default function CardAccordionAccept({
           )}
 
           <motion.button
-            disabled={escrowInfo.status !== 1 && escrowInfo.status !== 2 && escrowInfo.status !== 3}
+            disabled={(escrowInfo.status !== 1 && escrowInfo.status !== 2 && escrowInfo.status !== 3)}
             className="w-full cursor-default mt-2 pt-2 pb-4 relative text-center text-base font-[500] rounded-lg disabled:opacity-25 mynamarButton"
             style={{
               boxShadow: "1px 1px 3px 1px rgba(0,0,0,0.3)",
@@ -203,7 +203,7 @@ export default function CardAccordionAccept({
             <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
               <Button
                 variant="contained"
-                onClick={() => approveSubmit()}
+                onClick={() => showApprove()}
                 className="!normal-case !text-sm !py-3 !text-black !bg-green-500 !col-span-1 !rounded-md"
               >
                 Approve
@@ -238,7 +238,6 @@ export default function CardAccordionAccept({
               </Button>}
             </CardAnimation>
           )}
-
           {openDispute && (
             <CardAnimation>
               <Button
