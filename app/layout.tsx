@@ -16,6 +16,11 @@ const inter = Inter({ subsets: ["latin"] });
 //   title: "Nexus Platform",
 //   description: "this the description for nexus platform",
 // };
+export  const links = (link: string) => {
+  if (link.length > 0) {
+    window.open(link, "_blank");
+  }    
+};
 
 export  const PROGRAM_ID = new web3.PublicKey(
   "3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD"

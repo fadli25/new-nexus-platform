@@ -15,7 +15,7 @@ import { cardStyle } from "@/lib/styles/styles";
 import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { USER_PREFIX } from "@/lib/constants/constants";
 import { web3 } from "@project-serum/anchor";
-import { PROGRAM_ID } from "@/app/layout";
+import { links, PROGRAM_ID } from "@/app/layout";
 import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
 import { backendApi } from "@/lib/utils/api.util";
 import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
@@ -126,7 +126,7 @@ export default function page() {
               alignItems="center"
             >
               <div className="text-lg font-[500] line-clamp-1 font-mynamarButton">
-                Zetsu | The shaman king
+              {userInfo && output(userInfo.name, "Name")}
               </div>
 
               <Stack
@@ -139,8 +139,10 @@ export default function page() {
                   <Image src={coin} alt="coin" />
                 </div>
                 <div className="pt-[.5rem]">
-                  <span> 50</span>
-                  <span> / Week</span>
+                  <span>             
+                    {userInfo && Number(userInfo.paymentRatePerHour)}
+                  </span>
+                  <span> / Hour</span>
                 </div>
               </Stack>
             </Stack>
@@ -159,13 +161,19 @@ export default function page() {
               alignItems="center"
               className="text-xs"
             >
-              <div className="text-textColor">writer</div>
+              <div className="text-textColor">
+              {userInfo && output(userInfo.roles[0], "Role")}
+              </div>
               <div className="px-4 py-2 bg-[#1DA1F2] text-black font-[500] rounded">
-                Expert
+              {userInfo && output(userInfo.levelOfExpertise, "Level Of Expertise")}
               </div>
             </Stack>
-
+              {userInfo && <span
+              onClick={() => links(userInfo.twitter)}
+              >
             <XIcon className="text-2xl" />
+
+              </span>}
           </Stack>
         </Card>
 
