@@ -8,6 +8,7 @@ import AppWalletProvider from "@/components/AppWalletProvider";
 import Redirection from "@/components/Redirection";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
+import { web3 } from "@project-serum/anchor";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,10 @@ const inter = Inter({ subsets: ["latin"] });
 //   title: "Nexus Platform",
 //   description: "this the description for nexus platform",
 // };
+
+export  const PROGRAM_ID = new web3.PublicKey(
+  "3GKGywaDKPQ6LKXgrEvBxLAdw6Tt8PvGibbBREKhYDfD"
+);
 
 export const notify_success = (msg: string) => {
   return toast.success(msg, {

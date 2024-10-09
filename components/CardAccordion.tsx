@@ -48,6 +48,7 @@ export default function CardAccordion({
         <Stack spacing={2}>
           {data.map((el: any, i: number) => (
             <CardApp
+              data={data}
               key={i}
               title={el.userName}
               role={el.role}

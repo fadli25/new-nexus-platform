@@ -34,6 +34,8 @@ export async function update_user(
   website: string,
   linkedin: string,
   twitter: string,
+  country: string,
+  timezone: string,
   wallet: any
 ) {
   // twitter = twitter.replace('https://twitter.com/', '');
@@ -41,8 +43,6 @@ export async function update_user(
   // linkedin = linkedin.replace('https://www.linkedin.com/in/', '');
   // linkedin = linkedin.replace('/', '');
 
-  console.log(twitter);
-  console.log(linkedin);
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
   });
@@ -55,7 +55,8 @@ export async function update_user(
     PROGRAM_ID
   );
 
-  
+  console.log(country)
+  console.log(timezone)
   console.log(name)
   console.log(image)
   console.log(category)
@@ -109,18 +110,18 @@ export async function update_user(
   const apiResponse = await backendApi.patch(`/nexus-user/${anchorWallet.publicKey.toBase58()}`, {
     name,
     image: "https://www.youtube.com/",
-    category: "category",
-    roles: ["developer"],
-    levelOfExpertise: "level_of_expertise",
-    paymentRatePerHour: payment_rate_per_hour,
-    profileOverview: "profile_overview",
+    category: category,
+    roles: [roles],
+    levelOfExpertise: level_of_expertise,
+    paymentRatePerHour: payment_rate_per_hour.toString(),
+    profileOverview: profile_overview,
     others: "others",
     negotiation: nigotion,
-    portfolio: "https://www.youtube.com/",
-    resume: "https://www.youtube.com/",
+    portfolio: portfolio,
+    resume: resume,
     // tosp,
-    // timezone,
-    // country,
+    timezone,
+    country,
     address: anchorWallet.publicKey.toBase58(),
     twitter: "https://www.youtube.com/",
     linkedin: "https://www.youtube.com/",

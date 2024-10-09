@@ -10,7 +10,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dragon from "@/public/dragon.svg";
 import { motion } from "framer-motion";
 import { cardStyle, inputMuiFontSize, inputStyle } from "@/lib/styles/styles";
@@ -20,7 +20,12 @@ import CountryInput from "@/components/CountryInput";
 import ExpertiseLevelInput from "@/components/ExpertiseLevelInput";
 import { update_user } from "@/lib/user/update_user";
 import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
+import { notify_delete, notify_error, notify_laoding, notify_success, PROGRAM_ID } from "../layout";
+import { get_userr_info } from "@/lib/NexusProgram/escrow/utils.ts/get_userr_info";
+import { USER_PREFIX } from "@/lib/constants/constants";
+import { web3 } from "@project-serum/anchor";
+import { backendApi } from "@/lib/utils/api.util";
+import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
 
 export default function page() {
   const menu = ["Profile Summary", "Nexus Jobs", "Payment History"];
@@ -28,6 +33,9 @@ export default function page() {
   const menu1 = ["Level of expertise", "Payment rate"];
 
   const [tap, setTap] = useState(menu[0]);
+  const [userInfo, setUserInfo] = useState<any>();
+  const [ongoing, setOngoingEscrow] = useState<any>();
+  const [completed, setCompletedEscrow] = useState<any>();
 
   const address = "HxVh4haF3Uu2QibqQqinEDXGxx5ThtARA24vaMfhSCaW";
 
@@ -57,6 +65,71 @@ export default function page() {
   });
 
 
+  const get_user_info = async () => {
+    try {
+      const [freelancer] = web3.PublicKey.findProgramAddressSync(
+          [anchorWallet!.publicKey.toBuffer(), Buffer.from(USER_PREFIX)],
+          PROGRAM_ID
+        );
+
+        console.log(freelancer.toBase58())
+
+      const user_info = await get_userr_info(
+        anchorWallet,
+        connection,
+        freelancer
+      );
+      console.log("user_info");
+      console.log(user_info);
+
+      const databaseEscrowInfo = await backendApi.get(`/nexus-user/${anchorWallet?.publicKey.toBase58()}`);
+
+      console.log("databaseEscrowInfo")
+      console.log(databaseEscrowInfo)
+
+      setEditForm({
+        username: (databaseEscrowInfo as any)!.data.name, 
+        roleDescription: (databaseEscrowInfo as any)!.data.roles[0], 
+        levelOfExpertise: (databaseEscrowInfo as any)!.data.levelOfExpertise, 
+        paymentRate: (databaseEscrowInfo as any)!.data.paymentRatePerHour, 
+        profileOverview: (databaseEscrowInfo as any)!.data.profileOverview, 
+        category: (databaseEscrowInfo as any)!.data.category, 
+        country: (databaseEscrowInfo as any)!.data.country, 
+        timeZone: (databaseEscrowInfo as any)!.data.timezone, 
+        linkResume: (databaseEscrowInfo as any)!.data.resume, 
+        linkPortfolio: (databaseEscrowInfo as any)!.data.portfolio, 
+      })
+
+      setUserInfo((databaseEscrowInfo as any).data);
+
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getOngoingEscrow = async () => {
+    try {
+      const ongoing = await getFreeLacerEscrow(
+        anchorWallet,
+        connection,
+        "confirmed"
+      );
+      console.log("ongoing");
+      console.log(ongoing);
+      setOngoingEscrow(ongoing.filter((escrow) => escrow.status !== 3));
+      setCompletedEscrow(ongoing.filter((escrow) => escrow.status === 3));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!anchorWallet) return;
+    get_user_info();
+    getOngoingEscrow()
+  }, [anchorWallet])
+
+
 
   const onSubmit = async () => {
     try {
@@ -82,11 +155,11 @@ export default function page() {
       editForm.username,
       "https://www.youtube.com/",
       editForm.category,
-      editForm.roles,
-      editForm.profileOverview,
+      editForm.roleDescription,
       editForm.levelOfExpertise,
       editForm.others,
-      editForm.paymentRate,
+      editForm.profileOverview,
+      Number(editForm.paymentRate),
       editForm.nigotion,
       editForm.linkResume,
       editForm.linkPortfolio,
@@ -95,6 +168,8 @@ export default function page() {
       editForm.website,
       editForm.linkedin,
       editForm.twitter,
+      editForm.country,
+      editForm.timezone,
       wallet,
     );
       notify_delete();
@@ -103,6 +178,20 @@ export default function page() {
       notify_delete();
       notify_error("Transaction Failed!");      
       console.log(e); 
+  }
+}
+
+const output = (value: string, name: string) => {
+  if (value.length > 0) {
+    return value
+  } else {
+    name
+  }
+}
+
+const stringLengthHandle = (string: string) => {
+  if (string.length > 25) {
+    return (string.slice(0, 20) + "..." + string.slice(string.length - 4 , string.length))
   }
 }
 
@@ -134,7 +223,7 @@ export default function page() {
                   alignItems="center"
                 >
                   <div className="text-base sm:text-lg font-[600] line-clamp-1 font-myanmar">
-                    Zetsu | The shaman king
+                    {userInfo && output(userInfo.name, "Name")}
                   </div>
                 </Stack>
               </Stack>
@@ -145,7 +234,7 @@ export default function page() {
                 className="!flex-col sm:!flex-row !items-start sm:!items-center"
               >
                 <div className="text-sm sm:text-base text-black/80">
-                  Content Writer
+                  {userInfo && output(userInfo.roles[0], "Role")}
                 </div>
 
                 {/* <Stack
@@ -173,11 +262,14 @@ export default function page() {
         </Card>
 
         <div className="grid grid-cols-2 gap-4 mt-[14px] ">
-          {menu1.map((el, i) => (
-            <div key={i} className={`${cardStyle} !py-4`}>
-              {el}
+          {/* {menu1.map((el, i) => ( */}
+            <div className={`${cardStyle} !py-4`}>
+              {userInfo && output(userInfo.levelOfExpertise, "Level Of Expertise")}
             </div>
-          ))}
+            <div className={`${cardStyle} !py-4`}>
+            {userInfo && Number(userInfo.paymentRatePerHour)}
+            </div>
+          {/* ))} */}
         </div>
       </div>
 
@@ -239,8 +331,8 @@ export default function page() {
                 alignContent="center"
                 py={4}
               >
-                <div>0 Ongoing Jobs</div>
-                <div>0 Jobs Completed</div>
+                <div>{ongoing ? ongoing.length : "--"} Ongoing Jobs</div>
+                <div>{completed ? completed.length : "--"} Jobs Completed</div>
               </Stack>
 
               {/* <div className="px-1 mt-4 text-[10px] text-textColor font-[500]">
@@ -251,32 +343,19 @@ export default function page() {
             <Card className="mt-4" width="lg">
               <div className="text-xs text-textColor">Profile Overview</div>
               <div className="text-sm leading-6 line-clamp-[6] mt-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {userInfo && userInfo.profileOverview}
               </div>
             </Card>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-[14px] px-1">
-              <div className={`${cardStyle} !py-4`}>Category</div>
-              <div className={`${cardStyle} !py-4`}>Country</div>
-              <div className={`${cardStyle} !py-4`}>Time Zone</div>
+              <div className={`${cardStyle} !py-4`}>{userInfo && output(userInfo.category, "Category")}</div>
+              {/* <div className={`${cardStyle} !py-4`}>{userInfo && output(userInfo.country, "Country")}</div> */}
+              {/* <div className={`${cardStyle} !py-4`}>{userInfo && output(userInfo.timezone, "Time Zone")}</div> */}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-1">
-              <div className={`${cardStyle} !py-4`}>View Portfolio</div>
-              <div className={`${cardStyle} !py-4`}>View Resume</div>
+              <div className={`${cardStyle} !py-4`}>{userInfo && stringLengthHandle(output(userInfo.portfolio, "Portfolio")!)}</div>
+              <div className={`${cardStyle} !py-4`}>{userInfo && stringLengthHandle(output(userInfo.resume, "Resume")!)}</div>
             </div>
           </motion.div>
         )}

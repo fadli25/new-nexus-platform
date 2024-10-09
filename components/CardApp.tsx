@@ -8,6 +8,7 @@ import { escape } from "querystring";
 import React from "react";
 
 export default function CardApp({
+  data,
   title,
   role,
   type,
@@ -39,7 +40,7 @@ export default function CardApp({
         <Stack spacing={0.4}>
           <div
             className="text-base cursor-pointer font-[400] line-clamp-1"
-            onClick={() => router.push("/escrow/myescrow/name/name")}
+            onClick={() => router.push("/escrow/myescrow/apply/" + data[0].user.toBase58())}
           >
             {title}
           </div>
