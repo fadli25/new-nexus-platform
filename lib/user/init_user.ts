@@ -76,7 +76,7 @@ export async function init_user(
       authority: anchorWallet.publicKey,
       systemProgram: web3.SystemProgram.programId,
     })
-    .transaction()
+    .transaction();
     // .rpc({
     //   commitment: 'confirmed',
     // });
@@ -84,8 +84,7 @@ export async function init_user(
     const blockhash = (await connection.getLatestBlockhash()).blockhash
     tx.recentBlockhash = blockhash;
     tx.feePayer = anchorWallet.publicKey;
-  
-  
+
     await wallet.sendTransaction(tx, connection, {
       preflightCommitment: "confirmed"
     })
