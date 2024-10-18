@@ -8,6 +8,7 @@ import { escape } from "querystring";
 import React from "react";
 
 export default function CardApp({
+  data,
   title,
   role,
   type,
@@ -17,6 +18,7 @@ export default function CardApp({
   link,
   type2 = false,
   startProject,
+  setSelect
 }: any) {
   const links = (_link: string) => {
     window.open(_link, "_blank");
@@ -38,7 +40,7 @@ export default function CardApp({
         <Stack spacing={0.4}>
           <div
             className="text-base cursor-pointer font-[400] line-clamp-1"
-            onClick={() => router.push("/escrow/myescrow/name/name")}
+            onClick={() => router.push("/escrow/myescrow/apply/" + data[0].user.toBase58())}
           >
             {title}
           </div>
@@ -50,13 +52,7 @@ export default function CardApp({
 
       <div className="flex items-center gap-3">
         <Button
-          onClick={() => {
-            if (title == "Chat") {
-              links(link);
-            } else {
-              approve(escrow, apply);
-            }
-          }}
+          onClick={() => links(link)}
           variant="contained"
           className="!normal-case !text-[11px] !text-white  !bg-second !px-4  !pt-2"
         >
@@ -66,7 +62,11 @@ export default function CardApp({
         {type2 && (
           <Button
             variant="outlined"
-            onClick={startProject}
+            onClick={() => {
+              startProject()
+              setSelect(apply)
+            }
+          }
             className="!normal-case !text-[11px] !border !border-black !text-second !px-4 !pt-2"
           >
             {type2}

@@ -23,12 +23,21 @@ import React, { useEffect, useRef, useState } from "react";
 import linksvg from "@/public/linksvg.svg";
 import ApproveModal from "@/components/ApproveModal";
 import { FaEdit } from "react-icons/fa";
+import { backendApi } from "@/lib/utils/api.util";
+import { notify_delete, notify_error, notify_laoding, notify_success, notify_worning } from "@/app/loading";
+import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
+import { approveFreelancer } from "@/lib/NexusProgram/escrow/approveFreelancer";
+import { updateEscrow } from "@/lib/NexusProgram/escrow/update_escrow";
+import { rejectFreelancerSubmit } from "@/lib/NexusProgram/escrow/rejectFreelancerSubmit";
+import { approvePayment } from "@/lib/NexusProgram/escrow/ApprovePayment";
 
 export default function page() {
   const [open, setOpen] = useState(false);
   const [escrowInfo, setEscrowInfo] = useState<any>();
+  const [escrowDateInfo, setEscrowDateInfo] = useState<any>();
   const [applys, setApplys] = useState<any[]>();
   const [showStartProject, setShowStartProject] = useState(false);
+  const [showApproveSubmit, setShowApproveSubmit] = useState(false);
   const [showTerminate, setShowTerminate] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [showApprove, setShowApprove] = useState(false);
@@ -37,15 +46,18 @@ export default function page() {
   const [openDispute, setOpenDispute] = useState(false);
   const [error, setError] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [newdeadline, setNewDeadline] = useState<any>();
   const [descriptionInput, setDescriptionInput] = useState("");
   const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const [originalDescription, setOriginalDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [select, setSelect] = useState<any>()
 
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
+  const wallet = useWallet();
   const pathname = usePathname();
 
   function handleOpenModal() {
@@ -61,6 +73,38 @@ export default function page() {
     }
   }
 
+  const update_escrow = async () => {
+    try {
+      const address = pathname.replace("/escrow/myescrow/", "");
+      const escrow = new web3.PublicKey(address);
+      const now = Date.now();
+      const date = new Date(newdeadline);
+      const milliseconds = date.getTime();
+
+      if (milliseconds <= now) {
+        return notify_worning("Time Need to be more than the current time!");
+      }
+      notify_laoding("Transaction Pending...!")
+
+      const tx = await updateEscrow(
+        anchorWallet,
+        connection,
+        escrow,
+        milliseconds / 1000,
+        wallet
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      handleCloseModal();
+      setEscrowInfo((preEscrow: any) => ({...preEscrow, DeadLine: milliseconds / 1000}));
+      // setForm((prevForm) => ({ ...prevForm, DeadLine: newdeadline / 1000 }));
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
+      console.log(e);
+    }
+  }  
+
   const getEscrowInfosss = async () => {
     try {
       const address = pathname.replace("/escrow/myescrow/", "");
@@ -69,6 +113,12 @@ export default function page() {
       info!.escrow = escrow;
       console.log("info");
       console.log(info, "info too");
+
+      const databaseEscrowInfo = await backendApi.get(`/escrow/${address}`);
+      console.log(databaseEscrowInfo);
+      console.log("databaseEscrowInfo");
+      setEscrowDateInfo((databaseEscrowInfo as any)!.data);
+        // if(!databaseEscrowInfo) {console.log('Do something')}
 
       const freelancerInfo = await get_userr_info(
         anchorWallet,
@@ -85,13 +135,22 @@ export default function page() {
 
   const getApplys = async () => {
     try {
+      // notify_laoding("Transaction Pending...!");
       const address = pathname.replace("/escrow/myescrow/", "");
       const escrow = new web3.PublicKey(address);
       const info = await getApplyEscrow(connection, escrow, "confirmed");
+
+      const data = await backendApi.get(`/freelancer?escrowAddress=${address}`);
+
       console.log("apply");
+      console.log(data);
       console.log(info);
       setApplys(info);
+      // notify_delete();
+      // notify_success("Transaction Success!")
     } catch (e) {
+      // notify_delete();
+      // notify_error("Transaction Failed!");      
       console.log(e);
     }
   };
@@ -132,6 +191,10 @@ export default function page() {
 
   function handleShowStartProject() {
     setShowStartProject(true);
+  }
+
+  function handleShowApproveSubmit() {
+    setShowApproveSubmit(true);
   }
 
   function handleShowApprove() {
@@ -214,6 +277,129 @@ export default function page() {
       });
   };
 
+  const privates = async (privat: boolean) => {
+    try {
+      notify_laoding("Transaction Pending...!")
+      const address = pathname.replace("/escrow/myescrow/", "");
+      console.log(escrowDateInfo)
+      console.log(privat);
+      
+      const apiResponse = await backendApi.patch(`escrow/update/${address}`,
+        {
+          deadline: Number(escrowInfo.deadline),
+          telegramLink: "escrowInfo.telegramLink",
+          private: privat
+        }
+      );
+      setEscrowDateInfo((prevForm:  any) => ({
+          ...prevForm,
+          private: privat,
+        }))
+      console.log(apiResponse);
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");
+      console.log(e);
+    }
+  }
+
+  const approveSubmit = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      console.log(escrowInfo);
+      console.log(escrowInfo.escrow.toBase58());
+      console.log(escrowInfo.freelancerInfo.address.toBase58());
+
+      const tx = await approvePayment(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        escrowInfo.freelancerInfo.address
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      setShowApproveSubmit(false);
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const RejectSubmit = async () => {
+    try {
+
+      notify_laoding("Transaction Pending...!");
+      const dataa = escrowInfo.reciever
+      ? applys?.filter(
+          (ap: any) =>
+            ap.user.toBase58() == escrowInfo.reciever.toBase58()
+        )
+      : []
+
+      const tx = await rejectFreelancerSubmit(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        dataa![0].pubkey
+      );
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const OpenDispute = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await founderOpenDispute(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        escrowInfo.reciever,
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      handleOpenDispute()
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const approve = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      // console.log(escrow.toBase58());
+      const apply = (applys!.filter((escrow: any) => escrow.pubkey.toBase58() == select.toBase58()))[0].pubkey;
+
+      const tx = await approveFreelancer(
+        anchorWallet,
+        connection,
+        wallet,
+        apply,
+        escrowInfo.escrow
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      setShowStartProject(false);
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+
   return (
     <div>
       <div className="max-w-6xl mx-auto pt-4">
@@ -250,7 +436,7 @@ export default function page() {
               <Stack flexDirection="row" alignItems="start" gap={1}>
                 <Image src={Coin} alt="coin" className="w-5 pt-[2px]" />
                 <div className="text-sm sm:text-xl font-semibold leading-none ">
-                  {escrowInfo ? Number(escrowInfo.amount) : "--"}
+                  {escrowInfo ? Number(escrowInfo.amount) / 1000_000_000 : "--"}
                 </div>
               </Stack>
             </Stack>
@@ -295,16 +481,27 @@ export default function page() {
           </Card>
 
           <Card className="col-span-1">
-            <Stack
+            {escrowInfo &&  escrowDateInfo && <Stack
               flexDirection="row"
               gap={1}
               className="text-sm"
               alignItems="center"
             >
               <div>Public</div>
-              <Switch className="-mt-[6px]" />
+              <Switch
+              // onClick={() => privates()}
+              checked={escrowDateInfo.private}
+              onChange={(e) =>{
+                console.log(e.target.checked);
+                privates(e.target.checked)
+                // setEscrowDateInfo((prevForm:  any) => ({
+                //   ...prevForm,
+                //   private: !e.target.checked,
+                // }))
+              }}
+               className="-mt-[6px]" />
               <div>Private</div>
-            </Stack>
+            </Stack>}
 
             <Stack mt={4} spacing={2}>
               <div className="text-xs text-textColor">Deadline</div>
@@ -340,12 +537,12 @@ export default function page() {
                 font_size="!text-sm"
                 escrowInfo={escrowInfo}
                 showTerminate={showTerminate}
-                showApprove={handleShowApprove}
+                showApprove={handleShowApproveSubmit}
                 reject={showReject}
                 openDispute={openDispute}
                 cancel={handleCancelProjectTermination}
               >
-                <Stack flexDirection="row" gap={1}>
+                {escrowInfo && escrowInfo.status !== 5 && escrowInfo.status !== 3 && <Stack flexDirection="row" gap={1}>
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -357,7 +554,7 @@ export default function page() {
                   >
                     Terminate
                   </Button>
-                </Stack>
+                </Stack>}
               </CardAccordionAccept>
             )}
 
@@ -438,7 +635,9 @@ export default function page() {
                   : applys
               }
               startProject={handleShowStartProject}
-              type="Approve"
+              setSelect={setSelect}
+              approve={approve}
+              type="Chat"
               page={"approve"}
               link={"approve"}
               font_size="!text-sm"
@@ -461,9 +660,9 @@ export default function page() {
           <input
             className={`${inputStyle} mx-auto mt-8 w-[80%]`}
             type="datetime-local"
-            value={deadline}
+            value={newdeadline}
             onChange={(e) => {
-              setDeadline(e.target.value);
+              setNewDeadline(e.target.value);
             }}
           />
 
@@ -471,7 +670,7 @@ export default function page() {
             <Button
               variant="contained"
               className="!text-second !text-xs sm:!text-sm !bg-main !normal-case !px-10 !py-2"
-              onClick={handleCloseModal}
+              onClick={() => update_escrow()}
             >
               Done
             </Button>
@@ -479,24 +678,53 @@ export default function page() {
         </Card>
       </Modal>
 
-      <Modal
+      {applys && escrowInfo && escrowInfo.reciever && <Modal
+        open={showApproveSubmit}
+        onClose={() => setShowApproveSubmit(false)}
+        className="grid place-items-center"
+      >
+        <ApproveModal
+          contractor={applys?.filter(
+                (ap: any) =>
+                  ap.user.toBase58() === escrowInfo.reciever.toBase58()
+              )[0].userName
+            }
+          amount={Number(escrowInfo.amount) / 1000_000_000}
+          title="Confirmation"
+          messageTitle="Are you sure you want to approve submission??"
+          messageDescription="Money will be released to the contractor and Contract will be Terminated!"
+        >
+          <Button
+            onClick={() => approveSubmit()}
+            variant="contained"
+            className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
+          >
+            Approve
+          </Button>
+        </ApproveModal>
+      </Modal>}
+      
+      {applys && select && escrowInfo && <Modal
         open={showStartProject}
         onClose={() => setShowStartProject(false)}
         className="grid place-items-center"
       >
         <ApproveModal
+          contractor={(applys.filter((escrow: any) => escrow.pubkey.toBase58() == select.toBase58()))[0].userName}
+          amount={Number(escrowInfo.amount) / 1000_000_000}
           title="Confirmation"
           messageTitle="Are you sure to start the contract??"
           messageDescription="Contract can oly be terminated by both parties mutually agreeing to do so"
         >
           <Button
+            onClick={() => approve()}
             variant="contained"
             className="!normal-case !text-black !text-sm !bg-green-500 !px-8 !py-2"
           >
             Start Contract
           </Button>
         </ApproveModal>
-      </Modal>
+      </Modal>}
 
       <Modal
         open={showApprove}
@@ -517,7 +745,8 @@ export default function page() {
         >
           <Button
             variant="contained"
-            onClick={handleOpenDispute}
+            onClick={() => OpenDispute()}
+            // onClick={handleOpenDispute}
             className="!normal-case !text-white !text-xs !bg-black !px-16 !py-2"
           >
             Open dispute

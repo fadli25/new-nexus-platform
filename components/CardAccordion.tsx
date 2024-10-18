@@ -8,6 +8,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import React from "react";
 import Card from "./Card";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
 
 export default function CardAccordion({
   children,
@@ -16,6 +17,8 @@ export default function CardAccordion({
   type,
   link,
   startProject,
+  approve,
+  setSelect,
   font_size = "text-base",
   padding = undefined,
 }: any) {
@@ -23,22 +26,7 @@ export default function CardAccordion({
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  const approve = async (escrow: any, apply: any) => {
-    try {
-      console.log(escrow.toBase58());
-
-      const tx = await approveFreelancer(
-        anchorWallet,
-        connection,
-        wallet,
-        apply,
-        escrow
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
+ 
   return (
     <div>
       <Card className="rounded-b-none border-b-2 pt-[18px] pb-[10px]">
@@ -60,6 +48,7 @@ export default function CardAccordion({
         <Stack spacing={2}>
           {data.map((el: any, i: number) => (
             <CardApp
+              data={data}
               key={i}
               title={el.userName}
               role={el.role}
@@ -67,9 +56,10 @@ export default function CardAccordion({
               approve={approve}
               escrow={el.escrow}
               apply={el.pubkey}
-              link={link}
+              link={el.description}
               type2="Start Contract"
               startProject={startProject}
+              setSelect={setSelect}
             />
           ))}
         </Stack>

@@ -16,6 +16,8 @@ import {
 } from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "../layout";
+import { backendApi } from "@/lib/utils/api.util";
 
 export default function Page() {
   const [timeValue, setTimeValue] = useState("");
@@ -27,7 +29,7 @@ export default function Page() {
     Amount: 0,
     Link: "",
     Description: "",
-    private: true,
+    private: false,
   });
 
   const anchorWallet = useAnchorWallet();
@@ -48,6 +50,20 @@ export default function Page() {
   const fetchEscrows = async () => {
     try {
       const escrow = await getAllEscrow(connection, "confirmed");
+      console.log("databaseEscrowInfo");
+      const databaseEscrowInfo = await backendApi.get(`/escrow`);
+      console.log(databaseEscrowInfo);
+      (databaseEscrowInfo as any).data!.map((data: any) => {
+        escrow.map((es: any, id: any) => {
+          if (es.pubkey.toBase58() == data.escrowAddress) {
+            console.log(data.escrowAddress)
+            console.log(es.pubkey.toBase58())
+            console.log(data.contactName)
+            console.log(data.private)
+            escrow[id].private = data.private;
+          }
+        })
+      })
       setEscrows(escrow);
     } catch (error) {
       console.error(error);
@@ -78,6 +94,9 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
+      console.log(form);
+      console.log(form.private);
+      notify_laoding("Transaction Pending...!")
       await initEscrow(
         anchorWallet!,
         connection,
@@ -87,10 +106,15 @@ export default function Page() {
         form.Description,
         form.Amount,
         form.DeadLine,
+        form.private,
         wallet
       );
-    } catch (error) {
-      console.error(error);
+      notify_delete();
+      notify_success("Transaction Success!")
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");      
+      console.log(e);
     }
   };
 
@@ -113,12 +137,15 @@ export default function Page() {
                 <div className="mt-[-6px]">
                   <Switch
                     color="warning"
-                    checked={!form.private}
-                    onChange={(e) =>
+                    checked={form.private}
+                    onChange={(e) =>{
                       setForm((prevForm) => ({
                         ...prevForm,
-                        private: !e.target.checked,
+                        private: e.target.checked,
                       }))
+                      console.log(!e.target.checked);
+                      console.log(form);
+                    }
                     }
                     size="small"
                   />
@@ -261,10 +288,11 @@ export default function Page() {
           >
             {escrows &&
               escrows.map((el, i) => (
+                !el.private &&
                 <Suspense fallback={<Loading />} key={i}>
                   <CardContract
                     contractName={el.contractName}
-                    amount={Number(el.amount) / 1000000000}
+                    amount={Number(el.amount)}
                     deadline={Number(el.deadline)}
                     escrow={el.pubkey.toBase58()}
                     type={2}

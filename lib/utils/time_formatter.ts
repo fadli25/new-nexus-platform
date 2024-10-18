@@ -22,6 +22,7 @@ export const timeLeft = (deadline: number) => {
   const time_left = deadline - now; // Calculate time left in seconds
 
   const dateObject = new Date(deadline * 1000);
+  console.log(dateObject)
   const year = dateObject.getFullYear();
   const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
   const day = String(dateObject.getDate()).padStart(2, "0");

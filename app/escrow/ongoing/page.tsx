@@ -4,6 +4,7 @@ import Card from "@/components/Card";
 import CardContract from "@/components/CardContract";
 import { getApplyFreelancer } from "@/lib/NexusProgram/escrow/utils.ts/getApplyFreelancer";
 import { getFreeLacerEscrow } from "@/lib/NexusProgram/escrow/utils.ts/getFreelacerEscrow";
+import { backendApi } from "@/lib/utils/api.util";
 import { Stack } from "@mui/material";
 import {
   useAnchorWallet,
@@ -28,9 +29,33 @@ export default function page() {
         connection,
         "confirmed"
       );
+      const data = await backendApi.get(`/freelancer?freelancerAddress=${pending[0].user.toBase58()}`);
+      console.log(data);
+
+      ((data as any).data as any[])!.map((dt: any, id: number) => {
+        pending.map((pd: any, num: number) => {
+          if (dt.escrowAddress == pd.escrow.toBase58()) {
+            console.log(num);
+            console.log(dt.escrowAddress);
+            console.log(pd.escrow.toBase58());
+            console.log(dt.amount);
+            console.log(dt.contactName);
+            pending[num].escrowName = dt.contactName;             
+            pending[num].amount = dt.amount;             
+            pending[num].deadline = dt.deadline;             
+          }
+        })
+      })
+
       console.log("pending");
       console.log(pending.filter((p) => p.status != "Success"));
       setPendingEscrow(pending.filter((p) => p.status != "Success"));
+      console.log(pending[0].user.toBase58());
+
+      /// GET THE APPLY of the freelancerAddress
+      //Get all applications of a freelancer
+      console.log("data")
+      
     } catch (e) {
       console.log(e);
     }
@@ -46,6 +71,8 @@ export default function page() {
       console.log("ongoing");
       console.log(ongoing);
       setOngoingEscrow(ongoing);
+
+  
     } catch (e) {
       console.log(e);
     }
@@ -85,16 +112,30 @@ export default function page() {
           </div>
           <Stack mt={4} spacing={2.8}>
             {ongoingEscrow &&
-              ongoingEscrow.map((el, i) => (
-                <CardContract
-                  key={i}
-                  contractName={el.contractName}
-                  amount={Number(el.amount) / 1000000000}
-                  deadline={Number(el.deadline)}
-                  escrow={el.pubkey.toBase58()}
-                  type={3}
-                />
-              ))}
+              (
+                value === 0 ?
+                  ongoingEscrow.filter((es) => es.status !== 5).map((el, i) => (
+                    <CardContract
+                      key={i}
+                      contractName={el.contractName}
+                      amount={Number(el.amount)}
+                      deadline={Number(el.deadline)}
+                      escrow={el.pubkey.toBase58()}
+                      type={3}
+                    />
+                  ))
+                  :
+                  ongoingEscrow.filter((es) => es.status === 5).map((el, i) => (
+                    <CardContract
+                      key={i}
+                      contractName={el.contractName}
+                      amount={Number(el.amount)}
+                      deadline={Number(el.deadline)}
+                      escrow={el.pubkey.toBase58()}
+                      type={3}
+                    />
+                  )))
+            }
           </Stack>
         </Card>
 
@@ -104,7 +145,7 @@ export default function page() {
           <Stack mt={4} spacing={2.8}>
             {pendingEscrow &&
               pendingEscrow.map((el, i) => (
-                <CardContract key={i} contractName={el.contractName} type={3} />
+                <CardContract key={i} {...el} contractName={el.escrowName} type={3} />
               ))}
           </Stack>
         </Card>

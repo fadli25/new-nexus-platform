@@ -1,17 +1,21 @@
 import CardAppAccept from "@/components/CardAppAccept";
 import { approvePayment } from "@/lib/NexusProgram/escrow/ApprovePayment";
-import { rejectFreelancer } from "@/lib/NexusProgram/escrow/rejectFreelancer";
+import { rejectFreelancerSubmit } from "@/lib/NexusProgram/escrow/rejectFreelancerSubmit";
 import { Button, Stack } from "@mui/material";
-import { motion } from "framer-motion";
 import {
   useAnchorWallet,
   useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
+import { motion } from "framer-motion";
 import React from "react";
-import Card from "./Card";
 import { FaLock, FaUnlock } from "react-icons/fa6";
+import Card from "./Card";
 import CardAnimation from "./CardAnimation";
+import { notify_delete, notify_error, notify_laoding, notify_success } from "@/app/loading";
+import { founderOpenDispute } from "@/lib/NexusProgram/escrow/CopenDipute";
+import { ClientTerminat } from "@/lib/NexusProgram/escrow/CTerminate";
+import { RequestNewSubmition } from "@/lib/NexusProgram/escrow/RequestNewSubmition";
 
 export default function CardAccordionAccept({
   children,
@@ -33,6 +37,7 @@ export default function CardAccordionAccept({
 
   const approveSubmit = async () => {
     try {
+      notify_laoding("Transaction Pending...!");
       console.log(escrowInfo);
       console.log(data);
       console.log(escrowInfo.escrow.toBase58());
@@ -45,21 +50,90 @@ export default function CardAccordionAccept({
         escrowInfo.escrow,
         escrowInfo.freelancerInfo.address
       );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
       console.log(e);
     }
   };
 
   const RejectSubmit = async () => {
     try {
-      const tx = await rejectFreelancer(
+      notify_laoding("Transaction Pending...!");
+      const tx = await rejectFreelancerSubmit(
         anchorWallet,
         connection,
         wallet,
         escrowInfo.escrow,
         data[0].pubkey
       );
+      notify_delete();
+      notify_success("Transaction Success!")
     } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const Terminate = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await ClientTerminat(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        data[0].pubkey
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      cancel();
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const OpenDispute = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await founderOpenDispute(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        escrowInfo.reciever,
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      // showApprove()
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
+      console.log(e);
+    }
+  };
+
+  const RequestNewSubmitions = async () => {
+    try {
+      notify_laoding("Transaction Pending...!");
+      const tx = await RequestNewSubmition(
+        anchorWallet,
+        connection,
+        wallet,
+        escrowInfo.escrow,
+        data[0].pubkey,
+      );
+      notify_delete();
+      notify_success("Transaction Success!");
+      // showApprove()
+    } catch (e) {
+      notify_delete();
+      notify_error("Transaction Failed!");   
       console.log(e);
     }
   };
@@ -101,7 +175,7 @@ export default function CardAccordionAccept({
         </Stack>
 
         <div className="px-5">
-          {data.length > 1 ? (
+          {escrowInfo.status == 2 ? (
             <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
               Contract has started{" "}
               <span className="font-semibold">{`${data[0].userName}`}</span>{" "}
@@ -109,12 +183,29 @@ export default function CardAccordionAccept({
             </div>
           ) : (
             <div className="w-full p-4 text-center rounded-lg border border-black/30 mt-9 text-xs ">
-              Select Freelancer to start contract with
+              {
+              escrowInfo.status == 4 ?
+              "Waiting for the Frelancer To Terminate or Dispute"
+              :
+              (escrowInfo.status == 5 ?
+              "You are on Dispute Phase Now"
+              :
+              (escrowInfo.status == 9 ?
+                "Freelancer has made submission, please respond within the next 14 days or funds will be released to the contractor"
+                :
+                (escrowInfo.status == 3 ?
+                  "You approved the submission, payment was made and contract terminated"
+                  :
+                  "Select Freelancer to start contract with"
+                )
+              )
+            )
+              }
             </div>
           )}
 
           <motion.button
-            disabled={!showTerminate}
+            disabled={(escrowInfo.status !== 1 && escrowInfo.status !== 2 && escrowInfo.status !== 3)}
             className="w-full cursor-default mt-2 pt-2 pb-4 relative text-center text-base font-[500] rounded-lg disabled:opacity-25 mynamarButton"
             style={{
               boxShadow: "1px 1px 3px 1px rgba(0,0,0,0.3)",
@@ -125,15 +216,15 @@ export default function CardAccordionAccept({
               View Submission
             </div>
             <div className="absolute right-3 top-[9px] text-xl">
-              {!showTerminate ? <FaLock /> : <FaUnlock />}
+              {(escrowInfo.status !== 1 && escrowInfo.status !== 2 && escrowInfo.status !== 3) ? <FaLock /> : <FaUnlock />}
             </div>
           </motion.button>
 
-          {/* {showTerminate && (
+          {escrowInfo.status == 9 && (
             <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
               <Button
                 variant="contained"
-                onClick={showApprove}
+                onClick={() => showApprove()}
                 className="!normal-case !text-sm !py-3 !text-black !bg-green-500 !col-span-1 !rounded-md"
               >
                 Approve
@@ -141,34 +232,44 @@ export default function CardAccordionAccept({
 
               <Button
                 variant="contained"
-                onClick={showReject}
+                onClick={() => RejectSubmit()}
                 className="!normal-case !text-sm !py-3 !bg-red-600 !text-white !col-span-1 !rounded-md"
               >
                 Reject
               </Button>
             </CardAnimation>
-          )} */}
+          )}
 
           {showTerminate && (
-            <CardAnimation className="grid grid-cols-2 mt-4 gap-2">
-              <Button
+            <CardAnimation className="grid mt-4 gap-2">
+              {escrowInfo.status == 2 && <Button
                 variant="contained"
-                onClick={cancel}
+                onClick={() => Terminate()}
                 className="!normal-case !text-xs !py-3 !text-white !bg-red-700 !col-span-1 !rounded-md"
               >
-                Cancel Contract Termination
-              </Button>
+                Cancel Contract, Termination
+              </Button>}
 
+              {escrowInfo.status == 4 && 
+              <>
               <Button
                 variant="contained"
-                onClick={showApprove}
+                onClick={() => OpenDispute()}
                 className="!normal-case !text-xs !py-3 !bg-black !text-white !col-span-1 !rounded-md"
               >
                 Dispute and Request termination
               </Button>
+              <Button
+                variant="contained"
+                onClick={() => RequestNewSubmitions()}
+                className="!normal-case !text-xs !py-3 !bg-black !text-white !col-span-1 !rounded-md"
+              >
+                Request New Submition
+              </Button>
+              </>
+              }
             </CardAnimation>
           )}
-
           {openDispute && (
             <CardAnimation>
               <Button

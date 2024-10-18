@@ -4,8 +4,8 @@ import { ApproveModalType } from "@/lib/types/types";
 
 export default function ApproveModal({
   title,
-  client = "Zetsu",
-  contractor = "Manay",
+  client,
+  contractor,
   amount = 3000,
   messageTitle,
   messageDescription,
@@ -17,7 +17,7 @@ export default function ApproveModal({
       <div className="w-[90%] mx-auto mt-8 border border-textColor shadow-sm p-5 grid grid-cols-3 rounded-lg">
         <div className="text-center col-span-1">
           <div className="text-xs text-textColor">Client</div>
-          <div className="text-2xl font-semibold text-black">{client}</div>
+          <div className="text-2xl font-semibold text-black">You</div>
         </div>
 
         <div className="text-center col-span-1">

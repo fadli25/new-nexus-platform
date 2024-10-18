@@ -5,7 +5,12 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { WalletModalProvider , } from "@solana/wallet-adapter-react-ui";
+import {
+  LedgerWalletAdapter,
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import React, { useMemo } from "react";
 // import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
@@ -25,6 +30,9 @@ export default function AppWalletProvider({
   // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(
     () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new LedgerWalletAdapter(),
       // manually add any legacy wallet adapters here
       // new UnsafeBurnerWalletAdapter(),
     ],

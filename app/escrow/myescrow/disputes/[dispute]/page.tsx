@@ -316,7 +316,7 @@ export default function page() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      setShowTerminate(true);
+                      // setShowTerminate(true);
                       setShowReject(false);
                       setOpenDispute(false);
                     }}

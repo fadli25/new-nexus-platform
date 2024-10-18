@@ -1,14 +1,14 @@
 import { AnchorProvider, BN, Program, web3 } from '@project-serum/anchor';
 import { NEXUSESCROW_V1, USER_PREFIX } from '../../constants/constants';
-import { get_userr_info } from './utils.ts/get_userr_info';
 import { backendApi } from '@/lib/utils/api.util';
 const idl = require('../../../data/nexus.json');
 
-export async function fTarminat(
-  anchorWallet: any,
-  connection: web3.Connection,
-  wallet: any,
-  escrow: web3.PublicKey
+export async function rejectFreelancerSubmit(
+    anchorWallet: any,
+    connection: web3.Connection,
+    wallet: any,
+    escrow: web3.PublicKey,
+    apply: web3.PublicKey,
 ) {
   const provider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
@@ -22,25 +22,20 @@ export async function fTarminat(
     PROGRAM_ID
   );
 
-  const [apply] = web3.PublicKey.findProgramAddressSync(
-    [anchorWallet.publicKey.toBuffer(), escrow.toBuffer()],
+  const [nexusEscrow] = web3.PublicKey.findProgramAddressSync(
+    [Buffer.from(NEXUSESCROW_V1)],
     PROGRAM_ID
   );
 
-  // const [nexusEscrow] = web3.PublicKey.findProgramAddressSync(
-  //     [
-  //         Buffer.from(NEXUSESCROW_V1)
-  //     ],
-  //     PROGRAM_ID
-  // );
+  console.log(escrow.toBase58());
 
-  const tx = await program.methods
-    .fTerminat()
-    .accounts({
-      escrow: escrow,
-      reciever: reciever,
-      authority: anchorWallet.publicKey,
-      systemProgram: web3.SystemProgram.programId,
+    console.log(escrow.toBase58())
+
+    const tx = await program.methods.rejectSubmit().accounts({
+        escrow: escrow,
+        apply: apply,
+        authority: anchorWallet.publicKey,
+        systemProgram: web3.SystemProgram.programId
     })
     .transaction();
   // .rpc({
@@ -55,7 +50,7 @@ export async function fTarminat(
   });
 
   const dummyDbId = 'xxx';
-  const dummyStatusUpdate = 'FreelancerTerminate';
+  const dummyStatusUpdate = 'RejectSubmit';
   const apiResponse = await backendApi.patch(
     `/freelancer/update/${apply.toBase58()}`,
     { status: dummyStatusUpdate }

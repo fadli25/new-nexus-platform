@@ -37,6 +37,7 @@
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
     "react-spinners": "^0.14.1",
+    "react-toastify": "^9.1.1",
     "react-timezone-select": "^3.2.5",
     "zod": "^3.23.8"
   },
