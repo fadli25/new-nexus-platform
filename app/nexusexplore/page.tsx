@@ -9,13 +9,9 @@ import Image from "next/image";
 import { Container, Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { FormContext } from "@/contexts/FormContext";
 
-export default function SecondForm({ handleGoToStep }: any) {
+export default function SecondForm() {
   const router = useRouter();
-
-  const { formData, setFormData } = useContext<any>(FormContext);
-
   const NexusTypes = [
     { title: "Nexus Escrow", image: EscrowImg, disabled: false },
     { title: "Nexus Swap / Payments", image: PaymentBackImg, disabled: true },
@@ -33,7 +29,6 @@ export default function SecondForm({ handleGoToStep }: any) {
             className={`disabled:opacity-30 col-span-1`}
             disabled={el.disabled}
             onClick={() => {
-              setFormData({ ...formData, NexusType: el.title });
               router.push("/escrow");
             }}
           >
